@@ -259,10 +259,10 @@ nav > .active {
 .prow > span:not(.clean) {
     box-sizing: border-box;
     display: inline-block;
-    width: 49.6%;
 }
 .prow > label {
     padding-top: 8px;
+    width: 60%;
 }
 .prow:hover label:not(.checkbox),
 label:not(.checkbox):hover {
@@ -273,6 +273,7 @@ label:not(.checkbox):hover {
     margin-top: 4px;
     max-width: 50%;
     text-align: right;
+    width: 40%;
 }
 .prow input[type="text"] {
     width: 300px;
