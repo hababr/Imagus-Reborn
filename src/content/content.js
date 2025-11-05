@@ -69,6 +69,10 @@
         var w = d.clientWidth;
         var h = d.clientHeight;
         if (targetDoc) return { width: w, height: h };
+
+        // w -= (PVI.DBOX?.wm || 0) + (PVI.DBOX?.wpb || 0);
+        // h -= (PVI.DBOX?.hm || 0) + (PVI.DBOX?.hpb || 0) + PVI.getCapHeight();
+
         if (w === winW && h === winH) return;
         winW = w;
         winH = h;
@@ -140,6 +144,14 @@
         mdownstart = e.timeStamp;
         PVI.md_x = e.clientX;
         PVI.md_y = e.clientY;
+
+        if (PVI.state > 2 && (cfg.hz.fzOnPress === 1 || cfg.hz.fzOnPress === 2)) {
+            clearTimeout(PVI.timers.cursor_hide);
+            clearTimeout(PVI.timers.cursor_wait);
+            const oldCursor = e.target.style.cursor;
+            e.target.style.cursor = "progress";
+            PVI.timers.cursor_wait = setTimeout(() => e.target.style.cursor = oldCursor, 300);
+        }
 
         if (e.target.href || e.target.parentNode?.href) {
             e.preventDefault();
@@ -322,9 +334,14 @@
                 },
                 true
             );
-            x = doc.documentElement;
-            x.appendChild(PVI.DIV);
-            x.appendChild(PVI.LDR);
+            let docEl = doc.documentElement;
+
+            /* let sroot = document.createElement('div');
+            docEl.appendChild(sroot);
+            docEl = sroot.attachShadow({ mode: 'open' }); */
+
+            docEl.appendChild(PVI.DIV);
+            docEl.appendChild(PVI.LDR);
             PVI.DBOX = {};
             x = win.getComputedStyle(PVI.DIV);
             y = {
@@ -376,6 +393,24 @@
                 PVI.DIV.insertBefore(doc.createElement("iframe"), PVI.DIV.firstElementChild);
                 PVI.DIV.firstChild.style.cssText = "z-index: -1; width: 100%; height: 100%; position: absolute; left: 0; top: 0; border: 0";
             }
+
+            // Outline around the hovered object
+            PVI.HVR = doc.createElement("div");
+            docEl.appendChild(PVI.HVR);
+            PVI.HVR.style.cssText = `
+                position: absolute !important;
+                pointer-events: none;
+                z-index: 2147483646;
+                box-sizing: border-box;
+                width: 0px;
+                height: 0px;
+                border: 2px ${cfg.hz.markOnHover} #ff7777;
+                opacity: 0;
+                top: 50vh;
+                left: 50vw;
+                transition: all .2s cubic-bezier(0, 1, 0.3, 1), opacity .2s ease-in;
+            `;
+
             PVI.reset();
         },
 
@@ -423,6 +458,15 @@
             } else trg.IMGS_caption = "";
         },
 
+        getCapHeight() {
+            return PVI.CAP?.overhead &&
+                   !(PVI.DIV.curdeg % 360) &&
+                   PVI.CAP.state !== 0 &&
+                   (PVI.CAP.state === 2 || (PVI.TRG?.IMGS_caption && cfg.hz.capText) || PVI.TRG?.IMGS_album || cfg.hz.capWH)
+                       ? PVI.CAP.overhead
+                       : 0;
+        },
+
         flash_caption: function () {
             PVI.timers.pileflicker = 0;
             PVI.timers.pile_flash = setInterval(PVI.flick_caption, 150);
@@ -442,7 +486,7 @@
             var c = PVI.CAP,
                 h;
             if (!c || c.state === 0) return;
-            if (c.style.display !== "none") return;
+            // if (c.style.display !== "none") return;
             if (PVI.TRG.IMGS_album)
                 if (c.firstChild.style.display === "none" && (h = PVI.stack[PVI.TRG.IMGS_album]) && h[2]) {
                     h = c.firstChild.style;
@@ -461,6 +505,8 @@
                     h.style.display = "inline-block";
                     h.style.color = PVI.palette[PVI.TRG.IMGS_HD === false ? "wh_fg_hd" : "wh_fg"];
                     h.textContent = (PVI.TRG.IMGS_SVG ? PVI.stack[PVI.IMG.src] : [PVI.CNT.naturalWidth, PVI.CNT.naturalHeight]).join("×");
+                    const scale = Math.round(PVI.CNT.offsetHeight / PVI.CNT.naturalHeight * 100);
+                    if (scale !== 100) h.textContent += ` (${scale}%)`;
                 } else h.style.display = "none";
             }
             h = c.lastChild;
@@ -1014,6 +1060,7 @@
             }
             if (!delayed && typeof msg === "string") {
                 PVI.DIV.style.display = "none";
+                // PVI.DIV.style.visibility = "hidden";
                 PVI.HD_cursor(true);
                 PVI.BOX = PVI.LDR;
                 PVI.LDR.style.backgroundColor =
@@ -1054,10 +1101,12 @@
                 if (
                     (PVI.state < 3 || PVI.BOX === PVI.LDR) &&
                     box.display === "none" &&
+                    // box.visibility === "hidden" &&
                     (((PVI.anim.left || PVI.anim.top) && PVI.BOX === PVI.DIV) || (cfg.hz.LDRanimate && PVI.BOX === PVI.LDR))
                 )
                     PVI.show(null);
                 box.display = "block";
+                // box.visibility = "visible";
                 if (box.opacity === "0" && ((PVI.BOX === PVI.DIV && PVI.anim.opacity) || (PVI.BOX === PVI.LDR && cfg.hz.LDRanimate)))
                     if (PVI.state === 2) PVI.anim.opacityTransition();
                     else setTimeout(PVI.anim.opacityTransition, 0);
@@ -1068,27 +1117,35 @@
             var rSide = winW - x;
             var bSide = winH - y;
             var left, top, rot, w, h, ratio;
+
             if ((msg === undefined && PVI.state === 4) || msg === true) {
                 msg = false;
                 if (PVI.TRG.IMGS_SVG) {
                     h = PVI.stack[PVI.IMG.src];
                     w = h[0];
                     h = h[1];
-                } else if ((w = PVI.CNT.naturalWidth)) h = PVI.CNT.naturalHeight;
-                else msg = true;
+                } else {
+                    w = PVI.CNT.naturalWidth;
+                    h = PVI.CNT.naturalHeight;
+                    if (!w) {
+                        msg = true;
+                    }
+                }
             }
+
             if (PVI.fullZm) {
                 if (!PVI.BOX) PVI.BOX = PVI.LDR;
                 if (msg === false) {
                     box = PVI.DIV.style;
                     box.visibility = "hidden";
-                    PVI.resize(0);
+                    PVI.resize(PVI.resizeMode || 0);
                     PVI.m_move();
                     box.visibility = "visible";
                     PVI.updateCaption();
                 } else PVI.m_move();
                 return;
             }
+
             if (msg === false) {
                 rot = PVI.DIV.curdeg % 180 !== 0;
                 if (rot) {
@@ -1105,101 +1162,103 @@
                 }
                 box = PVI.DBOX;
                 ratio = w / h;
-                var fs = cfg.hz.fullspace || cfg.hz.placement === 2,
-                    cap_size =
-                        PVI.CAP &&
-                        PVI.CAP.overhead &&
-                        !(PVI.DIV.curdeg % 360) &&
-                        PVI.CAP.state !== 0 &&
-                        (PVI.CAP.state === 2 || (PVI.TRG.IMGS_caption && cfg.hz.capText) || PVI.TRG.IMGS_album || cfg.hz.capWH)
-                            ? PVI.CAP.overhead
-                            : 0,
-                    vH = box["wm"] + (rot ? box["hpb"] : box["wpb"]),
-                    hH = box["hm"] + (rot ? box["wpb"] : box["hpb"]) + cap_size,
-                    vW = Math.min(w, (fs ? winW : x < rSide ? rSide : x) - vH),
-                    hW = Math.min(w, winW - vH);
-                vH = Math.min(h, winH - hH);
-                hH = Math.min(h, (fs ? winH : y < bSide ? bSide : y) - hH);
-                if ((fs = vW / ratio) > vH) vW = vH * ratio;
-                else vH = fs;
-                if ((fs = hH * ratio) > hW) hH = hW / ratio;
-                else hW = fs;
-                if (hW > vW) {
-                    w = Math.round(hW);
-                    h = Math.round(hH);
+                let lrMax = Math.max(rSide, x);
+                let tbMax = Math.max(bSide, y);
+                let fs = cfg.hz.fullspace || cfg.hz.placement === 2,
+                    cap_size = PVI.getCapHeight(),
+                    wBor = box["wm"] + (rot ? box["hpb"] : box["wpb"]),
+                    hBor = box["hm"] + (rot ? box["wpb"] : box["hpb"]) + cap_size,
+                    // vH = 0,
+                    // hH = 0,
+                    wImageAreaMin = Math.min(w, (fs ? winW : lrMax) - wBor),
+                    wImageWinMin = Math.min(w, winW - wBor),
+                    hImageWinMin = Math.min(h, winH - hBor),
+                    hImageAreaMin = Math.min(h, (fs ? winH : tbMax) - hBor);
+                if ((fs = wImageAreaMin / ratio) > hImageWinMin) wImageAreaMin = hImageWinMin * ratio;
+                else hImageWinMin = fs;
+                if ((fs = hImageAreaMin * ratio) > wImageWinMin) hImageAreaMin = wImageWinMin / ratio;
+                else wImageWinMin = fs;
+                if (wImageWinMin > wImageAreaMin) {
+                    w = Math.round(wImageWinMin);
+                    h = Math.round(hImageAreaMin);
                 } else {
-                    w = Math.round(vW);
-                    h = Math.round(vH);
+                    w = Math.round(wImageAreaMin);
+                    h = Math.round(hImageWinMin);
                 }
-                vW = w + box["wm"] + (rot ? box["hpb"] : box["wpb"]);
-                vH = h + box["hm"] + (rot ? box["wpb"] : box["hpb"]) + cap_size;
-                hW = PVI.TRG !== PVI.HLP && cfg.hz.minPopupDistance;
+
+                wImageAreaMin = w + wBor;
+                hImageWinMin = h + hBor;
+                wImageWinMin = PVI.TRG !== PVI.HLP && cfg.hz.minPopupDistance;
                 switch (cfg.hz.placement) {
-                    case 1:
-                        hH = (x < rSide ? rSide : x) < vW;
-                        if (hH && cfg.hz.fullspace && (winH - vH <= winW - vW || vW <= (x < rSide ? rSide : x))) hH = false;
-                        left = x - (hH ? vW / 2 : x < rSide ? 0 : vW);
-                        top = y - (hH ? (y < bSide ? 0 : vH) : vH / 2);
+                    case 1: // cursor at pop-up side
+                        hImageAreaMin = lrMax < wImageAreaMin;
+                        if (hImageAreaMin && cfg.hz.fullspace && (winH - hImageWinMin <= winW - wImageAreaMin || wImageAreaMin <= lrMax)) hImageAreaMin = false;
+                        left = x - (hImageAreaMin ? wImageAreaMin / 2 : x < rSide ? 0 : wImageAreaMin);
+                        top = y - (hImageAreaMin ? (y < bSide ? 0 : hImageWinMin) : hImageWinMin / 2);
                         break;
-                    case 2:
-                        left = (winW - vW) / 2;
-                        top = (winH - vH) / 2;
-                        hW = false;
+                    case 2: // pop-up at the center of the screen
+                        left = (winW - wImageAreaMin) / 2;
+                        top = (winH - hImageWinMin) / 2;
+                        wImageWinMin = false;
                         break;
-                    case 3:
-                        left = x < rSide || (vW >= PVI.x && winW - PVI.x >= vW) ? PVI.TBOX.right : x - vW;
-                        top = y < bSide || (vH >= PVI.y && winH - PVI.y >= vH) ? PVI.TBOX.bottom : y - vH;
-                        hH =
-                            (x < rSide ? rSide : x) < vW ||
-                            ((y < bSide ? bSide : y) >= vH && winW >= vW && (PVI.TBOX.width >= winW / 2 || Math.abs(PVI.x - left) >= winW / 3.5));
-                        if (!cfg.hz.fullspace || (hH ? vH <= (y < bSide ? bSide : y) : vW <= (x < rSide ? rSide : x))) {
+                    case 3: // no cover
+                        left = x < rSide || (wImageAreaMin >= PVI.x && winW - PVI.x >= wImageAreaMin) ? PVI.TBOX.right : x - wImageAreaMin;
+                        top = y < bSide || (hImageWinMin >= PVI.y && winH - PVI.y >= hImageWinMin) ? PVI.TBOX.bottom : y - hImageWinMin;
+                        hImageAreaMin =
+                            lrMax < wImageAreaMin ||
+                            ((tbMax) >= hImageWinMin && winW >= wImageAreaMin && (PVI.TBOX.width >= winW / 2 || Math.abs(PVI.x - left) >= winW / 3.5));
+                        if (!cfg.hz.fullspace || (hImageAreaMin ? hImageWinMin <= (tbMax) : wImageAreaMin <= lrMax)) {
                             fs = PVI.TBOX.width / PVI.TBOX.height;
-                            if (hH) {
-                                left = (PVI.TBOX.left + PVI.TBOX.right - vW) / 2;
-                                if (fs > 10) left = x < rSide ? Math.max(left, PVI.TBOX.left) : Math.min(left, PVI.TBOX.right - vW);
+                            if (hImageAreaMin) {
+                                left = (PVI.TBOX.left + PVI.TBOX.right - wImageAreaMin) / 2;
+                                if (fs > 10) left = x < rSide ? Math.max(left, PVI.TBOX.left) : Math.min(left, PVI.TBOX.right - wImageAreaMin);
                             } else {
-                                top = (PVI.TBOX.top + PVI.TBOX.bottom - vH) / 2;
-                                if (fs < 0.1) top = y < bSide ? Math.min(top, PVI.TBOX.top) : Math.min(top, PVI.TBOX.bottom - vH);
+                                top = (PVI.TBOX.top + PVI.TBOX.bottom - hImageWinMin) / 2;
+                                if (fs < 0.1) top = y < bSide ? Math.min(top, PVI.TBOX.top) : Math.min(top, PVI.TBOX.bottom - hImageWinMin);
                             }
                         }
                         break;
-                    case 4:
-                        left = x - vW / 2;
-                        top = y - vH / 2;
-                        hW = false;
+                    case 4: // cursor at pop-up center
+                        left = x - wImageAreaMin / 2;
+                        top = y - hImageWinMin / 2;
+                        wImageWinMin = false;
                         break;
-                    default:
-                        hH = null;
-                        left = x - (x < rSide ? Math.max(0, vW - rSide) : vW);
-                        top = y - (y < bSide ? Math.max(0, vH - bSide) : vH);
+                    default: // cursor at pop-up corner
+                        hImageAreaMin = null;
+                        left = x - (x < rSide ? Math.max(0, wImageAreaMin - rSide) : wImageAreaMin);
+                        top = y - (y < bSide ? Math.max(0, hImageWinMin - bSide) : hImageWinMin);
                 }
-                if (hW)
-                    if (hH || (x < rSide ? rSide : x) < vW || winH < vH) {
-                        hH = y < bSide ? box["mt"] : box["mb"];
-                        if (hW > hH) {
-                            hW -= hH;
-                            top += y < bSide ? hW : -hW;
+                if (wImageWinMin)
+                    if (hImageAreaMin || lrMax < wImageAreaMin || winH < hImageWinMin) {
+                        // hH = y < bSide ? box["mt"] : box["mb"];
+                        hImageAreaMin = 0;
+                        if (wImageWinMin > hImageAreaMin) {
+                            wImageWinMin -= hImageAreaMin;
+                            top += y < bSide ? wImageWinMin : -wImageWinMin;
                         }
                     } else {
-                        hH = x < rSide ? box["ml"] : box["mr"];
-                        if (hW > hH) {
-                            hW -= hH;
-                            left += x < rSide ? hW : -hW;
+                        // hH = x < rSide ? box["ml"] : box["mr"];
+                        hImageAreaMin = 0;
+                        if (wImageWinMin > hImageAreaMin) {
+                            wImageWinMin -= hImageAreaMin;
+                            left += x < rSide ? wImageWinMin : -wImageWinMin;
                         }
                     }
-                left = left < 0 ? 0 : left > winW - vW ? winW - vW : left;
-                top = top < 0 ? 0 : top > winH - vH ? winH - vH : top;
+                left = left < 0 ? 0 : left > winW - wImageAreaMin ? winW - wImageAreaMin : left;
+                top = top < 0 ? 0 : top > winH - hImageWinMin ? winH - hImageWinMin : top;
                 if (cap_size && !cfg.hz.capPos) top += cap_size;
                 if (rot) {
                     rot = w;
                     w = h;
                     h = rot;
-                    rot = (vW - vH) / 2;
+                    rot = (wImageAreaMin - hImageWinMin) / 2;
                     left += rot;
                     top -= rot;
                 }
+                // setTimeout(() => {
                 PVI.DIV.style.width = w + "px";
                 PVI.DIV.style.height = h + "px";
+                // }, 0);
                 PVI.updateCaption();
             } else {
                 if (cfg.hz.placement === 1) {
@@ -1213,9 +1272,12 @@
                 top = y - top;
             }
             if (left !== undefined) {
-                PVI.BOX.style.left = left + "px";
-                PVI.BOX.style.top = top + "px";
+                // setTimeout(() => {
+                PVI.BOX.style.left = Math.floor(left) + "px";
+                PVI.BOX.style.top = Math.floor(top) + "px";
+                // }, 0);
             }
+            PVI.showHVR();
         },
         album: function (idx, manual) {
             var s, i;
@@ -1643,6 +1705,8 @@
             clearTimeout(PVI.timers.delayed_loader);
             win.removeEventListener("wheel", PVI.wheeler, true);
             PVI.DIV.style.display = PVI.LDR.style.display = "none";
+            // PVI.DIV.style.visibility = "hidden";
+            // PVI.LDR.style.display = "none";
             PVI.DIV.style.width = PVI.DIV.style.height = "0";
             PVI.CNT.removeAttribute("src");
             if (PVI.CNT === PVI.VID) PVI.VID.load();
@@ -1678,6 +1742,7 @@
                 PVI.lastScrollTRG = PVI.TRG;
                 PVI.scroller();
             }
+            PVI.HVR.style.opacity = "0";
             PVI.state = 1;
         },
 
@@ -1698,6 +1763,7 @@
         key_action: function (e) {
             var pv, key;
             if (!cfg) return;
+
             if (shortcut.isModifier(e)) {
                 if (PVI.keyup_freeze_on || typeof PVI.freeze === "number") return;
                 if (e.repeat || shortcut.key(e) !== cfg.hz.actTrigger) return;
@@ -1709,21 +1775,38 @@
                 win.addEventListener("keyup", PVI.keyup_freeze, true);
                 return;
             }
-            if (!e.repeat)
+
+            if (!e.repeat) {
                 if (PVI.keyup_freeze_on) PVI.keyup_freeze();
-                else if (PVI.freeze === false && !PVI.fullZm && PVI.lastScrollTRG) PVI.mover({ target: PVI.lastScrollTRG });
+            } else if (PVI.freeze === false && !PVI.fullZm && PVI.lastScrollTRG) {
+                PVI.mover({ target: PVI.lastScrollTRG });
+            }
+
             key = shortcut.key(e);
-            if (PVI.state < 3 && PVI.fireHide && key === "Esc") PVI.m_over({ relatedTarget: PVI.TRG });
+            if (PVI.state < 3 && PVI.fireHide && key === "Esc") {
+                PVI.m_over({ relatedTarget: PVI.TRG });
+            }
             pv = e.target;
-            if (cfg.hz.scOffInInput && pv && (pv.isContentEditable || ((pv = pv.nodeName.toUpperCase()) && (pv[2] === "X" || pv === "INPUT")))) return;
+
+            if (cfg.hz.scOffInInput && pv && (pv.isContentEditable || ((pv = pv.nodeName.toUpperCase()) && (pv[2] === "X" || pv === "INPUT")))) {
+                return;
+            }
+
             if (e.altKey && e.shiftKey) {
                 pv = true;
-                if (key === cfg.keys.hz_preload) win.top.postMessage({ vdfDpshPtdhhd: "preload" }, "*");
-                else if (key === cfg.keys.hz_toggle) {
-                    if (win.sessionStorage.IMGS_suspend) delete win.sessionStorage.IMGS_suspend;
-                    else win.sessionStorage.IMGS_suspend = "1";
+                if (key === cfg.keys.hz_preload) {
+                    win.top.postMessage({ vdfDpshPtdhhd: "preload" }, "*");
+                } else if (key === cfg.keys.hz_toggle) {
+                    if (win.sessionStorage.IMGS_suspend) {
+                        delete win.sessionStorage.IMGS_suspend;
+                    } else {
+                        win.sessionStorage.IMGS_suspend = "1";
+                    }
                     win.top.postMessage({ vdfDpshPtdhhd: "toggle" }, "*");
-                } else pv = false;
+                } else {
+                    pv = false;
+                }
+
             } else if (!(e.altKey || e.metaKey) && (PVI.state > 2 || PVI.LDR_msg)) {
                 pv = !e.ctrlKey;
                 if (e.ctrlKey && key === "S" || !e.ctrlKey && !e.shiftKey && key === cfg.keys.hz_save) {
@@ -1736,8 +1819,9 @@
                         });
                     }
                     pv = true;
+
                 } else if (e.ctrlKey) {
-                    if (PVI.state === 4)
+                    if (PVI.state === 4) {
                         if (key === "C") {
                             if (!e.shiftKey && "oncopy" in doc) {
                                 pv = true;
@@ -1770,8 +1854,12 @@
                             const delta = key === "Down" ? -0.05 : 0.05;
                             PVI.VID.volume = Math.max(0, Math.min(1, PVI.VID.volume + delta));
                         }
-                } else if (key === "-" || key === "+" || key === "=") PVI.resize(key === "-" ? "-" : "+");
-                else if (key === "Tab") {
+                    }
+
+                } else if (key === "-" || key === "+" || key === "=") {
+                    PVI.resize(key === "-" ? "-" : "+");
+
+                } else if (key === "Tab") {
                     if (PVI.TRG.IMGS_HD_stack) {
                         if (PVI.CAP) PVI.CAP.style.display = "none";
                         PVI.TRG.IMGS_HD = !PVI.TRG.IMGS_HD;
@@ -1780,17 +1868,24 @@
                         PVI.set(PVI.TRG.IMGS_HD_stack);
                         PVI.TRG.IMGS_HD_stack = key;
                     }
-                    if (e.shiftKey) cfg.hz.hiRes = !cfg.hz.hiRes;
-                } else if (key === "Esc")
-                    if (PVI.CNT === PVI.VID && (win.fullScreen || doc.fullscreenElement || (topWinW === win.screen.width && topWinH === win.screen.height)))
+                    if (e.shiftKey) {
+                        cfg.hz.hiRes = !cfg.hz.hiRes;
+                    }
+
+                } else if (key === "Esc") {
+                    if (PVI.CNT === PVI.VID && (win.fullScreen || doc.fullscreenElement || (topWinW === win.screen.width && topWinH === win.screen.height))) {
                         pv = false;
-                    else PVI.reset(true);
-                else if (key === cfg.keys.hz_fullZm || key === "Enter")
+                    } else {
+                        PVI.reset(true);
+                    }
+
+                } else if (key === cfg.keys.hz_fullZm || key === "Enter") {
                     if (PVI.fullZm)
                         if (e.shiftKey) PVI.fullZm = PVI.fullZm === 1 ? 2 : 1;
                         else PVI.reset(true);
                     else {
-                        win.removeEventListener("mouseover", PVI.m_over, true);
+                        PVI.fzEnable(e);
+                        /* win.removeEventListener("mouseover", PVI.m_over, true);
                         doc.removeEventListener("wheel", PVI.scroller, true);
                         doc.documentElement.removeEventListener("mouseleave", PVI.m_leave, false);
                         PVI.fullZm = (cfg.hz.fzMode !== 1) !== !e.shiftKey ? 1 : 2;
@@ -1803,14 +1898,14 @@
                         if (PVI.CNT === PVI.VID) PVI.VID.controls = true;
                         if (PVI.state > 2 && PVI.fullZm !== 2) {
                             pv.visibility = "hidden";
-                            PVI.resize(0);
+                            PVI.resize(PVI.resizeMode || 0);
                             PVI.m_move();
                             pv.visibility = "visible";
                         }
                         if (!PVI.iFrame) win.addEventListener("mousemove", PVI.m_move, true);
-                        win.addEventListener("click", PVI.fzClickAct, true);
+                        win.addEventListener("click", PVI.fzClickAct, true); */
                     }
-                else if (e.which > 31 && e.which < 41) {
+                } else if (e.which > 31 && e.which < 41) {
                     pv = null;
                     if (PVI.CNT === PVI.VID) {
                         pv = true;
@@ -1852,8 +1947,14 @@
                             pv = true;
                         }
                     }
-                } else if (key === cfg.keys.mOrig || key === cfg.keys.mFit || key === cfg.keys.mFitW || key === cfg.keys.mFitH) PVI.resize(key);
-                else if (key === cfg.keys.hz_fullSpace) {
+                } else if (key === cfg.keys.mOrig || key === cfg.keys.mFit || key === cfg.keys.mFitW || key === cfg.keys.mFitH) {
+                    PVI.resizeMode = key;
+                    if (PVI.fullZm) {
+                        PVI.resize(key);
+                    } else {
+                        PVI.fzEnable(e);
+                    }
+                } else if (key === cfg.keys.hz_fullSpace) {
                     cfg.hz.fullspace = !cfg.hz.fullspace;
                     PVI.show();
                 } else if (key === cfg.keys.flipH) flip(PVI.CNT, 0);
@@ -1909,6 +2010,28 @@
             PVI.show("load");
             PVI.key_action({ which: 9 });
             return true;
+        },
+
+        fzEnable: function (e) {
+            win.removeEventListener("mouseover", PVI.m_over, true);
+            doc.removeEventListener("wheel", PVI.scroller, true);
+            doc.documentElement.removeEventListener("mouseleave", PVI.m_leave, false);
+            PVI.fullZm = (cfg.hz.fzMode !== 1) !== !e.shiftKey ? 1 : 2;
+            PVI.switchToHiResInFZ();
+            if (PVI.anim.maxDelay)
+                setTimeout(function () {
+                    if (PVI.fullZm) PVI.DIV.style.transition = "all 0s";
+                }, PVI.anim.maxDelay);
+            if (PVI.CNT === PVI.VID) PVI.VID.controls = true;
+            if (PVI.state > 2 && PVI.fullZm !== 2) {
+                PVI.DIV.style.visibility = "hidden";
+                PVI.resizeMode ||= cfg.keys.mFit;
+                PVI.resize(PVI.resizeMode || 0);
+                PVI.m_move();
+                PVI.DIV.style.visibility = "visible";
+            }
+            if (!PVI.iFrame) win.addEventListener("mousemove", PVI.m_move, true);
+            win.addEventListener("click", PVI.fzClickAct, true);
         },
 
         fzDragEnd: function () {
@@ -1968,18 +2091,32 @@
             PVI.lastScrollTRG = null;
         },
 
+        shouldScrollAlbum(e) {
+            const gap = 100;
+            if (
+                PVI.TRG &&
+                PVI.TRG.IMGS_album &&
+                cfg.hz.pileWheel &&
+                // (!PVI.fullZm || (e.clientX < 50 && e.clientY < 50) || (PVI.CAP && e.target === PVI.CAP.firstChild))
+                (!PVI.fullZm || e.shiftKey ||
+                    e.clientX < gap ||
+                    e.clientY < gap ||
+                    win.innerWidth - e.clientX < gap ||
+                    win.innerHeight - e.clientY < gap ||
+                    !PVI.DIV.contains(e.target))
+            ) {
+                return true;
+            }
+            return false;
+        },
+
         wheeler: function (e) {
             if (e.clientX >= winW || e.clientY >= winH) return;
             var d = cfg.hz.scrollDelay;
             if (PVI.state > 2 && d >= 20)
                 if (e.timeStamp - (PVI.lastScrollTime || 0) < d) d = null;
                 else PVI.lastScrollTime = e.timeStamp;
-            if (
-                PVI.TRG &&
-                PVI.TRG.IMGS_album &&
-                cfg.hz.pileWheel &&
-                (!PVI.fullZm || (e.clientX < 50 && e.clientY < 50) || (PVI.CAP && e.target === PVI.CAP.firstChild))
-            ) {
+            if (PVI.shouldScrollAlbum(e)) {
                 if (d !== null) {
                     if (cfg.hz.pileWheel === 2) {
                         if (!e.deltaX && !e.wheelDeltaX) return;
@@ -2010,20 +2147,26 @@
             var rot = PVI.DIV.curdeg % 180;
             viewportDimensions();
             if (rot) s.reverse();
-            if (x === k.mFit)
-                if (winW / winH < s[0] / s[1]) x = winW > s[0] ? 0 : k.mFitW;
-                else x = winH > s[1] ? 0 : k.mFitH;
+            let winWI = winW - PVI.DBOX["wpb"] - PVI.DBOX["wm"];
+            let winHI = winH - PVI.DBOX["hpb"] - PVI.DBOX["hm"] - PVI.getCapHeight();
+            if (x === k.mFit || x === 0) {
+                if (winWI / winHI < s[0] / s[1]) {
+                    x = winWI > s[0] ? 0 : k.mFitW;
+                } else {
+                    x = winHI > s[1] ? 0 : k.mFitH;
+                }
+            }
             switch (x) {
                 case k.mFitW:
-                    winW -= PVI.DBOX["wpb"];
-                    s[1] *= winW / s[0];
-                    s[0] = winW;
+                    // winW -= PVI.DBOX["wpb"] + PVI.DBOX["wm"];
+                    s[1] *= winWI / s[0];
+                    s[0] = winWI;
                     if (PVI.fullZm > 1) PVI.y = 0;
                     break;
                 case k.mFitH:
-                    winH -= PVI.DBOX["hpb"];
-                    s[0] *= winH / s[1];
-                    s[1] = winH;
+                    // winH -= PVI.DBOX["hpb"] + PVI.DBOX["hm"] + PVI.getCapHeight();
+                    s[0] *= winHI / s[1];
+                    s[1] = winHI;
                     if (PVI.fullZm > 1) PVI.y = 0;
                     break;
                 case "+":
@@ -2080,14 +2223,15 @@
                     PVI.timers.resolver = null;
                 }
                 if (e.relatedTarget) {
-                    trg = PVI.lastTRGStyle;
-                    if (trg.outline !== null) {
-                        e.relatedTarget.style.outline = trg.outline;
-                        trg.outline = null;
+                    PVI.HVR.style.opacity = "0";
+                    const ls = PVI.lastTRGStyle;
+                    if (ls.outline !== null) {
+                        e.relatedTarget.style.outline = ls.outline;
+                        ls.outline = null;
                     }
-                    if (trg.cursor !== null) {
-                        e.relatedTarget.style.cursor = trg.cursor;
-                        trg.cursor = null;
+                    if (ls.cursor !== null) {
+                        e.relatedTarget.style.cursor = ls.cursor;
+                        ls.cursor = null;
                     }
                 }
                 if (PVI.nodeToReset) {
@@ -2153,8 +2297,9 @@
                         PVI.lastTRGStyle.cursor = trg.style.cursor;
                         trg.style.cursor = "zoom-in";
                     } else {
-                        PVI.lastTRGStyle.outline = trg.style.outline;
-                        trg.style.outline = "1px " + cfg.hz.markOnHover + " red";
+                        PVI.showHVR();
+                        // PVI.lastTRGStyle.outline = trg.style.outline;
+                        // trg.style.outline = "1px " + cfg.hz.markOnHover + " red";
                     }
                 if (isFrozen) {
                     clearTimeout(PVI.timers.resolver);
@@ -2170,6 +2315,33 @@
             }
         },
 
+        showHVR: function () {
+            if (!PVI.TRG) return;
+            PVI.create();
+            const rect = PVI.TRG.getBoundingClientRect();
+            const style = win.getComputedStyle(PVI.TRG);
+            PVI.HVR.style.opacity = '1';
+            PVI.HVR.style.width = (rect.width + 6) + "px";
+            PVI.HVR.style.height = (rect.height + 6) + "px";
+            PVI.HVR.style.left = (rect.x + window.scrollX - 3) + "px";
+            PVI.HVR.style.top = (rect.y + window.scrollY - 3) + "px";
+            PVI.HVR.style.borderTopLeftRadius     = (parseInt(style.borderTopLeftRadius, 10) || 2) + "px";
+            PVI.HVR.style.borderTopRightRadius    = (parseInt(style.borderTopRightRadius, 10) || 2) + "px";
+            PVI.HVR.style.borderBottomLeftRadius  = (parseInt(style.borderBottomLeftRadius, 10) || 2) + "px";
+            PVI.HVR.style.borderBottomRightRadius = (parseInt(style.borderBottomRightRadius, 10) || 2) + "px";
+            PVI.HVR.style.display = "block";
+
+            /* if (PVI.state < 2) {
+                // PVI.DIV.style.transition = "all 2s cubic-bezier(0, 1, 0.4, 1)";
+                PVI.DIV.style.width = rect.width + "px";
+                PVI.DIV.style.height = rect.height + "px";
+                PVI.DIV.style.left = rect.x + "px";
+                PVI.DIV.style.top = rect.y + "px";
+                // PVI.DIV.style.display = "block";
+                // PVI.DIV.style.opacity = "1";
+            } */
+        },
+
         load: function (src) {
             if ((cfg.hz.waitHide || !cfg.hz.deactivate) && PVI.anim.maxDelay && !PVI.iFrame) win.addEventListener("mousemove", PVI.m_move, true);
             if (!PVI.TRG) return;
@@ -2181,8 +2353,9 @@
             PVI.TBOX.Top = PVI.TBOX.top + win.pageYOffset;
             PVI.TBOX.Bottom = PVI.TBOX.Top + PVI.TBOX.height;
             if (cfg.hz.markOnHover !== "cr") {
-                PVI.TRG.style.outline = PVI.lastTRGStyle.outline;
-                PVI.lastTRGStyle.outline = null;
+                // PVI.TRG.style.outline = PVI.lastTRGStyle.outline;
+                // PVI.lastTRGStyle.outline = null;
+                // PVI.HVR.style.opacity = "0";
             } else if (PVI.lastTRGStyle.cursor !== null) {
                 if (PVI.DIV) PVI.DIV.style.cursor = "";
                 PVI.TRG.style.cursor = PVI.lastTRGStyle.cursor;
@@ -2227,6 +2400,11 @@
                 if (e.target) {
                     PVI.x = e.clientX;
                     PVI.y = e.clientY;
+                    /* if (PVI.shouldScrollAlbum(e)) {
+                        doc.body.style.cursor = null;
+                    } else {
+                        doc.body.style.cursor = "zoom-in";
+                    } */
                 }
                 if (PVI.fullZm > 1 && e[0] !== true) {
                     w = PVI.BOX.style;
@@ -2239,14 +2417,16 @@
                     } else x = null;
                 } else {
                     var rot = PVI.state === 4 && PVI.DIV.curdeg % 180;
+                    // var capH = PVI.getCapHeight();
                     if (PVI.BOX === PVI.DIV) {
                         if (PVI.TRG.IMGS_SVG) {
                             h = PVI.stack[PVI.IMG.src];
                             h = h[1] / h[0];
                         }
                         w = e[2] || parseInt(PVI.DIV.style.width, 10);
-                        h = parseInt(w * (h || PVI.CNT.naturalHeight / PVI.CNT.naturalWidth) + PVI.DBOX["hpb"], 10);
-                        w += PVI.DBOX["wpb"];
+                        h = parseInt(w * (h || PVI.CNT.naturalHeight / PVI.CNT.naturalWidth), 10);
+                        // w += PVI.DBOX["wpb"];
+                        // h += PVI.DBOX["hpb"];
                     } else {
                         w = PVI.LDR.wh[0];
                         h = PVI.LDR.wh[1];
@@ -2257,16 +2437,17 @@
                         h = rot;
                         rot = (w - h) / 2;
                     } else rot = 0;
-                    x = (w - PVI.DBOX["wpb"] > winW ? -((PVI.x * (w - winW + 80)) / winW) + 40 : (winW - w) / 2) + rot - PVI.DBOX["ml"];
-                    y = (h - PVI.DBOX["hpb"] > winH ? -((PVI.y * (h - winH + 80)) / winH) + 40 : (winH - h) / 2) - rot - PVI.DBOX["mt"];
+                    x = (w - PVI.DBOX["wpb"] > winW ? -((PVI.x * (w - winW + 80)) / winW) + 40 : (winW - w) / 2) + rot - PVI.DBOX["wpb"]/* - PVI.DBOX["ml"] */;
+                    y = (h - PVI.DBOX["hpb"] > winH ? -((PVI.y * (h - winH + 80)) / winH) + 40 : (winH - h) / 2) - rot /* + capH */ /* - PVI.DBOX["hpb"] */ /* - PVI.DBOX["mt"] */;
                 }
                 if (e[2] !== undefined) {
                     PVI.BOX.style.width = e[2] + "px";
                     PVI.BOX.style.height = e[3] + "px";
+                    PVI.updateCaption();
                 }
                 if (x !== null) {
-                    PVI.BOX.style.left = x + "px";
-                    PVI.BOX.style.top = y + "px";
+                    PVI.BOX.style.left = Math.floor(x) + "px";
+                    PVI.BOX.style.top = Math.floor(y) + "px";
                 }
                 return;
             }
@@ -2392,8 +2573,15 @@
         onWinResize: function () {
             viewportDimensions();
             if (PVI.state < 3) return;
-            if (!PVI.fullZm) PVI.show();
-            else if (PVI.fullZm === 1) PVI.m_move();
+            if (!PVI.fullZm) {
+                PVI.show();
+            } else if (PVI.fullZm === 1) {
+                if (PVI.resizeMode) {
+                    PVI.resize(PVI.resizeMode);
+                } else {
+                    PVI.m_move();
+                }
+            }
         },
 
         winOnMessage: function (e) {
