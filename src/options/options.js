@@ -477,6 +477,10 @@ window.addEventListener(
         var tmp = $("app_version");
         tmp.textContent = app.name + " v" + app.version;
 
+        if (app.name.toLowerCase().includes("beta")) {
+            document.body.classList.add("beta");
+        }
+
         var menu = $("nav_menu");
         processLNG(document.querySelectorAll('body > *'));
         if ((tmp = document.querySelectorAll('input[type="color"] + output + input[type="range"], textarea[name="tls_sendToHosts"]'))) {

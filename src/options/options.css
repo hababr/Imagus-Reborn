@@ -162,6 +162,7 @@ body.advanced .advanced {
     margin: 5px auto 0;
     transition: box-shadow 0.2s;
     width: 128px;
+    position: relative;
 }
 .logo:hover {
     box-shadow: 0 0 10px #bef;
@@ -722,4 +723,21 @@ section.warning {
 
 .rule_line label:first-child {
     width: 34px;
+}
+
+body.beta .logo:after {
+    content: "BETA";
+    background: #ff000033;
+    color: #ffffff;
+    font-size: 34px;
+    letter-spacing: 2px;
+    font-family: revert;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+    box-shadow: 0 0 15px #ff00004d;
 }
