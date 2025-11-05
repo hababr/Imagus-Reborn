@@ -387,10 +387,10 @@ var sieve_sec,
                         enableSnippets: true,
                         enableLiveAutocompletion: !small,
                     });
-                    // editor.session.setOptions({
-                    //     wrap: true,
-                    //     wrapMethod: isCode ? "code" : "text",
-                    // });
+                    editor.session.setOptions({
+                        wrap: true,
+                        wrapMethod: isCode ? "code" : "text",
+                    });
                     editor.renderer.setScrollMargin(4, 4, 0, 0);
                     editor.setKeyboardHandler("ace/keyboard/vscode");
                     if (!small) {
@@ -528,8 +528,8 @@ var sieve_sec,
             if (!sieve) return;
             if (selected.length) for (i = 0; i < selected.length; ++i) exp[selected[i].rule] = sieve[selected[i].rule];
             else exp = sieve;
-            exp = JSON.stringify(exp, null, e.shiftKey ? 2 : 0);
-            const name = selected.length === 1 ? `${selected[0].rule}-rule` : `sieve`;
+            exp = JSON.stringify(exp, null, e.shiftKey ? 0 : 2);
+            const name = selected.length === 1 ? `${selected[0].rule}` : `sieve`;
             if (exp !== "{}") {
                 if (copy) {
                     navigator.clipboard.writeText(exp)
@@ -538,7 +538,7 @@ var sieve_sec,
                         alert("Failed to copy to clipboard.");
                     });
                 } else {
-                    download(exp, `${app.name}-${name}.json`, e.ctrlKey || e.metaKey);
+                    download(exp, `Imagus_${name}.json`, e.ctrlKey || e.metaKey);
                 }
             }
         },
