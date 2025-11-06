@@ -39,6 +39,7 @@ body {
 a {
     color: #1155ef;
     text-decoration: none;
+    cursor: pointer;
 }
 a:hover {
     color: #000;
@@ -192,10 +193,10 @@ nav > .active {
     border-bottom: 3px solid #000;
     color: #000;
 }
-.prow {
+/* .prow {
     clear: both;
     padding-bottom: 3px;
-}
+} */
 .prow,
 .tiptop {
     position: relative;
@@ -261,20 +262,39 @@ nav > .active {
     box-sizing: border-box;
     display: inline-block;
 }
-.prow > label {
+/* .prow > label {
     padding-top: 8px;
     width: 60%;
+} */
+label {
+    cursor: pointer;
 }
-.prow:hover label:not(.checkbox),
+form .prow:not(.advanced),
+body.advanced form .advanced {
+    display: flex;
+}
+.prow {
+    justify-content: space-between;
+    padding: 4px 6px;
+    align-items: center;
+    border-radius: 4px;
+}
+.prow.wrap {
+    flex-wrap: wrap;
+}
+.prow:hover {
+    background-color: #f0f8ff;
+}
+/* .prow:hover label:not(.checkbox),
 label:not(.checkbox):hover {
     color: #45f;
-}
+} */
 .prow > span:not(.clean) {
     float: right;
-    margin-top: 4px;
-    max-width: 50%;
+    /* margin-top: 4px; */
+    /* max-width: 50%; */
     text-align: right;
-    width: 40%;
+    /* width: 40%; */
 }
 .prow input[type="text"] {
     width: 300px;
