@@ -74,7 +74,7 @@ var sieve_sec,
             };
             sieve_container.onmousedown = SieveUI.move;
             sieve_container.onclick = SieveUI.click;
-            sieve_container.oncontextmenu = SieveUI.rename_del;
+            sieve_container.oncontextmenu = SieveUI.rightClick;
             sieve_sec.querySelector(".action_buttons").onclick = function (e) {
                 switch (e.target.dataset.action) {
                     case "●":
@@ -567,7 +567,7 @@ var sieve_sec,
             }
             this.countRules();
         },
-        rename_del: function (e) {
+        rightClick: function (e) {
             e.stopPropagation();
             let target = e.target;
             let action = target.dataset?.action;
@@ -575,7 +575,8 @@ var sieve_sec,
             if (action === "rule") {
                 e.preventDefault();
                 if (e.shiftKey) {
-                    SieveUI.renameRule(target.parentNode);
+                    // SieveUI.renameRule(target.parentNode);
+                    target.parentElement.classList.toggle("disabled");
                 } else if (e.ctrlKey) {
                     SieveUI.deleteRule(target.parentNode);
                 } else {
