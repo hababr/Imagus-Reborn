@@ -30,7 +30,7 @@
     "message": "Biztos vagy benne?"
   },
   "DELITEMS": {
-    "message": "Kijelöltek vagy az összes eltávolítása?"
+    "message": "Eltávolítja ezeket a szabályokat?"
   },
   "EMPTY": {
     "message": "Üres..."
@@ -285,7 +285,7 @@
     "message": "Minden szűrőnek egyedi neve kell, hogy legyen!"
   },
   "SIV_DETAILS": {
-    "message": "Ctrl + jobb klikk törli a szabályt<br>Lehetőség van a szabályok áthelyezésére vonszolással<br>Shift + jobb klikk átnevez (Esc/Enter befejez)<br>Ctrl + bal klikk kijelölés (egyszerre több a Shift lenyomásával)"
+    "message": ""
   },
   "GRNT_RULEPERLINE": {
     "message": "Feltétel soronként. További információkért kattints a fenti Részletek gombra."

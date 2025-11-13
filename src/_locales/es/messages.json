@@ -30,7 +30,7 @@
     "message": "¿Estás seguro?"
   },
   "DELITEMS": {
-    "message": "Eliminar todos los elementos o solo los seleccionados?"
+    "message": "¿Eliminar estas reglas?"
   },
   "EMPTY": {
     "message": "No hay nada por aquí..."
@@ -285,7 +285,7 @@
     "message": "¡Cada regla debe tener un nombre único!"
   },
   "SIV_DETAILS": {
-    "message": "<b>Ctrl + clic derecho</b> para borrar<br><b>Arrastrar</b> con el <b>botón izquierdo</b> para mover<br><b>Shift + clic derecho</b> para renombrar (<b>Esc/Enter</b> para salir)<br><b>Ctrl + clic izquierdo</b> para seleccionar (<b>Shift</b> para activar selección múltiple)"
+    "message": ""
   },
   "GRNT_RULEPERLINE": {
     "message": "Una regla por línea: Para más información, pulsa el botón \"Detalles\" a la derecha."

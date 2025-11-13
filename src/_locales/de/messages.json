@@ -30,7 +30,7 @@
     "message": "Bist du sicher?"
   },
   "DELITEMS": {
-    "message": "Alle oder ausgewählte Elemente entfernen?"
+    "message": "Diese Regeln entfernen?"
   },
   "EMPTY": {
     "message": "Leer..."
@@ -270,7 +270,7 @@
     "message": "Jede Regel muss einen eindeutigen Namen haben!"
   },
   "SIV_DETAILS": {
-    "message": "Strg + Rechtsklick zum löschen<br>Zum Verschieben mit linker Maustaste ziehen<br>Rechtsklick zum umbennen (Esc/Enter beendet)<br>Strg + Linksklick zum auswählen (Mehrfachauswahl mit Umschalttaste)"
+    "message": ""
   },
   "GRNT_RULEPERLINE": {
     "message": "Regel pro Zeile. Für weitere Informationen auf Details-Schaltfläche oben klicken."

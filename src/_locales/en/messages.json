@@ -30,7 +30,7 @@
     "message": "Are you sure?"
   },
   "DELITEMS": {
-    "message": "Remove all or selected items?"
+    "message": "Remove these rules?"
   },
   "EMPTY": {
     "message": "Empty..."
@@ -127,6 +127,9 @@
   },
   "HZ_MARKONHOVER_O_DOTTED": {
     "message": "dotted outline"
+  },
+  "HZ_HOVER_CSS": {
+    "message": "Mark zoom-able elements style (CSS)"
   },
   "HZ_THUMBASBG": {
     "message": "Use the thumbnail as the background of the pop-up"
@@ -297,7 +300,7 @@
     "message": "Every rule must have a unique name!"
   },
   "SIV_DETAILS": {
-    "message": "Ctrl + Right click to delete<br>Drag with left mouse button to move<br>Right click to rename (Esc/Enter quits)<br>Ctrl + Left click to select (multiple select with Shift)<br>Ctrl + S to save"
+    "message": "Drag with <b>Mouse Left</b> button to reorder<br><b>Ctrl + Mouse Left</b>: select (multiple select with <b>Shift</b>)<br><b>Esc</b>: cancel selection<br><b>Mouse Right</b>: rename (<b>Esc</b>/<b>Enter</b> quits)<br><b>Del</b>, <b>Ctrl + Mouse Right</b>: delete<br><b>Ctrl + Space</b>, <b>Shift + Mouse Right</b>: disable/enable<br><b>Ctrl + I</b>, <b>Ins</b>: import<br><b>Ctrl + E</b>, <b>Alt + Mouse Right</b>: export<br><b>Ctrl + S</b>: save"
   },
   "GRNT_RULEPERLINE": {
     "message": "Rule per line. For more information click the Details button above."
@@ -339,7 +342,7 @@
     "message": "light"
   },
   "HZ_MARKONHOVER_TIP": {
-    "message": "When the mouse cursor is moved over a link or thumbnail, then <b class=\"cur_zmin\">the cursor</b> or the outline of the <span style=\"border: 1px dashed red\">target</span> will be changed, indicating that there is something to zoom."
+    "message": "When the mouse cursor is moved over a link or thumbnail and there is something to zoom:\n• the outline of <span style=\"padding: 1px; translate: -1px -1px; outline: rgb(255, 120, 120) dashed 2px; box-shadow: white 0px 0px 0px 2px; border-radius: 2px;\">the target</span> can be changed (can be customized in advanced mode)\n• or/and <b class=\"cur_zmin\">the cursor can be changed</b>"
   },
   "HZ_FULLSPACE_TIP": {
     "message": "This option allows the pop-up to be expanded under the mouse cursor, if it doesn't have enough space between the cursor and the side of the page.\nIf the placement is set to center (previous option), then enabling this has no effect, because in that case the pop-up will always use all the available space."
@@ -348,7 +351,7 @@
     "message": "Scroll through an album with mouse wheel"
   },
   "HZ_PILEWHEEL_TIP": {
-    "message": "Mouse wheel can be used to step between entries of an album, in addition to shortcuts.\nIf it's enabled, then it will prevent the page from scrolling while the pop-up is visible.\nIn full-zoom the default function is zooming for mouse wheel. To use image switching, wheeling must be done in the top-left corner (50x50px) of the screen, or over the counter in caption."
+    "message": "Mouse wheel can be used to step between entries of an album, in addition to shortcuts.\nIf it's enabled, then it will prevent the page from scrolling while the pop-up is visible.\nIn full-zoom it works in two modes:\n• Zooming while over the image\n• Image switching while scrolling outside of the image or near the window borders (100px)."
   },
   "HZ_FZONPRESS": {
     "message": "Activation with right mouse button"
@@ -376,6 +379,9 @@
   },
   "IMPR_OVERWRITE": {
     "message": "Replace existing data"
+  },
+  "IMPR_HINT": {
+    "message": "Esc: close | Ctrl + Enter: import from text"
   },
   "LANGUAGE": {
     "message": "Language"
@@ -406,6 +412,12 @@
   },
   "HZ_MARKONHOVER_CR": {
     "message": "change cursor"
+  },
+  "HZ_MARKONHOVER_STYLED": {
+    "message": "outline (custom style)"
+  },
+  "HZ_MARKONHOVER_BOTH": {
+    "message": "both"
   },
   "HZ_HIDEIDLECURSOR": {
     "message": "Hide idle cursor over the pop-up"

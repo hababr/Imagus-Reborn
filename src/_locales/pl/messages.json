@@ -30,7 +30,7 @@
     "message": "Czy na pewno chcesz wykonać tę czynność?"
   },
   "DELITEMS": {
-    "message": "Czy usunąć wszystkie / wybrane elementy?"
+    "message": "Usunąć te zasady?"
   },
   "EMPTY": {
     "message": "Pusty..."
@@ -267,7 +267,7 @@
     "message": "Każda reguła musi mieć unikalną nazwę!"
   },
   "SIV_DETAILS": {
-    "message": "Ctrl + prawy przycisk myszy kasuje regułę<br>Przeciągnij lewym kursorem myszy, aby przemieszczać reguły<br>Shift + prawy przycisk myszy pozwala zmienić nazwę (Esc/Enter opuszcza tryb edycji)<br>Ctrl + lewy przycisk myszy pozwala zaznaczyć regułę (przytrzymaj Shift by zaznaczyć wiele reguł)"
+    "message": ""
   },
   "GRNT_RULEPERLINE": {
     "message": "Jedna reguła na linię. Aby uzyskać więcej informacji, kliknij przycisk \"Szczegóły\" (powyżej)."

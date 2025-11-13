@@ -27,10 +27,10 @@
     "message": "Détails"
   },
   "AREYOUSURE": {
-    "message": "Êtes-vous sûr?"
+    "message": "Êtes-vous sûr ?"
   },
   "DELITEMS": {
-    "message": "Tout retirer ou retirer seulement les éléments sélectionnés ?"
+    "message": "Supprimer ces règles ?"
   },
   "EMPTY": {
     "message": "Vide..."
@@ -276,7 +276,7 @@
     "message": "Préférer \"img\" par rapport à \"link\""
   },
   "SIV_UPDALERT": {
-    "message": "• Les règles actuelles seront ajoutées et mises à jour.\n• Les règles commençant par \"_\" seront conservées telles quelles.\n• Les autres règles seront désactivées et déplacées à la fin.\n\nContinuer?"
+    "message": "• Les règles actuelles seront ajoutées et mises à jour.\n• Les règles commençant par \"_\" seront conservées telles quelles.\n• Les autres règles seront désactivées et déplacées à la fin.\n\nContinuer ?"
   },
   "SIV_ERR_EMPTYNAME": {
     "message": "Le nom d'une règle ne peut être vide !"
@@ -285,7 +285,7 @@
     "message": "Chaque règle doit avoir un nom différent !"
   },
   "SIV_DETAILS": {
-    "message": "Ctrl + Clic droit pour supprimer<br>Faire glisser avec un clic gauche pour déplacer<br>Maj + Clic droit pour renommer (Échap/Entrée pour quitter)<br>Ctrl + Clic gauche pour sélectionner (sélection multiple avec Maj)"
+    "message": ""
   },
   "GRNT_RULEPERLINE": {
     "message": "Une règle par ligne. Pour plus d'informations, cliquer sur le bouton Détails ci-dessus."
@@ -462,7 +462,7 @@
     "message": "Super! \"Imagus\" est prêt."
   },
   "SIV_LOCALALERT": {
-    "message": "Charger le tamis par défaut?"
+    "message": "Charger le tamis par défaut ?"
   },
   "SIV_FORMAT_JS": {
     "message": "Formater le code JavaScript"

@@ -30,7 +30,7 @@
     "message": "Zeker weten?"
   },
   "DELITEMS": {
-    "message": "Alle of geselecteerde objecten verwijderen?"
+    "message": "Deze regels verwijderen?"
   },
   "EMPTY": {
     "message": "Leeg..."
@@ -285,7 +285,7 @@
     "message": "Iedere regel moet een unieke naam hebben!"
   },
   "SIV_DETAILS": {
-    "message": "Ctrl + Rechts klik om te verwijderen<br>Slepen met linker muisknop om te verplaatsen<br>Shift + Rechter muisknop om te hernoemen (Esc/Enter stopt)<br>Ctrl + Linker muisknop om te selecteren (meerdere selecteren met Shift)"
+    "message": ""
   },
   "GRNT_RULEPERLINE": {
     "message": "Regels per regel. Voor meer informatie klik op de Details knop hierboven."

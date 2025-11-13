@@ -27,7 +27,7 @@
     "message": "Você tem certeza?"
   },
   "DELITEMS": {
-    "message": "Remover todos os itens selecionados?"
+    "message": "Remover essas regras?"
   },
   "EMPTY": {
     "message": "Vazia..."
@@ -264,7 +264,7 @@
     "message": "Cada regra deve ter seu nome particular!"
   },
   "SIV_DETAILS": {
-    "message": "Ctrl + clique direito para deletar<br>Arrastre com o botão esquerdo do mouse para mover<br>Shift + clique direito para renomear (Esc/Enter sai)<br>Ctrl + clique direto para selecionar (selecione várias usando Shift)"
+    "message": ""
   },
   "GRNT_RULEPERLINE": {
     "message": "Regra por linha. Para maiores informações, clique no botão \"Detalhes\"."

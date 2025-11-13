@@ -27,7 +27,7 @@
     "message": "是否确定这么做？"
   },
   "DELITEMS": {
-    "message": "是否要删除全部或选中的项目？"
+    "message": "删除这些规则？"
   },
   "EMPTY": {
     "message": "空..."
@@ -264,7 +264,7 @@
     "message": "每条规则名都不能重复！"
   },
   "SIV_DETAILS": {
-    "message": "Ctrl + 右键点击可删除规则<br>左键拖动可移动规则<br>Shift + 右键点击可重命名 （Esc/Enter 退出）<br>Ctrl + 左键点击可选中（按 Shift 可多选）"
+    "message": ""
   },
   "GRNT_RULEPERLINE": {
     "message": "每行一条规则，要了解更多信息可点击上方的详细信息按钮。"

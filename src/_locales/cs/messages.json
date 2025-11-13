@@ -30,7 +30,7 @@
     "message": "Jste si jisti?"
   },
   "DELITEMS": {
-    "message": "Přejete si odstranit vybrané nebo všechny položky?"
+    "message": "Odstranit tato pravidla?"
   },
   "EMPTY": {
     "message": "Nic"
@@ -285,7 +285,7 @@
     "message": "Názvy pravidel se nesmí opakovat!"
   },
   "SIV_DETAILS": {
-    "message": "Ctrl + pravé tlačítko myši pro smazání<br>Přetáhněte levým tlačítkem myši pro přesun<br>Pravé tlačítko myši pro přejmenování (Esc/Enter ukončí)<br>Ctrl + levé tlačítko myši pro výběr (vícenásobný výběr se Shift)<br>Ctrl + S pro uložení"
+    "message": ""
   },
   "GRNT_RULEPERLINE": {
     "message": "Pište každý filtr na samostatný řádek. Pro více informací klikněte na tlačítko Podrobnosti."

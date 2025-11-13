@@ -1,7 +1,6 @@
 {
     "_": "en",
     "cs": {
-        "%": 98.66,
         "name": "Czech (čeština)",
         "translators": [
             {
@@ -12,16 +11,14 @@
         ]
     },
     "de": {
-        "%": 100,
         "name": "German (Deutsch)",
         "translators": [
             {
-                "name": "deus-e-x"
+                "name": "deus-ex"
             }
         ]
     },
     "el": {
-        "%": 83.22,
         "name": "Greek (Ελληνικά)",
         "translators": [
             {
@@ -40,7 +37,6 @@
         ]
     },
     "es": {
-        "%": 97.99,
         "name": "Spanish (español)",
         "translators": [
             {
@@ -51,7 +47,6 @@
         ]
     },
     "fr": {
-        "%": 97.99,
         "name": "French (français)",
         "translators": [
             {
@@ -70,7 +65,6 @@
         ]
     },
     "nl": {
-        "%": 93.29,
         "name": "Dutch (Nederlands)",
         "translators": [
             {
@@ -80,7 +74,6 @@
         ]
     },
     "pl": {
-        "%": 97.99,
         "name": "Polish (polski)",
         "translators": [
             {
@@ -91,7 +84,6 @@
         ]
     },
     "pt-BR": {
-        "%": 93.96,
         "name": "Portuguese (Brazil) (português (Brasil))",
         "translators": [
             {
@@ -101,7 +93,6 @@
         ]
     },
     "ru": {
-        "%": 99.33,
         "name": "Russian (русский)",
         "translators": [
             {
@@ -111,7 +102,6 @@
         ]
     },
     "uk": {
-        "%": 96.64,
         "name": "Ukrainian (українська)",
         "translators": [
             {
@@ -121,7 +111,6 @@
         ]
     },
     "zh-CN": {
-        "%": 96.64,
         "name": "Chinese (Simplified Han) (中文（简体中文）)",
         "translators": [
             {
