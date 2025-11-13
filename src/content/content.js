@@ -591,7 +591,7 @@
                     (el.localName === "img"
                         ? el.src.lastIndexOf("data:", 0) === 0 || el.naturalWidth < 3 || el.naturalHeight < 3 || el.style.opacity === "0"
                         : !/\S/.test(el.textContent)) &&
-                    el.style.backgroundImage[0] !== "u"
+                    !PVI.getBgUrl(el.style.backgroundImage)
                 ) {
                     p = el.previousElementSibling;
                     [p && p.previousElementSibling, p, el.nextElementSibling].some(function (sib) {
@@ -623,17 +623,18 @@
                 if (imgs.imgSRC_o) imgs.imgSRC = imgs.imgSRC_o.replace(PVI.rgxHTTPs, "");
             }
             if (!isHTMLElement) return imgs.imgSRC ? imgs : null;
-            if (el.style.backgroundImage[0] === "u") imgs.imgBG_o = el.style.backgroundImage;
-            else if (el.parentNode) {
+            imgs.imgBG_o = PVI.getBgUrl(el.style.backgroundImage);
+            if (!imgs.imgBG_o && el.parentNode) {
                 p = el.parentNode;
-                if (p.offsetParent === el.offsetParent && p.style && p.style.backgroundImage[0] === "u")
-                    if (
-                        Math.abs(p.offsetLeft - el.offsetLeft) <= 10 &&
-                        Math.abs(p.offsetTop - el.offsetTop) <= 10 &&
-                        Math.abs(p.clientWidth - el.clientWidth) <= 30 &&
-                        Math.abs(p.clientHeight - el.clientHeight) <= 30
-                    )
-                        imgs.imgBG_o = p.style.backgroundImage;
+                const bgUrl = PVI.getBgUrl(p.style?.backgroundImage);
+                if (p.offsetParent === el.offsetParent && bgUrl &&
+                    Math.abs(p.offsetLeft - el.offsetLeft) <= 10 &&
+                    Math.abs(p.offsetTop - el.offsetTop) <= 10 &&
+                    Math.abs(p.clientWidth - el.clientWidth) <= 30 &&
+                    Math.abs(p.clientHeight - el.clientHeight) <= 30
+                ) {
+                    imgs.imgBG_o = bgUrl;
+                }
             }
             if (!imgs.imgBG_o) return imgs.imgSRC ? imgs : null;
             imgs.imgBG_o = imgs.imgBG_o.match(/\burl\(([^'"\)][^\)]*|"[^"\\]+(?:\\.[^"\\]*)*|'[^'\\]+(?:\\.[^'\\]*)*)(?=['"]?\))/g);
@@ -724,6 +725,10 @@
             if (url[1] === "/" && url[0] === "/") url = PVI.pageProtocol + url;
             PVI.HLP.href = url;
             return PVI.HLP.href;
+        },
+
+        getBgUrl: function(str) {
+            return /.*(url\(['"]?([^)]*?)['"]?\))/.exec(str)?.[1];
         },
 
         resolve: function (URL, rule, trg, nowait) {
