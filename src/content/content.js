@@ -1405,7 +1405,7 @@
                 PVI.checkContentRediness(src);
                 return;
             }
-            if (/^[^?#]+\.(?:m(?:4[abprv]|p[34])|og[agv]|webm)(?:$|[?#])/.test(src) || /#(mp[34]|og[gv]|webm)$/.test(src)) {
+            if (/^[^?#]+\.(?:m(?:4[abprv]|p[34])|og[agv]|webm)(?:$|[?#])/i.test(src) || /#(mp[34]|og[gv]|webm)$/i.test(src)) {
                 PVI.CNT = PVI.VID;
                 PVI.show("load");
                 PVI.VID.naturalWidth = 0;
@@ -1480,7 +1480,16 @@
                     PVI.VID.controls = true;
                 } else PVI.VID.controls = PVI.fullZm ? true : PVI.VID._controls;
                 var autoplay = PVI.VID.autoplay;
-                if (autoplay && PVI.VID.paused) PVI.VID.play();
+                if (autoplay && PVI.VID.paused) {
+                    let prom = PVI.VID.play();
+                    if (prom) {
+                        prom.catch(e => {
+                            // browser may not allow unmuted autoplay
+                            PVI.VID.muted = true;
+                            PVI.VID.play();
+                        });
+                    }
+                }
             } else if (!PVI.IMG.naturalWidth) return;
             clearInterval(PVI.timers.onReady);
             PVI.assign_src();
