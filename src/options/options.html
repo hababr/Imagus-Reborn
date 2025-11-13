@@ -82,21 +82,6 @@
 				</span>
 			</div>
 
-			<div class="prow tiptop">
-				<div class="tip" data-lng="HZ_MARKONHOVER_TIP"></div>
-
-				<label for="hz_markOnHover" data-lng="HZ_MARKONHOVER"></label>
-				<span>
-					<select id="hz_markOnHover" name="hz_markOnHover">
-						<option value="" data-lng="DISABLED"></option>
-						<option value="cr" data-lng="HZ_MARKONHOVER_CR"></option>
-						<option value="solid" data-lng="HZ_MARKONHOVER_O_SOLID"></option>
-						<option value="dashed" selected data-lng="HZ_MARKONHOVER_O_DASHED"></option>
-						<option value="dotted" data-lng="HZ_MARKONHOVER_O_DOTTED"></option>
-					</select>
-				</span>
-			</div>
-
 			<div class="prow tiptop advanced">
 				<div class="tip" data-lng="HZ_ZOOMRESIZED_TIP"></div>
 
@@ -265,6 +250,60 @@
 			</div>
 
 			<h4 data-lng="HZ_APPEARANCE"></h4>
+
+			<div class="prow tiptop">
+				<div class="tip" data-lng="HZ_MARKONHOVER_TIP"></div>
+
+				<label for="hz_markOnHovered" data-lng="HZ_MARKONHOVER"></label>
+				<span>
+					<select id="hz_markOnHovered" name="hz_markOnHovered">
+						<option value="styled" data-lng="HZ_MARKONHOVER_STYLED"></option>
+						<option value="cr" data-lng="HZ_MARKONHOVER_CR"></option>
+						<option value="both" data-lng="HZ_MARKONHOVER_BOTH"></option>
+						<option value="" data-lng="DISABLED"></option>
+					</select>
+				</span>
+			</div>
+
+			<div class="prow advanced wrap tiptop">
+				<div class="tip"><span>White-pink:
+						<code style="outline-offset: 1px; outline: rgb(255, 120, 120) dashed 2px; box-shadow: white 0px 0px 0px 2px;">padding: 1px;
+							translate: -1px -1px;
+							outline: rgb(255, 120, 120) dashed 2px;
+							box-shadow: white 0px 0px 0px 2px;</code>
+					</span>
+					<span>White-blue:
+						<code style="outline-offset: 1px; outline: rgb(90, 90, 255) dashed 2px; box-shadow: white 0px 0px 0px 2px;">padding: 1px;
+							translate: -1px -1px;
+							outline: rgb(90, 90, 255) dashed 2px;
+							box-shadow: white 0px 0px 0px 2px;</code>
+					</span>
+					<span>Classic:
+						<code style="outline: red dashed 1px; box-shadow: white 0px 0px 0px 1px;">outline: red dashed 1px;
+							box-shadow: white 0px 0px 0px 1px;</code>
+					</span>
+					<span>Shadow:
+						<code style="box-shadow: white 0 0 0 1px,rgb(255, 120, 120) 0px 0px 5px 3px, rgb(255, 255, 255) 0px 0px 5px 3px;">padding: 1px;
+							translate: -1px -1px;
+							box-shadow:
+							&nbsp;&nbsp;rgb(255, 120, 120) 0px 0px 4px 2px,
+							&nbsp;&nbsp;rgb(255, 255, 255) 0px 0px 4px 2px;</code>
+					</span>
+					<span>Overlay:
+						<code style="position: relative;"><div style="position: absolute; inset: -1px; border-radius: 2px; background-color: rgba(255, 120, 120, 0.1); box-shadow: white 0px 0px 0px 1px, rgb(255, 120, 120) 0px 0px 0px 2px;"></div>background-color: rgba(255, 120, 120, 0.1);
+							box-shadow:
+							&nbsp;&nbsp;white 0px 0px 0px 1px,
+							&nbsp;&nbsp;rgb(255, 120, 120) 0px 0px 0px 2px;</code>
+					</span>
+				</div>
+
+				<label for="hz_hoverCss" data-lng="HZ_HOVER_CSS"></label>
+				<div class="hz_hoverCss" style="width: 100%;"><textarea id="hz_hoverCss" name="hz_hoverCss" rows="4" class="cb">padding: 1px;
+translate: -1px -1px;
+outline: rgb(255, 120, 120) dashed 2px;
+box-shadow: white 0px 0px 0px 2px;</textarea></div>
+				<style id="hz_hoverCss_style"></style>
+			</div>
 
 			<div class="prow">
 				<label for="hz_placement" data-lng="HZ_PLACEMENT"></label>

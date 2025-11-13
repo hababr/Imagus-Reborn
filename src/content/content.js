@@ -398,17 +398,19 @@
             PVI.HVR = doc.createElement("div");
             docEl.appendChild(PVI.HVR);
             PVI.HVR.style.cssText = `
-                position: absolute !important;
+                position: absolute;
+                box-sizing: content-box;
                 pointer-events: none;
                 z-index: 2147483646;
-                box-sizing: border-box;
-                width: 0px;
-                height: 0px;
-                border: 2px ${cfg.hz.markOnHover} #ff7777;
                 opacity: 0;
                 top: 50vh;
                 left: 50vw;
-                transition: all .2s cubic-bezier(0, 1, 0.3, 1), opacity .2s ease-in;
+                width: 0px;
+                height: 0px;
+                padding: 0;
+                margin: 0;
+                transition: all .1s cubic-bezier(0, 1, 0.3, 1), opacity .1s ease-in;
+                ${cfg.hz.hoverCss || ""}
             `;
 
             PVI.reset();
@@ -1573,8 +1575,8 @@
             PVI.resetNode(PVI.TRG);
             PVI.TRG.IMGS_c = true;
             PVI.reset();
-            if (!cfg.hz.markOnHover) return;
-            if (cfg.hz.markOnHover === "cr") {
+            if (!cfg.hz.markOnHovered) return;
+            if (cfg.hz.markOnHovered === "cr" || cfg.hz.markOnHovered === "both") {
                 PVI.lastTRGStyle.cursor = PVI.TRG.style.cursor;
                 PVI.TRG.style.cursor = "not-allowed";
                 return;
@@ -1747,7 +1749,7 @@
                 PVI.lastScrollTRG = PVI.TRG;
                 PVI.scroller();
             }
-            PVI.HVR.style.opacity = "0";
+            PVI.showHVR(false);
             PVI.state = 1;
         },
 
@@ -2228,7 +2230,7 @@
                     PVI.timers.resolver = null;
                 }
                 if (e.relatedTarget) {
-                    PVI.HVR.style.opacity = "0";
+                    PVI.showHVR(false);
                     const ls = PVI.lastTRGStyle;
                     if (ls.outline !== null) {
                         e.relatedTarget.style.outline = ls.outline;
@@ -2297,14 +2299,13 @@
                     if (PVI.hideTime) PVI.hideTime = 0;
                 }
                 PVI.fireHide = true;
-                if (cfg.hz.markOnHover && (isFrozen || cfg.hz.delay >= 25))
-                    if (cfg.hz.markOnHover === "cr") {
+                if (cfg.hz.markOnHovered && (isFrozen || cfg.hz.delay >= 25))
+                    if (cfg.hz.markOnHovered === "cr" || cfg.hz.markOnHovered === "both") {
                         PVI.lastTRGStyle.cursor = trg.style.cursor;
                         trg.style.cursor = "zoom-in";
-                    } else {
+                    }
+                    if (cfg.hz.markOnHovered === "styled" || cfg.hz.markOnHovered === "both") {
                         PVI.showHVR();
-                        // PVI.lastTRGStyle.outline = trg.style.outline;
-                        // trg.style.outline = "1px " + cfg.hz.markOnHover + " red";
                     }
                 if (isFrozen) {
                     clearTimeout(PVI.timers.resolver);
@@ -2320,16 +2321,21 @@
             }
         },
 
-        showHVR: function () {
-            if (!PVI.TRG) return;
+        showHVR: function (visible = true) {
+            if (!PVI.TRG || cfg.hz.markOnHovered !== "styled" && cfg.hz.markOnHovered !== "both") return;
+            clearTimeout(PVI.timers.hvr_hide);
+            if (!visible) {
+                PVI.timers.hvr_hide = setTimeout(() => PVI.HVR.style.opacity = "0", 0);
+                return;
+            }
             PVI.create();
             const rect = PVI.TRG.getBoundingClientRect();
             const style = win.getComputedStyle(PVI.TRG);
-            PVI.HVR.style.opacity = '1';
-            PVI.HVR.style.width = (rect.width + 6) + "px";
-            PVI.HVR.style.height = (rect.height + 6) + "px";
-            PVI.HVR.style.left = (rect.x + window.scrollX - 3) + "px";
-            PVI.HVR.style.top = (rect.y + window.scrollY - 3) + "px";
+            PVI.HVR.style.opacity = "1";
+            PVI.HVR.style.width = rect.width + "px";
+            PVI.HVR.style.height = rect.height + "px";
+            PVI.HVR.style.left = (rect.x + window.scrollX) + "px";
+            PVI.HVR.style.top = (rect.y + window.scrollY) + "px";
             PVI.HVR.style.borderTopLeftRadius     = (parseInt(style.borderTopLeftRadius, 10) || 2) + "px";
             PVI.HVR.style.borderTopRightRadius    = (parseInt(style.borderTopRightRadius, 10) || 2) + "px";
             PVI.HVR.style.borderBottomLeftRadius  = (parseInt(style.borderBottomLeftRadius, 10) || 2) + "px";
@@ -2357,11 +2363,8 @@
             PVI.TBOX.Right = PVI.TBOX.Left + PVI.TBOX.width;
             PVI.TBOX.Top = PVI.TBOX.top + win.pageYOffset;
             PVI.TBOX.Bottom = PVI.TBOX.Top + PVI.TBOX.height;
-            if (cfg.hz.markOnHover !== "cr") {
-                // PVI.TRG.style.outline = PVI.lastTRGStyle.outline;
-                // PVI.lastTRGStyle.outline = null;
-                // PVI.HVR.style.opacity = "0";
-            } else if (PVI.lastTRGStyle.cursor !== null) {
+
+            if ((cfg.hz.markOnHovered === "cr" || cfg.hz.markOnHovered === "both") && PVI.lastTRGStyle.cursor !== null) {
                 if (PVI.DIV) PVI.DIV.style.cursor = "";
                 PVI.TRG.style.cursor = PVI.lastTRGStyle.cursor;
                 PVI.lastTRGStyle.cursor = null;

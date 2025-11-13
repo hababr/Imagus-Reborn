@@ -631,6 +631,26 @@ window.addEventListener(
         advanced_prefs.onchange();
         document.body.style.display = "block";
 
+        $('hz_hoverCss').addEventListener('blur', () => $('hz_hoverCss_style').textContent = '');
+        $('hz_hoverCss').addEventListener('keyup', function() {
+            $('hz_hoverCss_style').textContent =
+                `.hz_hoverCss:after {
+                    content: "";
+                    z-index: 2147483646;
+                    position: absolute;
+                    pointer-events: none;
+                    box-sizing: content-box;
+                    border-radius: 2px;
+                    width: 100%;
+                    height: 100%;
+                    top: 0;
+                    left: 0;
+                    padding: 0;
+                    margin: 0;
+                    ${this.value}
+                }`;
+        });
+
         document.querySelector("#allow_user_scripts_message > a").addEventListener("click", function (event) {
             event.preventDefault();
             chrome.tabs.create({ url: "chrome://extensions/?id=" + chrome.runtime.id + "#:~:text=Allow%20user%20scripts" });
