@@ -33,6 +33,7 @@
 		"move": true,
 		"waitHide": false,
 		"minPopupDistance": 20,
+		"css": "margin: 3px;\nbackground: #f8f8ff;\nborder: 3px solid hsla(0, 0%, 95%, 0.6);\nborder-radius: 2px;\nbox-shadow: 0 0 2px #666;\ntransition: opacity 0.2s;",
 		"hoverCss": "padding: 1px;\ntranslate: -1px -1px;\noutline: rgb(255, 120, 120) dashed 2px;\nbox-shadow: white 0px 0px 0px 2px;",
 		"scOffInInput": true,
 		"LDRsrc": "",
