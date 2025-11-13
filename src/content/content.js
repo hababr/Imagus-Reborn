@@ -298,6 +298,7 @@
             PVI.VID.style.cssText = x + "box-shadow: 0 0 0 1px #f16529";
             PVI.VID.addEventListener("loadeddata", PVI.content_onready);
             PVI.VID.addEventListener("error", PVI.content_onerror, true);
+            PVI.VID.addEventListener("timeupdate", PVI.updateCaption);
             PVI.DIV.appendChild(PVI.VID);
             if (cfg.hz.thumbAsBG || cfg.hz.history) {
                 PVI.IMG.addEventListener("load", PVI.content_onload);
@@ -420,10 +421,9 @@
             if (PVI.CAP) return;
             PVI.CAP = doc.createElement("div");
             buildNodes(PVI.CAP, [
-                { tag: "b", attrs: { style: "display: none; transition: background-color .1s; border-radius: 3px; padding: 0 2px" } },
-                " ",
-                { tag: "b", attrs: { style: "display: " + (cfg.hz.capWH ? "inline-block" : "none") } },
-                " ",
+                { tag: "b", attrs: { style: "margin-right: 4px; display: none; transition: background-color .1s; border-radius: 3px; padding: 0 2px;" } },
+                { tag: "b", attrs: { style: "margin-right: 4px; display: " + (cfg.hz.capWH ? "inline-block" : "none") } },
+                { tag: "b", attrs: { style: "margin-right: 4px; display: none; color: rgb(204, 255, 208);" } },
                 { tag: "span", attrs: { style: "color: inherit; display: " + (cfg.hz.capText ? "inline-block" : "none") } },
             ]);
             var e = PVI.CAP.firstElementChild;
@@ -484,12 +484,23 @@
             s.backgroundColor = s.backgroundColor === PVI.palette.pile_bg ? "red" : PVI.palette.pile_bg;
         },
 
-        updateCaption: function () {
+        updateCaption: function (e) {
             var c = PVI.CAP,
                 h;
-            if (!c || c.state === 0) return;
-            // if (c.style.display !== "none") return;
-            if (PVI.TRG.IMGS_album)
+            if (!c || c.state === 0 || !PVI.TRG) return;
+
+            if (e?.type === "timeupdate") {
+                // video duration
+                if (PVI.VID.duration) {
+                    h = c.children[2];
+                    let left = PVI.VID.duration - PVI.VID.currentTime;
+                    h.textContent = `[-${Math.floor(left / 60)}:${('0' + Math.floor(left % 60)).slice(-2)}]`;
+                    h.style.display = "inline-block";
+                }
+                return;
+            }
+
+            if (PVI.TRG?.IMGS_album)
                 if (c.firstChild.style.display === "none" && (h = PVI.stack[PVI.TRG.IMGS_album]) && h[2]) {
                     h = c.firstChild.style;
                     h.color = PVI.palette.pile_fg;
@@ -511,6 +522,7 @@
                     if (scale !== 100) h.textContent += ` (${scale}%)`;
                 } else h.style.display = "none";
             }
+
             h = c.lastChild;
             if (cfg.hz.capText || c.state === 2) {
                 h.textContent = PVI.TRG.IMGS_caption || "";
@@ -1331,6 +1343,7 @@
             album[0] = idx;
             PVI.resetNode(PVI.TRG, true);
             PVI.CAP.style.display = "none";
+            PVI.CAP.children[2].style.display = "none";
             PVI.CAP.firstChild.textContent = idx + " / " + (album.length - 1);
             if (cfg.hz.capText) PVI.prepareCaption(PVI.TRG, album[idx][1]);
             PVI.set(album[idx][0]);
@@ -1724,7 +1737,11 @@
                 PVI.LDR.style.top = "auto";
                 PVI.LDR.style.opacity = "0";
             }
-            if (PVI.CAP) PVI.CAP.firstChild.style.display = PVI.CAP.style.display = "none";
+            if (PVI.CAP) {
+                PVI.CAP.style.display = "none";
+                PVI.CAP.children[0].style.display = "none";
+                PVI.CAP.children[2].style.display = "none";
+            }
             if (PVI.IMG.scale) {
                 delete PVI.IMG.scale;
                 PVI.IMG.style.transform = "";
@@ -2221,7 +2238,8 @@
                 }
                 if (PVI.CAP) {
                     PVI.CAP.style.display = "none";
-                    PVI.CAP.firstChild.style.display = "none";
+                    PVI.CAP.children[0].style.display = "none";
+                    PVI.CAP.children[2].style.display = "none";
                 }
                 clearTimeout(PVI.timers.preview);
                 clearInterval(PVI.timers.onReady);
