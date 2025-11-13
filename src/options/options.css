@@ -52,6 +52,7 @@ a:hover {
 }
 .cur_zmin {
     cursor: zoom-in;
+    text-decoration: underline 1px dotted black;
 }
 .cf:after {
     clear: both;
@@ -215,7 +216,7 @@ nav > .active {
     top: -5px;
     transition: visibility 0s 0.5s, opacity 0.5s, color 0.7s;
     visibility: hidden;
-    white-space: pre-wrap;
+    white-space: pre-line;
     width: 33px;
     z-index: 1;
 }
@@ -345,14 +346,18 @@ code {
     display: inline-block;
     padding: 3px 5px;
 }
+.tip code {
+    user-select: all;
+}
 select {
     max-width: 100%;
 }
 textarea {
     box-sizing: border-box;
-    resize: none;
+    resize: vertical;
     tab-size: 4;
     width: 100%;
+    min-height: 76px;
 }
 .checkbox:hover,
 .prow:hover .checkbox,
@@ -388,7 +393,7 @@ form input[type="checkbox"] {
     content: "✔";
     font-family: Segoe UI Symbol, sans-serif;
     font-weight: 700;
-    left: 3px;
+    left: 4px;
     position: absolute;
     top: 0;
 }
@@ -464,6 +469,9 @@ h3 {
     width: 20px;
     filter: grayscale(1);
 }
+#sieve_container {
+    margin-top: 10px;
+}
 #sieve_container .action_buttons > span {
     height: 12px;
     width: 16px;
@@ -484,8 +492,12 @@ h3 {
     font: 700 14px Arial;
     margin-bottom: 10px;
     padding: 10px 0;
-    transition: border-color 0.3s, color 0.3s;
+    transition: border-color 0.3s, color 0.3s, box-shadow 0.3s;
     width: 95%;
+}
+button.alert {
+    color: #e03c00;
+    box-shadow: 0 0 2px 1px #e03c0099;
 }
 .file_button:hover,
 .op_buttons > button:hover {
@@ -655,7 +667,18 @@ h3 {
     border: 1px solid #ddd;
     border-radius: 4px;
     padding: 10px;
-    margin-bottom: 10px;
+    margin: 10px 0;
+    line-height: 24px;
+}
+#sieve_tips b {
+    font-weight: 400;
+    background: #f7f7f7;
+    padding: 2px 4px;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    background-image: linear-gradient(180deg, rgb(255, 255, 255), rgb(245, 245, 245));
+    box-shadow: 1px 1px 0 0 #8080804d;
+    margin-right: 2px;
 }
 .file_button > input[type="file"] {
     cursor: pointer !important;

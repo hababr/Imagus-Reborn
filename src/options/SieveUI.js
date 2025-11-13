@@ -32,16 +32,14 @@ var sieve_sec,
                 }
                 this.timer = setTimeout(SieveUI.search, 200);
             };
-            sieve_container.onkeydown = function (e) {
-                e.stopPropagation();
-                var rname,
-                    t = e.target;
-                if (t.nodeName !== "SPAN") return;
-                if (e.keyCode === 27 || e.keyCode === 13) {
+            document.addEventListener("keydown", function (e) {
+                if (document.location.hash !== "#sieve") return;
+                let t = e.target;
+                if (t.nodeName === "SPAN" && (e.code === "Escape" || e.code === "Enter")) {
                     e.preventDefault();
-                    rname = t.textContent.trim();
+                    let rname = t.textContent.trim();
                     if (
-                        e.keyCode === 27 &&
+                        e.code === "Escape" &&
                         rname === "" &&
                         t.nextElementSibling.textContent &&
                         [].every.call(t.parentNode.querySelectorAll('input[type="text"], textarea'), function (el) {
@@ -65,13 +63,29 @@ var sieve_sec,
                         t.textContent = t.parentNode.rule = rname;
                         t.contentEditable = false;
                         t.className = "";
-                        if (e.keyCode === 13) {
+                        if (e.code === "Enter") {
                             t = t.parentNode.querySelector('input[type="text"]');
                             if (t) t.focus();
                         }
                     }
+                } else if (t.isContentEditable || t.nodeName === "INPUT" || t.nodeName === "TEXTAREA") {
+                    return;
+                } else if (e.code === "Escape") {
+                    sieve_container.querySelectorAll("div.selected").forEach(el => el.classList.remove("selected"));
+                } else if (e.code === "KeyE" && (e.ctrlKey || e.metaKey)) {
+                    e.preventDefault();
+                    SieveUI.export();
+                } else if (e.code === "Delete") {
+                    e.preventDefault();
+                    SieveUI.remove();
+                } else if (e.code === "Space" && (e.ctrlKey || e.metaKey)) {
+                    e.preventDefault();
+                    SieveUI.disable();
+                } else if (e.code === "KeyI" && (e.ctrlKey || e.metaKey) || e.code === "Insert") {
+                    e.preventDefault();
+                    document.querySelector("[data-action='import-rules']").click();
                 }
-            };
+            });
             sieve_container.onmousedown = SieveUI.move;
             sieve_container.onclick = SieveUI.click;
             sieve_container.oncontextmenu = SieveUI.rightClick;
@@ -99,10 +113,10 @@ var sieve_sec,
                         ImprtHandler(_("NAV_SIEVE"), SieveUI.load);
                         break;
                     case "export-rules":
-                        SieveUI.exprt(e);
+                        SieveUI.export(e);
                         break;
                     case "copy-rules":
-                        SieveUI.exprt(e, null, true);
+                        SieveUI.export(e, null, true);
                         break;
                     case "update-rules":
                         SieveUI.update();
@@ -428,6 +442,7 @@ var sieve_sec,
             rd_fc.click();
             rd.querySelector('[data-action="rename"]').click();
             this.countRules();
+            $("save_button").classList.add("alert");
         },
         select: function (type, i, until) {
             var cl;
@@ -469,16 +484,16 @@ var sieve_sec,
                 }
 
             } else if (action === "delete") {
-                SieveUI.deleteRule(target.closest(".opened"));
+                SieveUI.remove([target.closest(".opened")]);
 
             } else if (action === "toggle") {
-                target.closest(".opened").classList.toggle("disabled");
+                SieveUI.disable([target.closest(".opened")]);
 
             } else if (action === "export") {
-                SieveUI.exprt(e, [target.closest(".opened")]);
+                SieveUI.export(e, [target.closest(".opened")]);
 
             } else if (action === "copy") {
-                SieveUI.exprt(e, [target.closest(".opened")], true);
+                SieveUI.export(e, [target.closest(".opened")], true);
 
             } else if (action === "rename") {
                 SieveUI.renameRule(target.closest(".opened"));
@@ -519,17 +534,21 @@ var sieve_sec,
                 sieve_container.onmouseover = document.onmouseup = document.onmousemove = null;
             };
         },
-        exprt: function (e, rules, copy) {
+        export: function (e, rules, copy) {
             if (!sieve_container.childElementCount) return;
-            var i,
-                selected = rules || sieve_container.querySelectorAll("div.selected"),
+            var selected = rules || sieve_container.querySelectorAll("div.selected"),
                 sieve = SieveUI.prepareRules(true),
                 exp = {};
             if (!sieve) return;
-            if (selected.length) for (i = 0; i < selected.length; ++i) exp[selected[i].rule] = sieve[selected[i].rule];
-            else exp = sieve;
-            exp = JSON.stringify(exp, null, e.shiftKey ? 0 : 2);
-            const name = selected.length === 1 ? `${selected[0].rule}` : `sieve`;
+            if (selected.length) {
+                for (let i = 0; i < selected.length; ++i) {
+                    exp[selected[i].rule] = sieve[selected[i].rule];
+                }
+            } else {
+                exp = sieve;
+            }
+            exp = JSON.stringify(exp, null, e?.shiftKey ? 0 : 2);
+            const name = !selected.length ? `sieve` : selected.length === 1 ? `${selected[0].rule}` : `rules`;
             if (exp !== "{}") {
                 if (copy) {
                     navigator.clipboard.writeText(exp)
@@ -538,32 +557,36 @@ var sieve_sec,
                         alert("Failed to copy to clipboard.");
                     });
                 } else {
-                    download(exp, `Imagus_${name}.json`, e.ctrlKey || e.metaKey);
+                    download(exp, `Imagus_${name}.json`, e?.ctrlKey || e?.metaKey);
                 }
             }
         },
-        disable: function () {
-            var i = sieve_container.childElementCount,
-                list = sieve_container.querySelectorAll("div.selected").length,
-                cn = sieve_container.children;
-            while (i--) {
-                if (!list || cn[i].classList.contains("selected")) {
-                    cn[i].classList.toggle("disabled");
-                    cn[i].classList.remove("selected");
-                }
+        disable: function (rules) {
+            let list = rules || sieve_container.querySelectorAll("div.selected");
+            if (!list?.length) {
+                list = sieve_container.children;
             }
+            for (let i = 0; i < list.length; ++i) {
+                list[i].classList.toggle("disabled");
+                list[i].classList.remove("selected");
+            }
+            $("save_button").classList.add("alert");
         },
-        remove: function () {
-            if (!confirm(_("DELITEMS"))) return;
-            var list = sieve_container.querySelectorAll("div.selected");
+        remove: function (rules) {
+            var list = rules || sieve_container.querySelectorAll("div.selected");
+            let names = [...list].map(d => d.querySelector('[data-action="rule"]').textContent).join(", ") || "All rules";
+            if (!confirm(_("DELITEMS") + "\n\n" + names)) return;
+
             if (list?.length) {
                 for (let i = 0; i < list.length; ++i) {
                     sieve_container.removeChild(list[i]);
+                    delete SieveUI.sieve[list[i].rule];
+                    $("save_button").classList.add("alert");
                 }
             } else {
                 sieve_container.textContent = "";
+                SieveUI.sieve = {};
                 $("save_button").click();
-
             }
             this.countRules();
         },
@@ -574,11 +597,13 @@ var sieve_sec,
 
             if (action === "rule") {
                 e.preventDefault();
+                document.getSelection().removeAllRanges();
                 if (e.shiftKey) {
-                    // SieveUI.renameRule(target.parentNode);
-                    target.parentElement.classList.toggle("disabled");
-                } else if (e.ctrlKey) {
-                    SieveUI.deleteRule(target.parentNode);
+                    SieveUI.disable([target.parentElement]);
+                } else if (e.ctrlKey || e.metaKey) {
+                    SieveUI.remove([target.parentNode]);
+                } else if (e.altKey) {
+                    SieveUI.export(e, [target.parentNode]);
                 } else {
                     SieveUI.renameRule(target.parentNode);
                 }
@@ -612,12 +637,7 @@ var sieve_sec,
                 editor.gotoLine(cur.row + 1, cur.column);
             }
         },
-        deleteRule: function (ruleNode) {
-            if (ruleNode?.parentNode && confirm(_("AREYOUSURE"))) {
-                ruleNode.parentNode.removeChild(ruleNode);
-                SieveUI.countRules();
-            }
-        },
+
         search: function () {
             var what = RegExp(SieveUI.search_f.value.trim() || ".", "i"),
                 list = sieve_container.children,
