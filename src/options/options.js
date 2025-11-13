@@ -113,11 +113,12 @@ var color_trans = function (node, color, time) {
 
 var ImprtHandler = function (caption, data_handler, hide_opts) {
     var x,
-        importer = $("importer");
+        importer = $("importer"),
+        textArea = importer.querySelector("textarea");
     processLNG([importer]);
     if (importer.data_handler !== data_handler) {
         importer.data_handler = data_handler;
-        importer.lastElementChild.value = "";
+        textArea.value = "";
         importer.firstElementChild.textContent = caption + " - " + _("IMPR_IMPORT");
         x = importer.querySelectorAll(".op_buttons div > div > input[id]");
         hide_opts = hide_opts || {};
@@ -138,13 +139,19 @@ var ImprtHandler = function (caption, data_handler, hide_opts) {
     };
     importer.visible = function (show) {
         importer.style.display = show === true ? "block" : "none";
+        if (show) {
+            textArea.focus();
+        }
     };
     importer.querySelector("b").onclick = importer.visible;
     importer.ondata = function (data, button) {
         var options = this.querySelectorAll('input[type="checkbox"]');
         options = { clear: options[0].checked, overwrite: options[1].checked };
         if (importer.data_handler(data, options) === false) color_trans(button, "red");
-        else importer.visible(false);
+        else {
+            importer.visible(false);
+            $("save_button").classList.add("alert");
+        }
     };
     importer.readfile = function (file) {
         if (file.size > 5242880) color_trans(imprt_file.parentNode, "red");
@@ -203,6 +210,12 @@ var ImprtHandler = function (caption, data_handler, hide_opts) {
             importer.visible(false);
         }
     });
+    textArea.onkeydown = function (e) {
+        if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
+            e.preventDefault();
+            $("imprt_text").click();
+        }
+    };
     importer.visible(true);
 };
 

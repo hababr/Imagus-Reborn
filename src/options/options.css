@@ -63,7 +63,7 @@ a:hover {
     padding-top: 5px;
 }
 #importer {
-    background-image: linear-gradient(180deg, #fff, rgba(245, 245, 255, 0.9));
+    background-image: linear-gradient(180deg, #fff, rgba(245, 245, 255));
     box-shadow: 0 0 5px #666;
     box-sizing: border-box;
     display: none;
