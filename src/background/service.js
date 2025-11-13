@@ -50,7 +50,7 @@ function withBaseURI(base, relative, secure) {
     }
 }
 
-async function updateSieve(local, callback) {
+async function updateSieve(local) {
     const { sieve: curSieve, sieveRepository: sieveRepoUrl } = await cfg.get(["sieveRepository", "sieve"]);
     local = local || !sieveRepoUrl;
 
@@ -62,7 +62,7 @@ async function updateSieve(local, callback) {
 
         let newSieve = await response.json();
         if (curSieve) {
-                let merged = {};
+            let merged = {};
             // keep rules that starts with "_"
             for (let key in curSieve) {
                 if (key.startsWith("_")) {
@@ -70,38 +70,33 @@ async function updateSieve(local, callback) {
                 }
             }
             // add new and updated rules
-                for (let key in newSieve) {
-                    merged[key] = newSieve[key];
-                }
+            for (let key in newSieve) {
+                merged[key] = newSieve[key];
+            }
             // add all other existing rules and disable them
             for (let key in curSieve) {
-                // if (key === "dereferers") break;
                 if (!merged[key]) {
                     curSieve[key].off = 1;
                     merged[key] = curSieve[key];
                 }
             }
-                newSieve = merged;
-            }
-            updatePrefs({ sieve: newSieve }, function () {
-            if (typeof callback === "function") callback({ updated_sieve: newSieve });
-            });
+            newSieve = merged;
+        }
+        await updatePrefs({ sieve: newSieve });
         console.info(manifest.name + ": Sieve updated from " + (local ? "local" : "remote") + " repository.");
+        return { updated_sieve: newSieve };
 
     } catch (error) {
-        console.warn(
-            manifest.name + ": Sieve failed to update from " + (local ? "local" : "remote") + " repository! | ",
-            error.message
-        );
+        console.warn(manifest.name + ": Sieve failed to update from " + (local ? "local" : "remote") + " repository! | ", error.message);
 
         if (!local) {
             const data = await cfg.get("sieve");
             if (!data.sieve) {
-                updateSieve(true);
-            } else if (callback) {
-                return callback({ error: "Error. " + error.message });
+                return updateSieve(true);
             }
         }
+
+        return { error: "Error. " + error.message };
     }
 }
 
@@ -274,9 +269,7 @@ function onMessage(message, sender, sendResponse) {
             updatePrefs(msg.prefs, context.postMessage);
             break;
         case "update_sieve":
-            updateSieve(msg.local, function (data) {
-                context.postMessage(data);
-            });
+            updateSieve(msg.local).then(context.postMessage);
             break;
         case "loadScripts":
             registerContentScripts();
@@ -447,6 +440,34 @@ function registerContentScripts() {
         });
     } catch(error) {
         chrome.runtime.openOptionsPage();
+    }
+}
+
+// Sieve auto update once a week
+chrome.alarms.onAlarm.addListener(autoUpdateSieve);
+setTimeout(autoUpdateSieve, 20_000);
+async function autoUpdateSieve(alarm) {
+    const ALARM_ID = 'alarm-sieve-update';
+    if (alarm?.name && alarm.name !== ALARM_ID) return;
+
+    alarm = await chrome.alarms.get(ALARM_ID);
+    if (!alarm) {
+        await chrome.alarms.create(ALARM_ID, { periodInMinutes: 60 });
+    }
+
+    let { sieveUpdateNext } = await cfg.get("sieveUpdateNext") || {};
+    const now = Date.now();
+
+    if (sieveUpdateNext && sieveUpdateNext <= now) {
+        if (cachedPrefs.tls?.autoUpdateSieve) {
+            let res = await updateSieve(false);
+            if (res?.error) return;
+        }
+        sieveUpdateNext = 0;
+    }
+
+    if (!sieveUpdateNext) {
+        cfg.set({ sieveUpdateNext: now + 7*24*60*60*1000 });
     }
 }
 
