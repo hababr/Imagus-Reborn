@@ -442,19 +442,37 @@ ImgOps|http://imgops.com/%raw_url</textarea>
 				</li>
 
 				<li style="list-style-type: none"><h4>In album</h4></li>
-				<li><b>Space</b>, <b>Right</b>, <b>PageDown</b> Step forward</li>
-				<li><b>Shift + Space</b>, <b>Left</b>, <b>PageUp</b> Step backward</li>
+				<li><b>Space</b>, <b>Right</b>, <b>PageDown</b>, <b>Wheel Down</b> Step forward</li>
+				<li><b>Shift + Space</b>, <b>Left</b>, <b>PageUp</b>, <b>Wheel Up</b> Step backward</li>
 				<li><b>Shift + Left/Right, <b>Shift + PageUp/PageDown</b></b> Step 5 items backward/forward</li>
 				<li><b>Home</b>, <b>End</b> Jump to start/end</li>
 				<li><b>Shift + End</b> Jump to number, or search for captions</li>
 
 				<li style="list-style-type: none"><h4>On media (audio/video)</h4></li>
-				<li><b>Space</b> Play/Pause</li>
+				<li><b>Space</b> (<b>+ Ctrl</b> in album) Play/Pause</li>
 				<li><b>Shift + Space</b> Show/Hide controls</li>
-				<li><b>Ctrl + Left/Right</b> Backward/forward 5s (+Shift: 15s)</li>
+				<li><b>Left / Right / Wheel</b> (<b>+ Ctrl</b> in album) Backward/forward 5s (+Shift: 15s)</li>
 				<li><b>Ctrl + Up/Down</b> Adjust volume</li>
 				<li><b>Shift + Up/Down</b> Speed up/down</li>
 				<li><b>PageUp/PageDown</b> Frame-step for video (assumes 25fps), seek for audio (4s)</li>
+
+				<li style="list-style-type: none"><h4>Full-Zoom mode</h4></li>
+				<li><b>Wheel</b> to Zoom-in/Zoom-out:</li>
+				<ul>
+					<li>Over the image/media</li>
+					<li>When cursor changes to <i class="cur_zmin">zoom-in</i></li>
+				</ul>
+				<li><b>Wheel</b> to scroll album:</li>
+				<ul>
+					<li>Outside of the image/media</li>
+					<li>Near to borders of the window (100px)</li>
+					<li><b>+ Shift</b> Anywhere</li>
+				</ul>
+				<li><b>Wheel</b> to navigate media (backward/forward 5s):</li>
+				<ul>
+					<li>Outside of the media without album</li>
+					<li><b>+ Ctrl</b> in album or over the media</li>
+				</ul>
 			</ul>
 		</section>
 

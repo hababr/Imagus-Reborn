@@ -1776,6 +1776,7 @@
                 PVI.scroller();
             }
             PVI.showHVR(false);
+            PVI.setCursor();
             PVI.state = 1;
         },
 
@@ -1799,6 +1800,7 @@
 
             if (shortcut.isModifier(e)) {
                 if (PVI.keyup_freeze_on || typeof PVI.freeze === "number") return;
+                if (!e.repeat && PVI.fullZm && e.shiftKey) PVI.m_move(e);
                 if (e.repeat || shortcut.key(e) !== cfg.hz.actTrigger) return;
                 if (PVI.fireHide && PVI.state < 3)
                     if (cfg.hz.deactivate) PVI.m_over({ relatedTarget: PVI.TRG });
@@ -1884,6 +1886,8 @@
                         } else if (key === "Left" || key === "Right") {
                             key = key === "Left" ? -5 : 5;
                             PVI.VID.currentTime += key * (e.shiftKey ? 3 : 1);
+                            // pv = true;
+                            e.preventDefault?.();
                         } else if (key === "Up" || key === "Down") {
                             const delta = key === "Down" ? -0.05 : 0.05;
                             PVI.VID.volume = Math.max(0, Math.min(1, PVI.VID.volume + delta));
@@ -1919,25 +1923,6 @@
                         else PVI.reset(true);
                     else {
                         PVI.fzEnable(e);
-                        /* win.removeEventListener("mouseover", PVI.m_over, true);
-                        doc.removeEventListener("wheel", PVI.scroller, true);
-                        doc.documentElement.removeEventListener("mouseleave", PVI.m_leave, false);
-                        PVI.fullZm = (cfg.hz.fzMode !== 1) !== !e.shiftKey ? 1 : 2;
-                        PVI.switchToHiResInFZ();
-                        if (PVI.anim.maxDelay)
-                            setTimeout(function () {
-                                if (PVI.fullZm) PVI.DIV.style.transition = "all 0s";
-                            }, PVI.anim.maxDelay);
-                        pv = PVI.DIV.style;
-                        if (PVI.CNT === PVI.VID) PVI.VID.controls = true;
-                        if (PVI.state > 2 && PVI.fullZm !== 2) {
-                            pv.visibility = "hidden";
-                            PVI.resize(PVI.resizeMode || 0);
-                            PVI.m_move();
-                            pv.visibility = "visible";
-                        }
-                        if (!PVI.iFrame) win.addEventListener("mousemove", PVI.m_move, true);
-                        win.addEventListener("click", PVI.fzClickAct, true); */
                     }
                 } else if (e.which > 31 && e.which < 41) {
                     pv = null;
@@ -1948,7 +1933,10 @@
                                 if (!PVI.VID.audio) PVI.VID.controls = PVI.VID._controls = !PVI.VID._controls;
                             } else if (PVI.VID.paused) PVI.VID.play();
                             else PVI.VID.pause();
-                        else if (key === "Up" || key === "Down")
+                        else if ((key === "Right" || key === "Left") && !PVI.TRG.IMGS_album && !e.shiftKey) {
+                            let delta = key === "Left" ? -5 : 5;
+                            PVI.VID.currentTime += delta;
+                        } else if (key === "Up" || key === "Down")
                             if (e.shiftKey) PVI.VID.playbackRate *= key === "Up" ? 4 / 3 : 0.75;
                             else pv = null;
                         else if (!e.shiftKey && (key === "PgUp" || key === "PgDn"))
@@ -2125,23 +2113,30 @@
             PVI.lastScrollTRG = null;
         },
 
-        shouldScrollAlbum(e) {
+        shouldScroll: function (e) {
             const gap = 100;
+            let x = e?.clientX || PVI.x;
+            let y = e?.clientY || PVI.y;
             if (
                 PVI.TRG &&
-                PVI.TRG.IMGS_album &&
+                // PVI.TRG.IMGS_album &&
                 cfg.hz.pileWheel &&
                 // (!PVI.fullZm || (e.clientX < 50 && e.clientY < 50) || (PVI.CAP && e.target === PVI.CAP.firstChild))
-                (!PVI.fullZm || e.shiftKey ||
-                    e.clientX < gap ||
-                    e.clientY < gap ||
-                    win.innerWidth - e.clientX < gap ||
-                    win.innerHeight - e.clientY < gap ||
-                    !PVI.DIV.contains(e.target))
+                (!PVI.fullZm || e?.shiftKey ||
+                    x < gap ||
+                    y < gap ||
+                    win.innerWidth - x < gap ||
+                    win.innerHeight - y < gap ||
+                    (e?.target && !PVI.DIV.contains(e.target))
+                )
             ) {
                 return true;
             }
             return false;
+        },
+
+        isVideo: function() {
+            return PVI.CNT === PVI.VID || !!PVI.EXTENSION?.VIDEOJS;
         },
 
         wheeler: function (e) {
@@ -2150,7 +2145,34 @@
             if (PVI.state > 2 && d >= 20)
                 if (e.timeStamp - (PVI.lastScrollTime || 0) < d) d = null;
                 else PVI.lastScrollTime = e.timeStamp;
-            if (PVI.shouldScrollAlbum(e)) {
+
+            if (PVI.isVideo() && (e.ctrlKey || !PVI.TRG.IMGS_album && PVI.shouldScroll(e))) {
+                pdsp(e);
+                if (PVI.CNT === PVI.VID) {
+                    PVI.key_action({ which: e.deltaY > 0 ? 39 : 37, ctrlKey: true, target: PVI.CNT });
+                } else {
+                    let key = e.deltaY > 0 ? "ArrowRight" : "ArrowLeft";
+                    let code = e.deltaY > 0 ? 39 : 37;
+                    let target = PVI.KEYS_TARGET || PVI.EXTENSION?.VIDEOJS?.parentElement || PVI.CNT;
+                    target.dispatchEvent(new KeyboardEvent(
+                        'keydown',
+                        {
+                            "key": key,
+                            "keyCode": code,
+                            "which": code,
+                            "code": key,
+                            "location": 0,
+                            "altKey": false,
+                            "ctrlKey": true,
+                            "metaKey": false,
+                            "shiftKey": false,
+                            "repeat": false,
+                        }
+                    ));
+                }
+                return;
+
+            } else if (PVI.shouldScroll(e) && PVI.TRG.IMGS_album) {
                 if (d !== null) {
                     if (cfg.hz.pileWheel === 2) {
                         if (!e.deltaX && !e.wheelDeltaX) return;
@@ -2160,8 +2182,8 @@
                 }
                 pdsp(e);
                 return;
-            }
-            if (PVI.fullZm && PVI.fullZm < 4) {
+
+            } else if (PVI.fullZm && PVI.fullZm < 4) {
                 if (d !== null)
                     PVI.resize(
                         (e.deltaY || -e.wheelDelta) > 0 ? "-" : "+",
@@ -2172,6 +2194,10 @@
             }
             PVI.lastScrollTRG = PVI.TRG;
             PVI.reset();
+        },
+
+        setCursor: function (cur) {
+            win.document.documentElement.style.cursor = cur || null;
         },
 
         resize: function (x, xy_img) {
@@ -2427,6 +2453,14 @@
         m_move: function (e) {
             if (e && PVI.x === e.clientX && PVI.y === e.clientY) return;
             if (PVI.fullZm) {
+                if (PVI.shouldScroll(e) && (PVI.TRG.IMGS_album || PVI.isVideo())) {
+                    PVI.setCursor();
+                } else if (e?.target) {
+                    PVI.setCursor("zoom-in");
+                }
+                // that's keydown event
+                if (e?.target && !e.clientX) return;
+
                 var x = PVI.x,
                     y = PVI.y,
                     w,
