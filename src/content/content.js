@@ -1844,10 +1844,11 @@
                 pv = !e.ctrlKey;
                 if (e.ctrlKey && key === "S" || !e.ctrlKey && !e.shiftKey && key === cfg.keys.hz_save) {
                     if (!e.repeat && PVI.CNT.src) {
+                        const src = PVI.EXTENSION?.VIDEOJS?.player?.src() || PVI.CNT.src;
                         Port.send({
                             cmd: "download",
-                            url: PVI.CNT.src,
-                            priorityExt: (PVI.CNT.src.match(/#([\da-z]{3,4})$/) || [])[1],
+                            url: src,
+                            priorityExt: (src.match(/#([\da-z]{3,4})$/) || [])[1],
                             ext: { img: "jpg", video: "mp4", audio: "mp3" }[PVI.CNT.audio ? "audio" : PVI.CNT.localName],
                         });
                     }
