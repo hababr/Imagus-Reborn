@@ -15,6 +15,7 @@
 	},
 
 	"permissions": [
+		"alarms",
 		"downloads",
 		"history",
 		"storage",
