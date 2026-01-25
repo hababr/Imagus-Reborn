@@ -2,7 +2,7 @@
 	"manifest_version": 3,
 
 	"name": "Imagus Reborn",
-	"version": "2026.1.22",
+	"version": "2026.1.25",
 	"description": "__MSG_APP_DESCRIPTION__",
 	"default_locale": "en",
 	"homepage_url": "https://www.reddit.com/r/Imagus",
