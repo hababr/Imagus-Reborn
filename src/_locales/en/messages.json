@@ -233,6 +233,9 @@
   "OP_ZOOM": {
     "message": "Ctrl + Right click on an image puts it into a pop-up"
   },
+  "TLS_OPENOPTIONSONFAIL": {
+    "message": "Open settings page if extension fails to load after update"
+  },
   "TLS_SENDIMGTO": {
     "message": "Send image to..."
   },

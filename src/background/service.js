@@ -455,7 +455,10 @@ async function registerContentScripts() {
     try {
         await chrome.userScripts.configureWorld({ csp: "script-src 'self' 'unsafe-eval'", messaging: true });
     } catch(error) {
-        chrome.runtime.openOptionsPage();
+        const { tls } = await cfg.get("tls");
+        if (tls?.openOptionsOnFail !== false) {
+            chrome.runtime.openOptionsPage();
+        }
         return;
     }
 

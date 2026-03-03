@@ -48,6 +48,7 @@
 	"tls": {
 		"advanced": false,
 		"autoUpdateSieve": true,
+		"openOptionsOnFail": true,
 		"opzoom": true,
 		"sendToHosts": [
 			["+TinEye", "https://www.tineye.com/search?sort=size&order=desc&url=%url"],
