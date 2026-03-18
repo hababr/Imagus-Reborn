@@ -402,6 +402,11 @@ function onMessage(message, sender, sendResponse) {
     return true;
 }
 
+function sanitizeFilename(filename) {
+    // replace invalid chars (\ / : * ? " < > |) + control chars
+    return filename.replace(/[\\/:*?"<>|\r\n\x00-\x1f]/g, "_");
+}
+
 async function download(msg, incognito, sendResponse) {
     if (!msg.url) return;
 
@@ -430,9 +435,16 @@ async function download(msg, incognito, sendResponse) {
         }
     }
 
+    const ext = msg.priorityExt ?? msg.ext;
+
+    const filename =
+        msg.filename && ext
+            ? `${msg.filename}.${ext}`
+            : msg.urlName;
+    
     const params = {
         url: msg.blob ? URL.createObjectURL(msg.blob) : msg.url,
-        filename: msg.filename && (msg.ext || msg.priorityExt) ? `${msg.filename}.${msg.priorityExt || msg.ext}` : (msg.urlName || undefined),
+        filename: sanitizeFilename(filename),
         conflictAction: "uniquify"
     };
 
