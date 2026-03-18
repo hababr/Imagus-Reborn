@@ -444,7 +444,7 @@ async function download(msg, incognito, sendResponse) {
     
     const params = {
         url: msg.blob ? URL.createObjectURL(msg.blob) : msg.url,
-        filename: sanitizeFilename(filename),
+        filename: filename ? sanitizeFilename(filename) : undefined,
         conflictAction: "uniquify"
     };
 
