@@ -460,9 +460,15 @@ async function download(msg, incognito, sendResponse) {
     chrome.notifications.clear("imagus_download");
 }); */
 
+const KEEPALIVE_ALARM = "imagus-keepalive";
+
 function keepAlive() {
-    // keep the service worker alive
-    setInterval(chrome.runtime.getPlatformInfo, 25_000);
+    chrome.alarms.onAlarm.addListener((alarm) => {
+        if (alarm.name === KEEPALIVE_ALARM) {
+            chrome.runtime.getPlatformInfo(() => {});
+        }
+    });
+    chrome.alarms.create(KEEPALIVE_ALARM, { periodInMinutes: 1 });
 }
 
 async function registerContentScripts() {

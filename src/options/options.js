@@ -666,6 +666,43 @@ window.addEventListener(
         advanced_prefs.onchange();
         document.body.style.display = "block";
 
+        var fr = $("hz_frameRadius"),
+            frn = $("hz_frameRadius_num"),
+            frp = $("hz_frameRadius_preview");
+        function paintFramePreview() {
+            if (!fr || !frp) return;
+            var v = Math.max(0, Math.min(40, parseInt(fr.value, 10) || 0));
+            fr.value = v;
+            if (frn) frn.value = v;
+            var vl = $("hz_frameRadius_value");
+            if (vl) vl.textContent = v;
+            var css = ($("hz_popupCss") || {}).value || "";
+            var bgm = css.match(/background:\s*([^;]+)/i);
+            var bdm = css.match(/border:\s*([^;]+)/i);
+            var sh = css.match(/box-shadow:\s*([^;]+)/i);
+            frp.style.background = bgm ? bgm[1].trim() : "#f8f8ff padding-box";
+            frp.style.border = bdm ? bdm[1].trim() : "3px solid hsla(0, 0%, 95%, 0.6)";
+            frp.style.boxShadow = sh ? sh[1].trim() : "0 0 2px #666";
+            frp.style.borderRadius = v + "px";
+        }
+        if (fr && frp) {
+            fr.addEventListener("input", function () {
+                paintFramePreview();
+                document.forms[0].onchange({ target: fr });
+            });
+            if (frn) {
+                frn.addEventListener("input", function () {
+                    var v = Math.max(0, Math.min(40, parseInt(frn.value, 10) || 0));
+                    fr.value = v;
+                    paintFramePreview();
+                    document.forms[0].onchange({ target: fr });
+                });
+            }
+            var pcss = $("hz_popupCss");
+            if (pcss) pcss.addEventListener("input", paintFramePreview);
+            paintFramePreview();
+        }
+
         $('hz_hoverCss').addEventListener('blur', () => $('hz_hoverCss_style').textContent = '');
         $('hz_hoverCss').addEventListener('keyup', function() {
             $('hz_hoverCss_style').textContent =
@@ -728,13 +765,13 @@ async function checkUserScripts() {
     } catch(e) {
         if (platform === "firefox") {
             msg.dataset.type = "firefox";
-            msg.innerHTML = _("ALLOW_USER_SCRIPTS_FF");
+            msg.innerHTML = _("ALLOW_USER_SCRIPTS_FF") + " <strong>" + _("USER_SCRIPTS_BANNER_ACTION") + "</strong>";
         } else if (e.message?.includes("API is only available for users in developer mode")) {
             msg.dataset.type = "devmode";
-            msg.innerHTML = _("ALLOW_DEV_MODE");
+            msg.innerHTML = _("ALLOW_DEV_MODE") + " <strong>" + _("USER_SCRIPTS_BANNER_ACTION") + "</strong>";
         } else {
             msg.dataset.type = "scripts";
-            msg.innerHTML = _("ALLOW_USER_SCRIPTS");
+            msg.innerHTML = _("ALLOW_USER_SCRIPTS") + " <strong>" + _("USER_SCRIPTS_BANNER_ACTION") + "</strong>";
         }
         msg.style.display = "block";
     }

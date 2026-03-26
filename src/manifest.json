@@ -5,6 +5,7 @@
 	"version": "2026.3.15",
 	"description": "__MSG_APP_DESCRIPTION__",
 	"default_locale": "en",
+	"minimum_chrome_version": "120",
 	"homepage_url": "https://www.reddit.com/r/Imagus",
 
 	"icons": {

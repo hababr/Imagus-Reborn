@@ -792,3 +792,31 @@ section.warning {
 .rule_line label:first-child {
     width: 34px;
 }
+
+.frame_radius_row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    max-width: 100%;
+}
+
+#hz_frameRadius_preview_wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+}
+
+#hz_frameRadius_preview {
+    display: inline-block;
+    width: 120px;
+    height: 72px;
+    box-sizing: border-box;
+    vertical-align: middle;
+}
+
+.frame_radius_value_label {
+    min-width: 3em;
+    text-align: right;
+}

@@ -329,6 +329,36 @@
   "HZ_FZDEFAULT": {
     "message": "Always view in Full-zoom mode"
   },
+  "HZ_FULLZOOM_DEFAULT": {
+    "message": "Full-zoom default size"
+  },
+  "HZ_FULLZOOM_NATIVE": {
+    "message": "100% (native size)"
+  },
+  "HZ_FULLZOOM_FITSCREEN": {
+    "message": "Fit screen"
+  },
+  "HZ_PREVIEW_VIDEOS": {
+    "message": "Preview videos on hover"
+  },
+  "HZ_GALLERY_MODE": {
+    "message": "Enable Gallery Mode"
+  },
+  "HZ_SHOW_PIN": {
+    "message": "Show pin button"
+  },
+  "HZ_FRAME_RADIUS": {
+    "message": "Frame corner radius"
+  },
+  "HZ_FRAME_RADIUS_PREVIEW": {
+    "message": "Preview"
+  },
+  "HZ_SC_QUICKCOPY": {
+    "message": "Quick copy menu (image / URLs / download)"
+  },
+  "USER_SCRIPTS_BANNER_ACTION": {
+    "message": "Use the link above, then return to this tab and click Save if needed."
+  },
   "HZ_FZMODE": {
     "message": "Default mode"
   },
@@ -498,7 +528,7 @@
     "message": "Scroll delay (ms)"
   },
   "ALLOW_USER_SCRIPTS": {
-    "message": "To continue you have to allow User Scripts in <a href=\"#\">the extension details</a>. Then get back here."
+    "message": "<strong>User Scripts are required</strong> for Imagus Reborn on Chrome. Open <a href=\"#\">the extension details</a>, enable <b>Allow user scripts</b> for this extension, then reload this page."
   },
   "ALLOW_DEV_MODE": {
     "message": "To continue you have to enable Developer Mode on <a href=\"#\">Extensions page</a>. Then get back here."

@@ -269,6 +269,40 @@
 				</span>
 			</div>
 
+			<div class="prow">
+				<label for="hz_fullZoomDefault" data-lng="HZ_FULLZOOM_DEFAULT"></label>
+				<span>
+					<select id="hz_fullZoomDefault" name="hz_fullZoomDefault" class="number">
+						<option value="native" selected data-lng="HZ_FULLZOOM_NATIVE"></option>
+						<option value="fit" data-lng="HZ_FULLZOOM_FITSCREEN"></option>
+					</select>
+				</span>
+			</div>
+
+			<div class="prow">
+				<label for="hz_previewVideosOnHover" data-lng="HZ_PREVIEW_VIDEOS"></label>
+				<span>
+					<input id="hz_previewVideosOnHover" name="hz_previewVideosOnHover" type="checkbox">
+					<label for="hz_previewVideosOnHover" class="checkbox"></label>
+				</span>
+			</div>
+
+			<div class="prow">
+				<label for="hz_galleryMode" data-lng="HZ_GALLERY_MODE"></label>
+				<span>
+					<input id="hz_galleryMode" name="hz_galleryMode" type="checkbox" checked>
+					<label for="hz_galleryMode" class="checkbox"></label>
+				</span>
+			</div>
+
+			<div class="prow">
+				<label for="hz_showPinButton" data-lng="HZ_SHOW_PIN"></label>
+				<span>
+					<input id="hz_showPinButton" name="hz_showPinButton" type="checkbox" checked>
+					<label for="hz_showPinButton" class="checkbox"></label>
+				</span>
+			</div>
+
 			<h4 data-lng="HZ_APPEARANCE"></h4>
 
 			<div class="prow tiptop">
@@ -410,6 +444,19 @@ box-shadow: 0 0 2px #666;
 transition: opacity 0.2s;</textarea>
 			</div>
 
+			<div class="prow tiptop advanced">
+				<label for="hz_frameRadius" data-lng="HZ_FRAME_RADIUS"></label>
+				<span class="frame_radius_row">
+					<span id="hz_frameRadius_preview_wrap">
+						<span id="hz_frameRadius_preview_label" data-lng="HZ_FRAME_RADIUS_PREVIEW"></span>
+						<span id="hz_frameRadius_preview" aria-hidden="true"></span>
+					</span>
+					<label class="frame_radius_value_label" for="hz_frameRadius"><span id="hz_frameRadius_value">2</span>px</label>
+					<input id="hz_frameRadius" name="hz_frameRadius" type="range" step="1" min="0" max="40" value="2">
+					<input id="hz_frameRadius_num" class="inp_tf_short" type="number" step="1" min="0" max="40" value="2" title="px">
+				</span>
+			</div>
+
 			<h3 data-lng="TLS_SENDIMGTO" class="advanced"></h3>
 			<textarea name="tls_sendToHosts" rows="8" class="advanced">+TinEye|https://www.tineye.com/search?sort=size&amp;order=desc&amp;url=%url
 Google|https://lens.google.com/uploadbyurl?url=%url
@@ -449,7 +496,8 @@ ImgOps|http://imgops.com/%raw_url</textarea>
 				<li><b>Alt + Shift +</b> <input id="keys_hz-preload" name="keys_hz-preload" value="L"> <label for="keys_hz-preload" data-lng="HZ_SC_PRELOAD"></label></li>
 				<li><label for="keys_hz-fullZm"><input id="keys_hz-fullZm" name="keys_hz-fullZm" value="Z">, <b>Enter</b><span class="extra"></span> <span data-lng="HZ_SC_FULLZOOM"></span></label></li>
 				<li><label for="keys_hz-fullSpace"><input id="keys_hz-fullSpace" name="keys_hz-fullSpace" value="F"> <span data-lng="HZ_SC_FULLSPACE"></span></label></li>
-				<li><label for="keys_hz-caption"><input id="keys_hz-caption" name="keys_hz-caption" value="C"> <span data-lng="HZ_SC_CAPTION"></span></label></li>
+				<li><label for="keys_hz-caption"><input id="keys_hz-caption" name="keys_hz-caption" value="V"> <span data-lng="HZ_SC_CAPTION"></span></label></li>
+				<li><label for="keys_hz-quickCopy"><input id="keys_hz-quickCopy" name="keys_hz-quickCopy" value="C"> <span data-lng="HZ_SC_QUICKCOPY"></span></label></li>
 				<li><label for="keys_hz-open"><input id="keys_hz-open" name="keys_hz-open" value="O"> <span data-lng="HZ_SC_OPEN"></span></label></li>
 				<li><label for="keys_hz-history"><input id="keys_hz-history" name="keys_hz-history" value="H"> <span data-lng="HZ_SC_HISTORY"></span></label></li>
 				<li><label for="keys_hz-save"><input id="keys_hz-save" name="keys_hz-save" value="">, <b>Ctrl + S</b> <span data-lng="HZ_SC_SAVE"></span></label></li>
