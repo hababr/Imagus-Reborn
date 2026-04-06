@@ -1959,6 +1959,10 @@
             PVI.node = null;
             clearTimeout(PVI.timers.delayed_loader);
             win.removeEventListener("wheel", PVI.wheeler, true);
+            if (PVI._wheelRAF) { cancelAnimationFrame(PVI._wheelRAF); PVI._wheelRAF = null; }
+            PVI._wheelDeltaAccum = 0;
+            PVI._albumDeltaAccum = 0;
+            clearTimeout(PVI._albumDeltaTimer);
             PVI.DIV.style.display = PVI.LDR.style.display = "none";
             PVI.DIV.style.width = PVI.DIV.style.height = "0";
             PVI.CNT.removeAttribute("src");
@@ -2525,11 +2529,28 @@
 
             } else if (PVI.shouldScroll(e) && PVI.TRG.IMGS_album) {
                 if (d !== null) {
-                    if (cfg.hz.pileWheel === 2) {
-                        if (!e.deltaX && !e.wheelDeltaX) return;
-                        d = (e.deltaX || -e.wheelDeltaX) > 0;
-                    } else d = (e.deltaY || -e.wheelDelta) > 0;
-                    PVI.album(d ? 1 : -1, true);
+                    if (cfg.hz.smoothScroll) {
+                        var rawDelta;
+                        if (cfg.hz.pileWheel === 2) {
+                            if (!e.deltaX && !e.wheelDeltaX) return;
+                            rawDelta = e.deltaX || -e.wheelDeltaX || 0;
+                        } else {
+                            rawDelta = e.deltaY || -e.wheelDelta || 0;
+                        }
+                        PVI._albumDeltaAccum = (PVI._albumDeltaAccum || 0) + rawDelta;
+                        clearTimeout(PVI._albumDeltaTimer);
+                        PVI._albumDeltaTimer = setTimeout(function () { PVI._albumDeltaAccum = 0; }, 200);
+                        if (Math.abs(PVI._albumDeltaAccum) >= 80) {
+                            PVI.album(PVI._albumDeltaAccum > 0 ? 1 : -1, true);
+                            PVI._albumDeltaAccum = 0;
+                        }
+                    } else {
+                        if (cfg.hz.pileWheel === 2) {
+                            if (!e.deltaX && !e.wheelDeltaX) return;
+                            d = (e.deltaX || -e.wheelDeltaX) > 0;
+                        } else d = (e.deltaY || -e.wheelDelta) > 0;
+                        PVI.album(d ? 1 : -1, true);
+                    }
                 }
                 pdsp(e);
                 return;
@@ -2539,16 +2560,33 @@
                 return;
 
             } else if (PVI.fullZm && PVI.fullZm < 4) {
-                if (d !== null)
-                    PVI.resize(
-                        (e.deltaY || -e.wheelDelta) > 0 ? "-" : "+",
-                        PVI.fullZm > 1 ? (e.target === PVI.CNT ? [e.offsetX || e.layerX || 0, e.offsetY || e.layerY || 0] : []) : null
-                    );
+                if (d !== null) {
+                    if (cfg.hz.smoothScroll) {
+                        PVI._wheelDeltaAccum = (PVI._wheelDeltaAccum || 0) + (e.deltaY || -e.wheelDelta || 0);
+                        PVI._wheelLastXY = PVI.fullZm > 1 ? (e.target === PVI.CNT ? [e.offsetX || e.layerX || 0, e.offsetY || e.layerY || 0] : []) : null;
+                        if (!PVI._wheelRAF) {
+                            PVI._wheelRAF = requestAnimationFrame(PVI._applyAccumulatedZoom);
+                        }
+                    } else {
+                        PVI.resize(
+                            (e.deltaY || -e.wheelDelta) > 0 ? "-" : "+",
+                            PVI.fullZm > 1 ? (e.target === PVI.CNT ? [e.offsetX || e.layerX || 0, e.offsetY || e.layerY || 0] : []) : null
+                        );
+                    }
+                }
                 pdsp(e);
                 return;
             }
             PVI.lastScrollTRG = PVI.TRG;
             PVI.reset();
+        },
+
+        _applyAccumulatedZoom: function () {
+            PVI._wheelRAF = null;
+            var delta = PVI._wheelDeltaAccum || 0;
+            PVI._wheelDeltaAccum = 0;
+            if (delta === 0 || !PVI.fullZm) return;
+            PVI.resize(delta, PVI._wheelLastXY);
         },
 
         setCursor: function (cur) {
@@ -2604,6 +2642,31 @@
                     if (xy_img) {
                         xy_img[0] *= k[rot ? 1 : 0] - s[0];
                         xy_img[1] *= k[rot ? 0 : 1] - s[1];
+                    }
+                    break;
+                default:
+                    if (typeof x === "number") {
+                        k = [parseInt(PVI.DIV.style.width, 10), 0];
+                        k[1] = (k[0] * s[rot ? 0 : 1]) / s[rot ? 1 : 0];
+                        if (xy_img) {
+                            if (xy_img[1] === undefined || rot) {
+                                xy_img[0] = k[0] / 2;
+                                xy_img[1] = k[1] / 2;
+                            } else if (PVI.DIV.curdeg % 360)
+                                if (!(PVI.DIV.curdeg % 180)) {
+                                    xy_img[0] = k[0] - xy_img[0];
+                                    xy_img[1] = k[1] - xy_img[1];
+                                }
+                            xy_img[0] /= k[rot ? 1 : 0];
+                            xy_img[1] /= k[rot ? 0 : 1];
+                        }
+                        x = Math.max(0.25, Math.min(4, Math.exp(-x * 0.002877)));
+                        s[0] = x * Math.max(16, k[rot ? 1 : 0]);
+                        s[1] = x * Math.max(16, k[rot ? 0 : 1]);
+                        if (xy_img) {
+                            xy_img[0] *= k[rot ? 1 : 0] - s[0];
+                            xy_img[1] *= k[rot ? 0 : 1] - s[1];
+                        }
                     }
             }
             if (!xy_img) xy_img = [true, null];

@@ -500,6 +500,9 @@
   "HZ_MEDIAVOLUME": {
     "message": "Default media volume (%)"
   },
+  "HZ_SMOOTHSCROLL": {
+    "message": "Smooth scroll support (trackpad / smooth-scroll mouse)"
+  },
   "HZ_SCROLLDELAY": {
     "message": "Scroll delay (ms)"
   },
