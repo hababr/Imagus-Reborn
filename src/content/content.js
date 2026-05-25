@@ -124,7 +124,7 @@
         return null;
     };
 
-    var mdownstart, winW, winH, topWinW, topWinH;
+    var mdownstart, suppressRightContextMenu, rightPressMoved, winW, winH, topWinW, topWinH;
     var rgxHash = /#(?![?!].).*/;
     var rgxIsSVG = /\.svgz?$/i;
     // var rgxIsSVG = /\.svgz?$|^data:image\/svg/i;
@@ -142,6 +142,11 @@
     };
 
     var releaseFreeze = function (e) {
+        if (e.type === "mouseup" && e.button === 2) {
+            clearTimeout(PVI.timers.fz_press);
+            PVI.timers.fz_press = null;
+            rightPressMoved = false;
+        }
         if (typeof PVI.freeze === "number") {
             PVI.freeze = !cfg.hz.deactivate;
             return;
@@ -163,6 +168,56 @@
             return;
         }
         if (PVI.keyup_freeze_on) PVI.keyup_freeze();
+    };
+
+    var armRightPress = function (e) {
+        mdownstart = e.timeStamp;
+        PVI.md_x = e.clientX;
+        PVI.md_y = e.clientY;
+        suppressRightContextMenu = false;
+        rightPressMoved = false;
+
+        if (PVI.state > 2 && (cfg.hz.fzOnPress === 1 || cfg.hz.fzOnPress === 2) && !PVI.fullZm) {
+            clearTimeout(PVI.timers.cursor_hide);
+            clearTimeout(PVI.timers.cursor_wait);
+            const oldCursor = e.target.style.cursor;
+            e.target.style.cursor = "progress";
+            PVI.timers.cursor_wait = setTimeout(() => e.target.style.cursor = oldCursor, 300);
+        }
+        clearTimeout(PVI.timers.fz_press);
+        PVI.timers.fz_press = null;
+        if (PVI.state > 2 && cfg.hz.fzOnPress === 2 && !PVI.fullZm) {
+            PVI.timers.fz_press = setTimeout(function () {
+                if (!mdownstart || !cfg || cfg.hz.fzOnPress !== 2 || PVI.state <= 2 || PVI.fullZm) return;
+                if (rightPressMoved) return;
+                suppressRightContextMenu = true;
+                mdownstart = null;
+                PVI.key_action({ which: 13, shiftKey: false });
+            }, 320);
+        }
+    };
+
+    var onPointerDown = function (e) {
+        if (!cfg || !e.isTrusted || e.button !== 2) return;
+        if (e.pointerType && e.pointerType !== "mouse") return;
+        const root = doc.compatMode && doc.compatMode[0] === "B" ? doc.body : doc.documentElement;
+        if (e.clientX >= root.clientWidth || e.clientY >= root.clientHeight) return;
+        armRightPress(e);
+    };
+
+    var onPointerEnd = function (e) {
+        if (e.button !== 2) return;
+        clearTimeout(PVI.timers.fz_press);
+        PVI.timers.fz_press = null;
+        rightPressMoved = false;
+    };
+
+    var onPointerMove = function (e) {
+        if (typeof mdownstart !== "number") return;
+        if (!(e.buttons & 2)) return;
+        if (Math.abs(PVI.md_x - e.clientX) > 5 || Math.abs(PVI.md_y - e.clientY) > 5) {
+            rightPressMoved = true;
+        }
     };
 
     var onMouseDown = function (e) {
@@ -213,17 +268,7 @@
             PVI.keyup_freeze();
             PVI.freeze = PVI.freeze ? 1 : 0;
         }
-        mdownstart = e.timeStamp;
-        PVI.md_x = e.clientX;
-        PVI.md_y = e.clientY;
-
-        if (PVI.state > 2 && (cfg.hz.fzOnPress === 1 || cfg.hz.fzOnPress === 2) && !PVI.fullZm) {
-            clearTimeout(PVI.timers.cursor_hide);
-            clearTimeout(PVI.timers.cursor_wait);
-            const oldCursor = e.target.style.cursor;
-            e.target.style.cursor = "progress";
-            PVI.timers.cursor_wait = setTimeout(() => e.target.style.cursor = oldCursor, 300);
-        }
+        armRightPress(e);
 
         if (e.target.href || e.target.parentNode?.href) {
             e.preventDefault();
@@ -231,6 +276,13 @@
     };
 
     var onContextMenu = function (e) {
+        clearTimeout(PVI.timers.fz_press);
+        PVI.timers.fz_press = null;
+        if (suppressRightContextMenu) {
+            suppressRightContextMenu = false;
+            pdsp(e);
+            return;
+        }
         if (!mdownstart || e.button !== 2 || PVI.md_x !== e.clientX || PVI.md_y !== e.clientY) {
             if (mdownstart) mdownstart = null;
 
@@ -2063,6 +2115,10 @@
             if (PVI.iFrame) win.parent.postMessage({ vdfDpshPtdhhd: "from_frame", reset: true }, "*");
             if (PVI.state) win.removeEventListener("mousemove", PVI.m_move, true);
             PVI.node = null;
+            clearTimeout(PVI.timers.fz_press);
+            PVI.timers.fz_press = null;
+            suppressRightContextMenu = false;
+            rightPressMoved = false;
             clearTimeout(PVI.timers.delayed_loader);
             win.removeEventListener("wheel", PVI.wheeler, true);
 
@@ -3396,6 +3452,10 @@
             doc.documentElement[e]("mouseleave", PVI.m_leave, false);
             doc[e]("visibilitychange", PVI.onVisibilityChange, true);
             win[e]("contextmenu", onContextMenu, true);
+            win[e]("pointerdown", onPointerDown, true);
+            win[e]("pointermove", onPointerMove, true);
+            win[e]("pointerup", onPointerEnd, true);
+            win[e]("pointercancel", onPointerEnd, true);
             win[e]("mouseover", PVI.m_over, true);
             win[e]("mousedown", onMouseDown, true);
             win[e]("mouseup", releaseFreeze, true);
