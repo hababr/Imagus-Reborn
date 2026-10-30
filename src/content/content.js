@@ -833,6 +833,12 @@
                 preload: "auto",
                 inactivityTimeout: cfg.hz.hideControlsDelay,
                 plugins: {},
+                // volume slider orientation, set by the "Volume control orientation" option
+                controlBar: {
+                    volumePanel: {
+                        inline: cfg.hz.mediaVolOrient === "horizontal"
+                    }
+                },
                 html5: {
                     vhs: {
                         // VideoJs will select an optimal quality for the given dimensions
