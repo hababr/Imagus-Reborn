@@ -458,6 +458,15 @@
   "HZ_MEDIAVOLUME": {
     "message": "Standaard mediavolume (%)"
   },
+  "HZ_MEDIAVOLORIENT": {
+    "message": "Oriëntatie van de volumeregeling"
+  },
+  "HZ_MEDIAVOLORIENT_VERTICAL": {
+    "message": "Verticaal"
+  },
+  "HZ_MEDIAVOLORIENT_HORIZONTAL": {
+    "message": "Horizontaal"
+  },
   "HZ_SCROLLDELAY": {
     "message": "Scrollvertraging (ms)"
   },

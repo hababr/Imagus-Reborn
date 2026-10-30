@@ -470,6 +470,15 @@
   "HZ_MEDIAVOLUME": {
     "message": "Domyślna głośność multimediów (%)"
   },
+  "HZ_MEDIAVOLORIENT": {
+    "message": "Orientacja regulacji głośności"
+  },
+  "HZ_MEDIAVOLORIENT_VERTICAL": {
+    "message": "Pionowa"
+  },
+  "HZ_MEDIAVOLORIENT_HORIZONTAL": {
+    "message": "Pozioma"
+  },
   "ALLOW_USER_SCRIPTS": {
     "message": "Aby kontynuować, musisz zezwolić na Skrypty użytkownika w <a href=\"#\">szczegółach rozszerzenia</a>. Następnie wróć tutaj."
   },

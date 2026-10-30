@@ -443,6 +443,15 @@
   "HZ_MEDIAVOLUME": {
     "message": "Standard-Medienlautstärke(%)"
   },
+  "HZ_MEDIAVOLORIENT": {
+    "message": "Ausrichtung der Lautstärkeregelung"
+  },
+  "HZ_MEDIAVOLORIENT_VERTICAL": {
+    "message": "Vertikal"
+  },
+  "HZ_MEDIAVOLORIENT_HORIZONTAL": {
+    "message": "Horizontal"
+  },
   "HZ_SCROLLDELAY": {
     "message": "Scroll-Verzögerung (ms)"
   },

@@ -458,6 +458,15 @@
   "HZ_MEDIAVOLUME": {
     "message": "Alapértelmezett média hangerő (%)"
   },
+  "HZ_MEDIAVOLORIENT": {
+    "message": "A hangerőszabályozás tájolása"
+  },
+  "HZ_MEDIAVOLORIENT_VERTICAL": {
+    "message": "Függőleges"
+  },
+  "HZ_MEDIAVOLORIENT_HORIZONTAL": {
+    "message": "Vízszintes"
+  },
   "HZ_SCROLLDELAY": {
     "message": "Görgetés érzékenysége (ms)"
   },

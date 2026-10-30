@@ -458,6 +458,15 @@
   "HZ_MEDIAVOLUME": {
     "message": "Výchozí hlasitost médií (v %)"
   },
+  "HZ_MEDIAVOLORIENT": {
+    "message": "Orientace ovládání hlasitosti"
+  },
+  "HZ_MEDIAVOLORIENT_VERTICAL": {
+    "message": "Svislá"
+  },
+  "HZ_MEDIAVOLORIENT_HORIZONTAL": {
+    "message": "Vodorovná"
+  },
   "APP_READY": {
     "message": "Skvělé! \"Imagus\" je nyní připraven."
   },

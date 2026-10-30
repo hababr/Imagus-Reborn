@@ -458,6 +458,15 @@
   "HZ_MEDIAVOLUME": {
     "message": "Volumen predeterminado de medios (%)"
   },
+  "HZ_MEDIAVOLORIENT": {
+    "message": "Orientación del control de volumen"
+  },
+  "HZ_MEDIAVOLORIENT_VERTICAL": {
+    "message": "Vertical"
+  },
+  "HZ_MEDIAVOLORIENT_HORIZONTAL": {
+    "message": "Horizontal"
+  },
   "HZ_SCROLLDELAY": {
     "message": "Retraso de desplazamiento (ms)"
   },

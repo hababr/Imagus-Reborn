@@ -593,6 +593,15 @@
   "HZ_MEDIAVOLUME": {
     "message": "Default media volume (%)"
   },
+  "HZ_MEDIAVOLORIENT": {
+    "message": "Volume control orientation"
+  },
+  "HZ_MEDIAVOLORIENT_VERTICAL": {
+    "message": "Vertical"
+  },
+  "HZ_MEDIAVOLORIENT_HORIZONTAL": {
+    "message": "Horizontal"
+  },
   "HZ_HIDECONTROLSDELAY": {
     "message": "Controls hide after"
   },

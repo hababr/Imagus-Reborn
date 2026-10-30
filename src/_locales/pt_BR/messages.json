@@ -455,6 +455,15 @@
   "HZ_MEDIAVOLUME": {
     "message": "Volume de mídia padrão (%)"
   },
+  "HZ_MEDIAVOLORIENT": {
+    "message": "Orientação do controle de volume"
+  },
+  "HZ_MEDIAVOLORIENT_VERTICAL": {
+    "message": "Vertical"
+  },
+  "HZ_MEDIAVOLORIENT_HORIZONTAL": {
+    "message": "Horizontal"
+  },
   "SIV_UPDALERT": {
     "message": "• As regras reais serão adicionadas e atualizadas.\n• As regras iniciadas com \"_\" serão preservadas como estão.\n• Outras regras serão desativadas e movidas para o final.\n\nContinuar?"
   },
