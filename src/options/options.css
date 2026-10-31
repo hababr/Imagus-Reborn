@@ -894,3 +894,14 @@ section.warning {
 .menu_dropdown > button + button {
     border-top: 1px solid #eee;
 }
+.move-target {
+  float: left;
+  width: 20%;
+  display: none;
+  height: 29px;
+  border: 2px dashed #a9a9a9;
+  box-sizing: border-box;
+}
+#sieve_container.moving .move-target {
+  display: block;
+}
