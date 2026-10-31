@@ -456,7 +456,7 @@
     "message": "Volume de mídia padrão (%)"
   },
   "SIV_UPDALERT": {
-    "message": "• As regras reais serão adicionadas e atualizadas.\n• As regras iniciadas com \"_\" serão preservadas como estão.\n• Outras regras serão desativadas e movidas para o final.\n\nContinuar?"
+    "message": "• As regras reais serão adicionadas e atualizadas.\n• As regras iniciadas com \"_\" serão preservadas como estão.\n• As outras regras serão removidas.\n\nContinuar?"
   },
   "HZ_CAP_LINKTEXT": {
     "message": "Considere o texto do link como legenda"
@@ -670,5 +670,11 @@
   },
   "COPY_CAPTION": {
     "message": "Copiar texto da legenda"
+  },
+  "SEARCH_TIP": {
+    "message": "Expressões regulares podem ser usadas.\nTermine com um espaço para pesquisar também nas notas.\nTermine com dois espaços para pesquisar em todos os campos.\nDigite um número para encontrar a regra por índice."
+  },
+  "ALLRULES": {
+    "message": "Todas as regras"
   }
 }

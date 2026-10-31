@@ -273,7 +273,7 @@
     "message": "Préférer \"img\" par rapport à \"link\""
   },
   "SIV_UPDALERT": {
-    "message": "• Les règles actuelles seront ajoutées et mises à jour.\n• Les règles commençant par \"_\" seront conservées telles quelles.\n• Les autres règles seront désactivées et déplacées à la fin.\n\nContinuer ?"
+    "message": "• Les règles actuelles seront ajoutées et mises à jour.\n• Les règles commençant par \"_\" seront conservées telles quelles.\n• Les autres règles seront supprimées.\n\nContinuer ?"
   },
   "SIV_ERR_EMPTYNAME": {
     "message": "Le nom d'une règle ne peut être vide !"
@@ -670,5 +670,11 @@
   },
   "COPY_CAPTION": {
     "message": "Copier le texte de la légende"
+  },
+  "SEARCH_TIP": {
+    "message": "Les expressions régulières peuvent être utilisées.\nTerminez par un espace pour rechercher également dans les notes.\nTerminez par deux espaces pour rechercher dans tous les champs.\nEntrez un numéro pour trouver une règle par son index."
+  },
+  "ALLRULES": {
+    "message": "Toutes les règles"
   }
 }

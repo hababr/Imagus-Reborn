@@ -273,7 +273,7 @@
     "message": "\"img\" paraméter használata \"link\" helyett"
   },
   "SIV_UPDALERT": {
-    "message": "• A tényleges szabályok hozzáadódnak és frissülnek.\n• A „_” karakterrel kezdődő szabályok változatlan formában megmaradnak.\n• A többi szabály letiltásra kerül, és a végére kerül.\n\nFolytatja?"
+    "message": "• A tényleges szabályok hozzáadódnak és frissülnek.\n• A „_” karakterrel kezdődő szabályok változatlan formában megmaradnak.\n• A többi szabály el lesz távolítva.\n\nFolytatja?"
   },
   "SIV_ERR_EMPTYNAME": {
     "message": "Szűrő neve nem lehet üres!"
@@ -670,5 +670,11 @@
   },
   "COPY_CAPTION": {
     "message": "Felirat szövegének másolása"
+  },
+  "SEARCH_TIP": {
+    "message": "Reguláris kifejezések használhatók.\nFejezze be egy szóközzel a jegyzetekben való kereséshez is.\nFejezze be két szóközzel az összes mezőben való kereséshez.\nAdjon meg egy számot a szabály index szerinti megkereséséhez."
+  },
+  "ALLRULES": {
+    "message": "Minden szabály"
   }
 }

@@ -273,7 +273,7 @@
     "message": "Upřednostňovat \"img\" před \"link\""
   },
   "SIV_UPDALERT": {
-    "message": "• Budou přidána a aktualizována aktuální pravidla.\n• Pravidla začínající „_“ budou zachována tak, jak jsou.\n• Ostatní pravidla budou deaktivována a přesunuta na konec.\n\nPokračovat?"
+    "message": "• Budou přidána a aktualizována aktuální pravidla.\n• Pravidla začínající „_“ budou zachována tak, jak jsou.\n• Ostatní pravidla budou odstraněna.\n\nPokračovat?"
   },
   "SIV_ERR_EMPTYNAME": {
     "message": "Název pravidla nesmí být prázdné!"
@@ -670,5 +670,11 @@
   },
   "COPY_CAPTION": {
     "message": "Zkopírovat text titulku"
+  },
+  "SEARCH_TIP": {
+    "message": "Lze použít regulární výrazy.\nZakončete jednou mezerou pro vyhledávání také v poznámkách.\nZakončete dvěma mezerami pro vyhledávání ve všech polích.\nZadejte číslo pro vyhledání pravidla podle indexu."
+  },
+  "ALLRULES": {
+    "message": "Všechna pravidla"
   }
 }

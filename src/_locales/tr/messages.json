@@ -318,7 +318,7 @@
     "message": "Değişiklikleri kaydetmeli veya sayfayı yenilemelisiniz"
   },
   "SIV_UPDALERT": {
-    "message": "• Güncel kurallar eklenecek ve güncellenecektir.\n• \"_\" ile başlayan kurallar olduğu gibi korunacaktır.\n• Diğer kurallar devre dışı bırakılacak ve sona taşınacaktır.\n\nDevam edilsin mi?"
+    "message": "• Güncel kurallar eklenecek ve güncellenecektir.\n• \"_\" ile başlayan kurallar olduğu gibi korunacaktır.\n• Diğer kurallar kaldırılacaktır.\n\nDevam edilsin mi?"
   },
   "SIV_LOCALALERT": {
     "message": "Varsayılan Süzgeç yüklensin mi?"
@@ -670,5 +670,11 @@
   },
   "COPY_CAPTION": {
     "message": "Başlık metnini kopyala"
+  },
+  "SEARCH_TIP": {
+    "message": "Düzenli ifadeler kullanılabilir.\nNotlarda da arama yapmak için bir boşlukla bitirin.\nTüm alanlarda arama yapmak için iki boşlukla bitirin.\nKuralı dizine göre eşleştirmek için bir sayı girin."
+  },
+  "ALLRULES": {
+    "message": "Tüm kurallar"
   }
 }

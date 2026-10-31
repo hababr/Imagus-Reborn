@@ -273,7 +273,7 @@
     "message": "Dar prioridad a \"img\" sobre \"link\""
   },
   "SIV_UPDALERT": {
-    "message": "• Se agregarán y actualizarán las reglas reales.\n• Las reglas que comienzan con \"_\" se conservarán tal como están.\n• Otras reglas se desactivarán y se trasladarán al final.\n\n¿Continuar?"
+    "message": "• Se agregarán y actualizarán las reglas reales.\n• Las reglas que comienzan con \"_\" se conservarán tal como están.\n• Las demás reglas serán eliminadas.\n\n¿Continuar?"
   },
   "SIV_ERR_EMPTYNAME": {
     "message": "¡El nombre de la regla no puede estar vacío!"
@@ -670,5 +670,11 @@
   },
   "COPY_CAPTION": {
     "message": "Copiar texto del pie de foto"
+  },
+  "SEARCH_TIP": {
+    "message": "Se pueden usar expresiones regulares.\nTermine con un espacio para buscar también en las notas.\nTermine con dos espacios para buscar en todos los campos.\nIntroduzca un número para buscar la regla por índice."
+  },
+  "ALLRULES": {
+    "message": "Todas las reglas"
   }
 }

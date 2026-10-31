@@ -258,7 +258,7 @@
     "message": "Priorisiere \"img\" vor \"link\""
   },
   "SIV_UPDALERT": {
-    "message": "Vergleiche und aktualisiere dein ausgewähltes Sieve. Überprüfe die Änderungen, nimm Änderungen an einem vor und lösche die anderen, wenn du fertig bist."
+    "message": "• Aktuelle Regeln werden hinzugefügt und aktualisiert.\n• Regeln, die mit \"_\" beginnen, bleiben unverändert erhalten.\n• Andere Regeln werden entfernt.\n\nFortfahren?"
   },
   "SIV_ERR_EMPTYNAME": {
     "message": "Regelname darf nicht leer sein!"
@@ -670,5 +670,11 @@
   },
   "COPY_CAPTION": {
     "message": "Beschriftungstext kopieren"
+  },
+  "SEARCH_TIP": {
+    "message": "Reguläre Ausdrücke können verwendet werden.\nMit einem Leerzeichen enden, um auch in Notizen zu suchen.\nMit zwei Leerzeichen enden, um in allen Feldern zu suchen.\nGeben Sie eine Zahl ein, um eine Regel nach Index zu finden."
+  },
+  "ALLRULES": {
+    "message": "Alle Regeln"
   }
 }

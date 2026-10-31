@@ -477,7 +477,7 @@
     "message": "Aby kontynuować, musisz włączyć Tryb dewelopera na <a href=\"#\">stronie rozszerzeń</a>. Następnie wróć tutaj."
   },
   "SIV_UPDALERT": {
-    "message": "• Rzeczywiste zasady zostaną dodane i zaktualizowane.\n• Reguły rozpoczynające się od „_” zostaną zachowane bez zmian.\n• Inne reguły zostaną wyłączone i przeniesione na koniec.\n\nKontynuować?"
+    "message": "• Rzeczywiste zasady zostaną dodane i zaktualizowane.\n• Reguły rozpoczynające się od „_” zostaną zachowane bez zmian.\n• Pozostałe reguły zostaną usunięte.\n\nKontynuować?"
   },
   "SIV_TOG_RULE": {
     "message": "Wyłącz/włącz regułę"
@@ -670,5 +670,11 @@
   },
   "COPY_CAPTION": {
     "message": "Kopiuj tekst podpisu"
+  },
+  "SEARCH_TIP": {
+    "message": "Można używać wyrażeń regularnych.\nZakończ jedną spacją, aby szukać również w notatkach.\nZakończ dwoma spacjami, aby szukać we wszystkich polach.\nWprowadź liczbę, aby dopasować regułę według indeksu."
+  },
+  "ALLRULES": {
+    "message": "Wszystkie zasady"
   }
 }

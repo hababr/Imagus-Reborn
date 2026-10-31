@@ -273,7 +273,7 @@
     "message": "Prioriteit geven aan \"img\" over \"link\""
   },
   "SIV_UPDALERT": {
-    "message": "• Actuele regels zullen worden toegevoegd en bijgewerkt.\n• Regels die beginnen met \"_\" blijven behouden zoals ze zijn.\n• Andere regels worden uitgeschakeld en naar het einde verplaatst.\n\nDoorgaan?"
+    "message": "• Actuele regels zullen worden toegevoegd en bijgewerkt.\n• Regels die beginnen met \"_\" blijven behouden zoals ze zijn.\n• Andere regels worden verwijderd.\n\nDoorgaan?"
   },
   "SIV_ERR_EMPTYNAME": {
     "message": "Regel naam kan niet leeg zijn!"
@@ -670,5 +670,11 @@
   },
   "COPY_CAPTION": {
     "message": "Bijschrifttekst kopiëren"
+  },
+  "SEARCH_TIP": {
+    "message": "Reguliere expressies kunnen worden gebruikt.\nEindig met één spatie om ook in notities te zoeken.\nEindig met twee spaties om in alle velden te zoeken.\nVoer een nummer in om een regel op index te vinden."
+  },
+  "ALLRULES": {
+    "message": "Alle regels"
   }
 }
