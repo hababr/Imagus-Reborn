@@ -632,8 +632,12 @@ var sieve_sec,
             var list = rules || sieve_container.querySelectorAll("div.selected");
             if (!list?.length) {
                 list = sieve_container.querySelectorAll(":scope > div:not(.hidden)");
+                if (list.length === sieve_container.children.length) {
+                    // no search and no selected rules - all will be removed
+                    list = [];
+                }
             }
-            let names = [...list].map(d => d.querySelector('[data-action="rule"]').textContent).join(", ") || "All rules";
+            let names = [...list].map(d => d.querySelector('[data-action="rule"]').textContent).join(", ") || _("ALLRULES");
             if (!confirm(_("DELITEMS") + "\n\n" + names)) return;
 
             if (list?.length) {

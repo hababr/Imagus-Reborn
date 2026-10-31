@@ -32,6 +32,9 @@
   "DELITEMS": {
     "message": "Remove these rules?"
   },
+  "ALLRULES": {
+    "message": "All rules"
+  },
   "EMPTY": {
     "message": "Empty..."
   },
