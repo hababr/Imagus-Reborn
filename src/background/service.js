@@ -68,7 +68,7 @@ function withBaseURI(base, relative, secure) {
     }
 }
 
-async function updateSieve(local) {
+async function updateSieve(local, updateState) {
     const { sieve: curSieve, sieveRepository: sieveRepoUrl } = await cfg.get(["sieveRepository", "sieve"]);
     local = local || !sieveRepoUrl;
 
@@ -89,15 +89,13 @@ async function updateSieve(local) {
             }
             // add new and updated rules
             for (let key in newSieve) {
-                merged[key] = newSieve[key];
+                merged[key] ||= newSieve[key];
             }
-            // add all other existing rules and disable them; copy disabled state for existing rules
+            // copy disabled state for existing rules
+            // remove all other rules
             for (let key in curSieve) {
-                if (merged[key]) {
+                if (merged[key] && !updateState) {
                     merged[key].off = curSieve[key].off;
-                } else {
-                    curSieve[key].off = 1;
-                    merged[key] = curSieve[key];
                 }
             }
             newSieve = merged;
@@ -863,24 +861,17 @@ chrome.tabs.onActivated.addListener(async function(info) {
     updateBadge(info.tabId, (await chrome.tabs.get(info.tabId)).url);
 });
 
-
 chrome.action.setTitle({ title: `${manifest.name} v${manifest.version}\nClick to toggle on this site` });
 updatePrefs(null, registerContentScripts);
 chrome.runtime.onStartup.addListener(updatePrefs);
 chrome.runtime.onInstalled.addListener(function (e) {
     if (e.reason === "update") {
         registerContentScripts();
-        if (e.previousVersion === "2026.8.20") {
-            // update hz.toolbarButtons to include "C" for copy URL button
-            cfg.get("hz", ({ hz }) => {
-                if (hz?.toolbarButtons && !hz.toolbarButtons.includes("C")) {
-                    const b = ['O', 'S', 'G'].find(c => hz.toolbarButtons.includes(c));
-                    if (b) {
-                        hz.toolbarButtons = hz.toolbarButtons.replace(b, b + "C");
-                    } else {
-                        hz.toolbarButtons += "C";
-                    }
-                    updatePrefs({ hz });
+        if (e.previousVersion === "2026.10.25") {
+            cfg.get("tls", ({ tls }) => {
+                if (tls?.autoUpdateSieve) {
+                    // update sieve and overwrite rule statuses only once
+                    updateSieve(false, true);
                 }
             });
         }

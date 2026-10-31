@@ -318,7 +318,7 @@
     "message": "You have to save changes or refresh the page"
   },
   "SIV_UPDALERT": {
-    "message": "• Actual rules will be added and updated.\n• Rules started with \"_\" will be preserved as is.\n• Other rules will be disabled and moved to the end.\n\nContinue?"
+    "message": "• Actual rules will be added and updated.\n• Rules started with \"_\" will be preserved as is.\n• Other rules will be removed.\n\nContinue?"
   },
   "SIV_LOCALALERT": {
     "message": "Load the default Sieve?"
