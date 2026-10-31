@@ -385,7 +385,7 @@ var sieve_sec,
                     attrs: { class: "rule_line" },
                     nodes: [
                         { tag: "label", nodes: ["Note:"] },
-                        { tag: "textarea", attrs: { "data-name": "note", placeholder: "note", class: "" } },
+                        { tag: "textarea", attrs: { id: "note" + c, "data-name": "note", placeholder: "note", class: "" } },
                     ]
                 }
             ]);
