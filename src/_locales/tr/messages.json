@@ -590,6 +590,15 @@
   "HZ_MEDIAVOLUME": {
     "message": "Varsayılan medya ses düzeyi (%)"
   },
+  "HZ_MEDIAVOLORIENT": {
+    "message": "Ses kontrolü yönü"
+  },
+  "HZ_MEDIAVOLORIENT_VERTICAL": {
+    "message": "Dikey"
+  },
+  "HZ_MEDIAVOLORIENT_HORIZONTAL": {
+    "message": "Yatay"
+  },
   "HZ_HIDECONTROLSDELAY": {
     "message": "Denetimlerin gizlenme süresi"
   },

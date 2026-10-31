@@ -20,6 +20,7 @@
 		"hideIdleCursor": 500,
 		"history": true,
 		"mediaVolume": 40,
+		"mediaVolOrient": "horizontal",
 		"autoplay": true,
 		"hideControlsDelay": 2000,
 		"mediaLoop": "default",

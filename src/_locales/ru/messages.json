@@ -464,6 +464,15 @@
   "HZ_MEDIAVOLUME": {
     "message": "Громкость медиа по умолчанию (%)"
   },
+  "HZ_MEDIAVOLORIENT": {
+    "message": "Ориентация регулятора громкости"
+  },
+  "HZ_MEDIAVOLORIENT_VERTICAL": {
+    "message": "Вертикальная"
+  },
+  "HZ_MEDIAVOLORIENT_HORIZONTAL": {
+    "message": "Горизонтальная"
+  },
   "HZ_SCROLLDELAY": {
     "message": "Задержка прокрутки (мс)"
   },

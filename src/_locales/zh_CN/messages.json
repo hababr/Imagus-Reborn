@@ -467,6 +467,15 @@
   "HZ_MEDIAVOLUME": {
     "message": "默认媒体音量 (%)"
   },
+  "HZ_MEDIAVOLORIENT": {
+    "message": "音量控件方向"
+  },
+  "HZ_MEDIAVOLORIENT_VERTICAL": {
+    "message": "垂直"
+  },
+  "HZ_MEDIAVOLORIENT_HORIZONTAL": {
+    "message": "水平"
+  },
   "ALLOW_USER_SCRIPTS": {
     "message": "要继续，请在<a href=\"#\">扩展详情</a>中允许用户脚本。然后返回此处。"
   },

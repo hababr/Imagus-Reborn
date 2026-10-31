@@ -455,6 +455,15 @@
   "HZ_MEDIAVOLUME": {
     "message": "Προεπιλεγμένη ένταση μέσων (%)"
   },
+  "HZ_MEDIAVOLORIENT": {
+    "message": "Προσανατολισμός ελέγχου έντασης"
+  },
+  "HZ_MEDIAVOLORIENT_VERTICAL": {
+    "message": "Κάθετος"
+  },
+  "HZ_MEDIAVOLORIENT_HORIZONTAL": {
+    "message": "Οριζόντιος"
+  },
   "HZ_SCROLLDELAY": {
     "message": "Καθυστέρηση κύλισης (ms)"
   },
