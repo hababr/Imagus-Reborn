@@ -675,10 +675,17 @@ var sieve_sec,
                 what = RegExp(str.trim() || ".", "i"),
                 list = sieve_container.children,
                 i = list.length;
+            const isOneSpaceAdded = str.endsWith(" ");
+            const isTwoSpaceAdded = str.endsWith("  ");
             while (i--) {
-                let name = list[i].querySelector(":scope > [data-action='rule']").textContent;
+                let name = list[i].querySelector(":scope > [data-action='rule']")?.textContent;
                 if (name) {
-                    list[i].classList[what.test(name) ? "remove" : "add"]("hidden");
+                    const rule = cfg.sieve[name] || {};
+                    const matched =
+                        what.test(name) ||
+                        isOneSpaceAdded && what.test(rule.note) ||
+                        isTwoSpaceAdded && what.test([rule.to, rule.url, rule.img, rule.link, rule.res].filter(Boolean).join("\n"));
+                    list[i].classList[matched ? "remove" : "add"]("hidden");
                 }
             }
             if (/^\d+$/.test(str)) {

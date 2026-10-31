@@ -41,6 +41,9 @@
   "SEARCH": {
     "message": "search..."
   },
+  "SEARCH_TIP": {
+    "message": "Regular expressions can be used.\nEnd with one space to search also in notes.\nEnd with two spaces to search in all fields.\nEnter a number to match rule by index."
+  },
   "INVALIDFORMAT": {
     "message": "Invalid format!"
   },
