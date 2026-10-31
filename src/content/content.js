@@ -1003,9 +1003,14 @@
 
         prepareCaption: function (trg, caption) {
             if (caption && typeof caption === "string") {
-                PVI.HLP.innerHTML = caption.replace(/<[^>]+>/g, "").replace(/</g, "&lt;");
-                trg.IMGS_caption = PVI.HLP.textContent.trim().replace(/[\n\r]+/g, " ");
-                PVI.HLP.textContent = "";
+                if (caption.includes("<")) {
+                    caption = caption.replace(/<[^>]+>/g, "");
+                }
+                if (caption.includes("&")) {
+                    PVI.domParser = PVI.domParser || new win.DOMParser();
+                    caption = PVI.domParser.parseFromString(caption, "text/html").body.textContent || "";
+                }
+                trg.IMGS_caption = caption.trim().replace(/[\n\r]+/g, " ");
             } else trg.IMGS_caption = "";
         },
 
@@ -2716,7 +2721,7 @@
 
             if (PVI.galleryState === 0) {
                 PVI.GLR.scrollTop = 0;
-                PVI.GLR.innerHTML = "";
+                PVI.GLR.textContent = "";
 
             } else if (PVI.galleryState === 1) {
                 if (state === undefined) {
