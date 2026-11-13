@@ -511,6 +511,8 @@ h3 {
     min-width: 800px;
     overflow: visible;
     padding: 0 8px 40px 0;
+    display: flex;
+    flex-wrap: wrap;
 }
 #sieve_container .action_buttons > span {
     height: 12px;
@@ -901,7 +903,7 @@ section.warning {
   float: left;
   width: 20%;
   display: none;
-  height: 29px;
+  height: auto;
   border: 2px dashed #a9a9a9;
   box-sizing: border-box;
 }
