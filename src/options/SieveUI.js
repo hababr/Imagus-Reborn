@@ -31,6 +31,7 @@ var sieve_sec,
                     }
                     return;
                 }
+                if (e.which >= 33 && e.which <= 40) return;
                 this.timer = setTimeout(SieveUI.search, 200);
             };
             document.querySelector(".clear_search").addEventListener("click", function () {
@@ -704,28 +705,40 @@ var sieve_sec,
         },
 
         search: function () {
-            var str = SieveUI.search_f.value,
-                what = RegExp(str.trim() || ".", "i"),
-                list = sieve_container.children,
-                i = list.length;
-            const isOneSpaceAdded = str.endsWith(" ");
-            const isTwoSpaceAdded = str.endsWith("  ");
-            while (i--) {
-                let name = list[i].querySelector(":scope > [data-action='rule']")?.textContent;
-                if (name) {
-                    const rule = cfg.sieve[name] || {};
-                    const matched =
-                        what.test(name) ||
-                        isOneSpaceAdded && what.test(rule.note) ||
-                        isTwoSpaceAdded && what.test([rule.to, rule.url, rule.img, rule.link, rule.res].filter(Boolean).join("\n"));
-                    list[i].classList[matched ? "remove" : "add"]("hidden");
+            try {
+                let str = SieveUI.search_f.value;
+                const invert = str.startsWith("!");
+                str = invert ? str.slice(1) : str;
+                const what = RegExp(str.trim() || ".", "i");
+
+                const list = sieve_container.children;
+                let i = list.length;
+
+                const isOneSpaceAdded = str.endsWith(" ");
+                const isTwoSpaceAdded = str.endsWith("  ");
+                while (i--) {
+                    let name = list[i].querySelector(":scope > [data-action='rule']")?.textContent;
+                    if (name) {
+                        const rule = cfg.sieve[name] || {};
+                        let matched =
+                            what.test(name) ||
+                            isOneSpaceAdded && what.test(`${name} ${rule.note}`.replace(/\n/g, " ")) ||
+                            isTwoSpaceAdded && what.test([name, rule.to, rule.url, rule.img, rule.link, rule.res, rule.note]
+                                .filter(Boolean).join(" ").replace(/\n/g, " "));
+                        if (invert) matched = !matched;
+                        list[i].classList[matched ? "remove" : "add"]("hidden");
+                    }
                 }
+                if (/^\d+$/.test(str)) {
+                    sieve_container.querySelectorAll(":scope > div:not(.disabled)")?.[parseInt(str, 10)]?.classList.remove("hidden");
+                }
+                SieveUI.countRules();
+                document.querySelector(".clear_search").style.visibility = str ? "visible" : "hidden";
+                SieveUI.search_f.style.color = "";
+            } catch (error) {
+                console.error(error);
+                SieveUI.search_f.style.color = "red";
             }
-            if (/^\d+$/.test(str)) {
-                sieve_container.querySelectorAll(":scope > div:not(.disabled)")?.[parseInt(str, 10)]?.classList.remove("hidden");
-            }
-            SieveUI.countRules();
-            document.querySelector(".clear_search").style.visibility = str ? "visible" : "hidden";
         },
 
         update: async function (local) {
