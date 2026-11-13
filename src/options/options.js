@@ -735,7 +735,7 @@ window.addEventListener(
             }
         });
 
-        document.querySelectorAll(".expand").forEach(el => el.addEventListener("click", e => e.target.style = ""));
+        document.querySelectorAll(".expand").forEach(el => el.addEventListener("click", e => e.target.classList.add("expanded")));
         [].forEach.call(document.body.querySelectorAll(".action_buttons") || [], function (el) {
             el.onmousedown = function (e) {
                 e.preventDefault();

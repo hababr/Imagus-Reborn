@@ -699,8 +699,11 @@ span.clear_search:hover {
     transition: min-height .1s;
 }
 textarea.expand {
-    min-height: 500px;
+    height: 95px;
     transition: min-height .2s;
+}
+textarea.expanded {
+    min-height: 50vh;
 }
 #sieve_container > div pre {
     font-size: 14px;
