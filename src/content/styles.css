@@ -34,6 +34,7 @@
     box-shadow: 0 0 2px #666;
     /* animation */
     transition: opacity 0.1s;
+    font: 13px/1.4em "Trebuchet MS", sans-serif;
 }
 
 #imagus-popup.dragging {
@@ -96,7 +97,6 @@
     width: auto;
     height: auto;
     border: 0;
-    font: 13px/1.4em "Trebuchet MS", sans-serif;
     line-height: 18px;
     padding: 0 4px;
     max-width: 100%;
@@ -160,6 +160,27 @@
     white-space: pre-line !important;
     opacity: 1 !important;
     z-index: 20 !important;
+}
+
+#imagus-message {
+    position: fixed;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .3s;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 10px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    border-radius: 4px;
+    max-width: 50%;
+    font-size: 16px;
+    z-index: 20;
+}
+#imagus-message.visible {
+    opacity: 1;
+    transition: opacity .1s;
 }
 
 #imagus-preview {

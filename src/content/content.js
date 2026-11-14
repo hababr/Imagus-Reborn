@@ -621,6 +621,7 @@
             PVI.LDR = PVI.IMG.cloneNode(false);
             PVI.HVR = doc.createElement("div");
             PVI.GLR = doc.createElement("div");
+            PVI.MSG = doc.createElement("div");
 
             await injectCss("content/styles.css")
             await injectCss("", cfg.hz.customCss);
@@ -792,7 +793,20 @@
             PVI.TBAR.addEventListener("click", PVI.tbarClick);
             PVI.TBAR.addEventListener("mousedown", PVI.tbarClick);
 
+            // append message container
+            PVI.MSG.id = "imagus-message";
+            PVI.DIV.appendChild(PVI.MSG);
+
             PVI.reset();
+        },
+
+        showMsg: function(text) {
+            clearTimeout(PVI.timers.message);
+            PVI.MSG.textContent = text;
+            PVI.MSG.classList.add("visible");
+            PVI.timers.message = setTimeout(() => {
+                PVI.MSG.classList.remove("visible");
+            }, 2000);
         },
 
         openVideojs: async function(src) {
