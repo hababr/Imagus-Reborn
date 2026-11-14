@@ -3105,7 +3105,7 @@
                 }
                 let wheelDown = cfg.hz.invertWheel ? e.deltaY < 0 : e.deltaY > 0;
                 if (target.closest(".vjs-volume-panel")) {
-                    if (cfg.hz.mediaVolOrient === "vertical") wheelDown = !wheelDown;
+                    if (cfg.hz.mediaVolOrient === "vertical" && !cfg.hz.invertWheel) wheelDown = !wheelDown;
                     PVI.key_action({ which: wheelDown ? 38 : 40, target: PVI.CNT });
                 } else {
                     PVI.key_action({ which: wheelDown ? 39 : 37, ctrlKey: true, target: PVI.CNT });
