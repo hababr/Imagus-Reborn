@@ -19,6 +19,27 @@
         return cfg?.messages?.[msg] || msg;
     };
 
+    const RESIZE_MODE = {
+        FIT:      "fit",
+        ORIG:     "orig",
+        FITW:     "fitw",
+        FITH:     "fith",
+        FITBOTH:  "fitboth",
+        ZOOMLOCK: "zoomlock",
+    };
+
+    function keyToResizeMode(key) {
+        if (!key) return RESIZE_MODE.ORIG;
+        switch(key) {
+            case cfg.keys.mOrig:     return RESIZE_MODE.ORIG;
+            case cfg.keys.mFit:      return RESIZE_MODE.FIT;
+            case cfg.keys.mFitW:     return RESIZE_MODE.FITW;
+            case cfg.keys.mFitH:     return RESIZE_MODE.FITH;
+            case cfg.keys.mFitBoth:  return RESIZE_MODE.FITBOTH;
+            case cfg.keys.mZoomLock: return RESIZE_MODE.ZOOMLOCK;
+        }
+    }
+
     // Smooth scroll support (trackpad / smooth-scroll mouse)
     let wheelRAF = null;
     let wheelDeltaAccum = 0;
@@ -2748,17 +2769,17 @@
                     PVI.PLAYER.currentTime(PVI.PLAYER.duration() * ((e.keyCode - 48) / 10));
                     PVI.PLAYER.userActive(true);
 
-                } else if (key === cfg.keys.mOrig || key === cfg.keys.mFit || key === cfg.keys.mFitBoth || key === cfg.keys.mFitW || key === cfg.keys.mFitH || key === cfg.keys.mZoomLock) {
-                    PVI.resizeMode = cfg.hz.resizeMode = key;
+                } else if (keyToResizeMode(key)) {
+                    PVI.resizeMode = cfg.hz.resizeMode = keyToResizeMode(key);
                     if (cfg.hz.resizeModeType === "memory") {
-                        Port.send({ cmd: "savePrefs", prefs: { hz: { resizeMode: key } } });
+                        Port.send({ cmd: "savePrefs", prefs: { hz: { resizeMode: PVI.resizeMode } } });
                     }
 
                     if (PVI.fullZm) {
                         transitionOnce();
-                        PVI.resize(key);
+                        PVI.resize(PVI.resizeMode);
                     } else {
-                        PVI.fzEnable(e);
+                        PVI.fzEnable(e, PVI.resizeMode);
                     }
                 } else if (key === cfg.keys.toggleScaleUp) {
                     if (!PVI.fullZm && PVI.state > 2) {
@@ -2915,7 +2936,7 @@
             return true;
         },
 
-        fzEnable: function (e) {
+        fzEnable: function (e, mode) {
             if (!e && PVI.fullZm) return;
             win.removeEventListener("mouseover", PVI.m_over, true);
             doc.removeEventListener("wheel", PVI.onPageScroll, true);
@@ -2930,15 +2951,10 @@
             if (PVI.state > 2) {
                 PVI.DIV.style.visibility = "hidden";
 
-                let resizeModes = {
-                    "orig": cfg.keys.mOrig,
-                    "fit":  cfg.keys.mFit,
-                    "fitboth": cfg.keys.mFitBoth,
-                    "fitw": cfg.keys.mFitW,
-                    "fith": cfg.keys.mFitH,
-                    "zoomlock": cfg.keys.mZoomLock,
+                if (!mode && cfg.hz.resizeModeType === "memory") {
+                    mode = cfg.hz.resizeMode;
                 }
-                PVI.resizeMode = resizeModes[cfg.hz.resizeModeType] || cfg.hz.resizeMode || cfg.keys.mFit;
+                PVI.resizeMode = mode || cfg.hz.resizeModeType || RESIZE_MODE.ORIG;
 
                 PVI.resize(PVI.resizeMode || false);
                 PVI.m_move();
@@ -3190,29 +3206,29 @@
             if (rot) s.reverse();
             let winWI = winW - PVI.DBOX["wpb"] - PVI.DBOX["wm"];
             let winHI = winH - PVI.DBOX["hpb"] - PVI.DBOX["hm"] - PVI.getCapHeight();
-            if (x === cfg.keys.mZoomLock) {
+            if (x === RESIZE_MODE.ZOOMLOCK) {
                 s[0] *= cfg.hz.lockedZoom || 1;
                 s[1] *= cfg.hz.lockedZoom || 1;
-            } else if (x === cfg.keys.mFit || x === false) {
+            } else if (x === RESIZE_MODE.FIT || x === false) {
                 if (winWI / winHI < s[0] / s[1]) {
-                    x = winWI > s[0] ? false : cfg.keys.mFitW;
+                    x = winWI > s[0] ? false : RESIZE_MODE.FITW;
                 } else {
-                    x = winHI > s[1] ? false : cfg.keys.mFitH;
+                    x = winHI > s[1] ? false : RESIZE_MODE.FITH;
                 }
-            } else if (x === cfg.keys.mFitBoth) {
+            } else if (x === RESIZE_MODE.FITBOTH) {
                 if (winWI / winHI < s[0] / s[1]) {
-                    x = cfg.keys.mFitW;
+                    x = RESIZE_MODE.FITW;
                 } else {
-                    x = cfg.keys.mFitH;
+                    x = RESIZE_MODE.FITH;
                 }
             }
             switch (typeof x === "number" ? "num" : x) {
-                case cfg.keys.mFitW:
+                case RESIZE_MODE.FITW:
                     s[1] *= winWI / s[0];
                     s[0] = winWI;
                     if (PVI.fullZm > 1) PVI.y = 0;
                     break;
-                case cfg.keys.mFitH:
+                case RESIZE_MODE.FITH:
                     s[0] *= winHI / s[1];
                     s[1] = winHI;
                     if (PVI.fullZm > 1) PVI.y = 0;
@@ -3248,7 +3264,7 @@
                 }
             }
 
-            if (PVI.resizeMode === cfg.keys.mZoomLock) {
+            if (PVI.resizeMode === RESIZE_MODE.ZOOMLOCK) {
                 const natW = PVI.TRG.IMGS_SVG ? PVI.stack[PVI.IMG.src][0] : PVI.CNT.naturalWidth;
                 const zoom = natW > 0 ? s[rot ? 1 : 0] / natW : 1;
                 if (zoom !== cfg.hz.lockedZoom) {
