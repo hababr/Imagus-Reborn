@@ -96,7 +96,80 @@
         }
     }
 
-    var copyToClipboard = function (text, elem) {
+
+    async function canvasToPng(el) {
+        const canvas = document.createElement('canvas');
+        canvas.width = el.videoWidth || el.naturalWidth || el.clientWidth;
+        canvas.height = el.videoHeight || el.naturalHeight || el.clientHeight;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(el, 0, 0, canvas.width, canvas.height);
+        return new Promise((resolve, reject) => {
+            try {
+                canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error("Image export failed")), 'image/png');
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
+    async function imgToPngBlob() {
+        try {
+            return await canvasToPng(PVI.IMG);
+        } catch (error) { }
+
+        // try workaround with CORS
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.crossOrigin = 'anonymous';
+            img.onload = () => canvasToPng(img).then(resolve).catch(reject);
+            img.onerror = () => reject(new Error('Failed to load image'));
+            img.src = PVI.IMG.src;
+        });
+    }
+
+    async function vidToPngBlob(vid) {
+        try {
+            return await canvasToPng(vid);
+        } catch (error) { }
+
+        // try workaround with CORS
+        const offscreenVid = document.createElement("video");
+        offscreenVid.crossOrigin = "anonymous";
+        offscreenVid.src = vid.currentSrc || vid.src;
+        offscreenVid.currentTime = vid.currentTime;
+        await new Promise((resolve, reject) => {
+            offscreenVid.onseeked = resolve;
+            offscreenVid.onerror = () => reject(new Error("CORS or load failure"));
+        });
+        setTimeout(() => {
+            offscreenVid.removeAttribute("src");
+            offscreenVid.load();
+        }, 100);
+
+        return await canvasToPng(offscreenVid);
+    }
+
+    var copyImg = async function () {
+        try {
+            PVI.showMsg(_("COPY_IMG_START"));
+            let blob;
+            if (PVI.isVideo()) {
+                blob = await vidToPngBlob(PVI.VID);
+            } else {
+                blob = await imgToPngBlob(PVI.IMG.src);
+            }
+
+            await navigator.clipboard.write([
+                new ClipboardItem({ [blob.type]: blob })
+            ]);
+            PVI.showMsg(_("COPY_IMG_DONE"));
+        } catch (err) {
+            console.error("Failed to copy image: ", err);
+            PVI.showMsg(_("COPY_IMG_FAIL") + `: ${err.message}`);
+        }
+    }
+
+    var copyToClipboard = function (text, msg) {
         PVI.timers.copy = undefined;
         if (!text) return;
         var oncopy = function (ev) {
@@ -106,30 +179,28 @@
         };
         doc.addEventListener("copy", oncopy);
         doc.execCommand("copy");
-        animate(elem);
+        PVI.showMsg(_(msg));
     }
 
     var copyUrls = function (e, caption) {
         if (PVI.timers.copy) clearTimeout(PVI.timers.copy);
         let isDouble = !!PVI.timers.copy;
         let text = "";
-        let elem = PVI.DIV;
+        let msg = "COPY_URL_DONE";
 
         if (isDouble && e.type === "keydown" || caption) {
             text = PVI.TRG.IMGS_caption || "";
-            elem = PVI.CAP;
+            msg = "COPY_CAPTION_DONE";
         } else if (PVI.TRG?.IMGS_album && (PVI.galleryState === 2 || isDouble)) {
             text = getAlbumClean().join("\n");
+            msg = "COPY_URLS_DONE";
         }
 
         if (!text) {
             text = getSrc() || "";
         }
 
-        if (e.type !== "keydown") {
-            elem = undefined
-        }
-        PVI.timers.copy = setTimeout(copyToClipboard, isDouble || caption ? 0 : 500, text, elem);
+        PVI.timers.copy = setTimeout(copyToClipboard, isDouble || caption ? 0 : 500, text, msg);
     }
 
     var getSrc = function () {
@@ -785,8 +856,9 @@
                 "O": { tag: "button", text: "O", attrs: { "data-action": "open", title: _("OPEN_IN_NEW_TAB") } },
                 "C": { tag: "button", text: "C", attrs: { "data-action": "copy", title: _("COPY_URL") } },
                 "T": { tag: "button", text: "T", attrs: { "data-action": "copy_caption", title: _("COPY_CAPTION") } },
+                "I": { tag: "button", text: "I", attrs: { "data-action": "copy_image", title: _("COPY_IMG") } },
                 "G": { tag: "button", text: "G", attrs: { "data-action": "gallery", title: _("GALLERY") } },
-                "I": { tag: "button", text: "#", attrs: { "data-action": "goto", title: _("GOTO_SEARCH") } },
+                "#": { tag: "button", text: "#", attrs: { "data-action": "goto", title: _("GOTO_SEARCH") } },
                 "R": { tag: "button", text: "↻", attrs: { "data-action": "rotate", title: _("ROTATE_RIGHT") } },
                 "P": { tag: "button", text: "P", attrs: { "data-action": "preferences", title: _("PREFERENCES") } },
             };
@@ -2455,6 +2527,9 @@
                 case "copy_caption":
                     copyUrls(e, true);
                     break;
+                case "copy_image":
+                    copyImg();
+                    break;
                 default:
                     break;
             }
@@ -2552,6 +2627,9 @@
                     }
                     pv = true;
 
+                } else if (PVI.state === 4 && sc === cfg.keys.copyImg) {
+                    pv = true;
+                    copyImg();
                 } else if (PVI.state === 4 && !e.shiftKey &&
                     (e.ctrlKey && key === "C" || !e.ctrlKey && key === cfg.keys.hz_copy)
                 ) {

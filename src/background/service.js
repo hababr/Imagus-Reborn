@@ -16,10 +16,11 @@ const _ = function (msg) {
 
 const scriptMessages = {
     "INVALID_URL": "", "DOWNLOAD_FAILED": "", "HIDE_TOOLBAR": "", "SAVE": "", "OPEN_IN_NEW_TAB": "", "GALLERY": "", "GOTO_SEARCH": "", "ROTATE_RIGHT": "",
-    "PREFERENCES": "", "CANNOT_FIND_URL": "", "ADD_TO_IGNORE_LIST": "", "COPY_URL": "", "COPY_CAPTION": ""
+    "PREFERENCES": "", "CANNOT_FIND_URL": "", "ADD_TO_IGNORE_LIST": "", "COPY_URL": "", "COPY_CAPTION": "", "DOWNLOAD_START": "", "DOWNLOAD_DONE": "",
+    "COPY_IMG": "", "COPY_IMG_START": "", "COPY_IMG_DONE": "", "COPY_IMG_FAIL": "", "COPY_URL_DONE": "", "COPY_URLS_DONE": "", "COPY_CAPTION_DONE": ""
 };
 for (let key in scriptMessages) {
-    scriptMessages[key] = _(key);
+    scriptMessages[key] = _(key) || key;
 }
 
 var cfg = {
@@ -868,13 +869,14 @@ chrome.runtime.onStartup.addListener(updatePrefs);
 chrome.runtime.onInstalled.addListener(function (e) {
     if (e.reason === "update") {
         registerContentScripts();
-        if (e.previousVersion === "2026.10.25") {
-            cfg.get("tls", ({ tls }) => {
-                if (tls?.autoUpdateSieve) {
-                    // update sieve and overwrite rule statuses only once
-                    updateSieve(false, true);
+        if (e.previousVersion === "2026.10.31") {
+            // update hz.toolbarButtons to new default
+            cfg.get("hz", ({ hz }) => {
+                if (hz?.toolbarButtons === "XSOCGIRP") {
+                    hz.toolbarButtons = "XSOCTIG#RP";
+                    updatePrefs({ hz });
                 }
-            });
+            })
         }
     } else if (e.reason === "install") {
         chrome.runtime.openOptionsPage();

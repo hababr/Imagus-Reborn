@@ -360,7 +360,7 @@
     "message": "Show toolbar"
   },
   "HZ_TOOLBAR_BTNS_TIP": {
-    "message": "Possible buttons:\n<b>X</b> - hide toolbar\n<b>S</b> - save(download)\n<b>O</b> - open in new tab/window\n<b>C</b> - Copy URL (or album)\n<b>T</b> - Copy caption text\n<b>G</b> - gallery mode\n<b>I</b> - goto/search\n<b>R</b> - rotate\n<b>P</b> - open preferences\n\nDefault: XSOCTGIRP"
+    "message": "Possible buttons:\n<b>X</b> - hide toolbar\n<b>S</b> - save(download)\n<b>O</b> - open in new tab/window\n<b>C</b> - copy URL (or album)\n<b>T</b> - copy caption text\n<b>I</b> - copy image or video frame\n<b>G</b> - gallery mode\n<b>#</b> - goto/search\n<b>R</b> - rotate\n<b>P</b> - open preferences\n\nDefault: XSOCTIG#RP"
   },
   "HZ_FZTOOLBAR_BTNS": {
     "message": "Toolbar buttons"
@@ -389,8 +389,32 @@
   "COPY_URL": {
     "message": "Copy URL\nDouble click: copy whole album"
   },
+  "COPY_URL_DONE": {
+    "message": "URL copied"
+  },
+  "COPY_URLS_DONE": {
+    "message": "Album URLs copied"
+  },
+  "SC_COPY_IMG": {
+    "message": "copy image or video frame to clipboard"
+  },
+  "COPY_IMG": {
+    "message": "Copy image"
+  },
+  "COPY_IMG_START": {
+    "message": "Image copying..."
+  },
+  "COPY_IMG_DONE": {
+    "message": "Image copied"
+  },
+  "COPY_IMG_FAIL": {
+    "message": "Image copy failed"
+  },
   "COPY_CAPTION": {
     "message": "Copy caption text"
+  },
+  "COPY_CAPTION_DONE": {
+    "message": "Caption text copied"
   },
   "GALLERY": {
     "message": "Gallery"
@@ -534,10 +558,10 @@
     "message": "long-press"
   },
   "HZ_SC_SAVE": {
-    "message": "Save pop-up content"
+    "message": "save pop-up content"
   },
   "HZ_SC_COPY": {
-    "message": "Copy URL (press twice to copy the caption text)"
+    "message": "copy URL (press twice to copy the caption text)"
   },
   "SIV_CACHERES": {
     "message": "Cache resolved content"
