@@ -417,7 +417,7 @@
     "message": "ingedrukt houden"
   },
   "HZ_SC_SAVE": {
-    "message": "Sla pop-up content op"
+    "message": "sla pop-up content op"
   },
   "HZ_SC_COPY": {
     "message": "URL kopiëren (tweemaal drukken om de bijschrifttekst te kopiëren)"
@@ -588,7 +588,7 @@
     "message": "Nooit een lus maken"
   },
   "HZ_TOOLBAR_BTNS_TIP": {
-    "message": "Mogelijke knoppen:\n<b>X</b> - werkbalk verbergen\n<b>S</b> - opslaan (downloaden)\n<b>O</b> - openen in nieuw tabblad/venster\n<b>C</b> - URL (of album) kopiëren\n<b>T</b> - bijschrifttekst kopiëren\n<b>G</b> - galerijmodus\n<b>I</b> - ga naar / zoeken\n<b>R</b> - roteren\n<b>P</b> - voorkeuren openen\n\nStandaard: XSOCTGIRP"
+    "message": "Mogelijke knoppen:\n<b>X</b> - werkbalk verbergen\n<b>S</b> - opslaan (downloaden)\n<b>O</b> - openen in nieuw tabblad/venster\n<b>C</b> - URL (of album) kopiëren\n<b>T</b> - bijschrifttekst kopiëren\n<b>I</b> - afbeelding of videoframe kopiëren\n<b>G</b> - galerijmodus\n<b>#</b> - ga naar / zoeken\n<b>R</b> - roteren\n<b>P</b> - voorkeuren openen\n\nStandaard: XSOCTIG#RP"
   },
   "IGNORE_ELEMENT": {
     "message": "Element negeren..."
@@ -681,9 +681,39 @@
     "message": "Bijschrifttekst kopiëren"
   },
   "SEARCH_TIP": {
-    "message": "Reguliere expressies kunnen worden gebruikt.\nEindig met één spatie om ook in notities te zoeken.\nEindig met twee spaties om in alle velden te zoeken.\nVoer een nummer in om een regel op index te vinden."
+    "message": "Reguliere expressies kunnen worden gebruikt.\nEindig met één spatie om ook in notities te zoeken.\nEindig met twee spaties om in alle velden te zoeken.\nVoer een nummer in om een regel op index te vinden.\nBegin met <b>!</b> om de zoekopdracht om te keren."
   },
   "ALLRULES": {
     "message": "Alle regels"
+  },
+  "COPY_CAPTION_DONE": {
+    "message": "Onderschrifttekst gekopieerd"
+  },
+  "COPY_IMG": {
+    "message": "Kopieer afbeelding"
+  },
+  "COPY_IMG_DONE": {
+    "message": "Afbeelding gekopieerd"
+  },
+  "COPY_IMG_FAIL": {
+    "message": "Kopiëren van afbeelding mislukt"
+  },
+  "COPY_IMG_START": {
+    "message": "Afbeelding kopiëren..."
+  },
+  "COPY_URLS_DONE": {
+    "message": "Alle URL's gekopieerd"
+  },
+  "COPY_URL_DONE": {
+    "message": "URL gekopieerd"
+  },
+  "DOWNLOAD_DONE": {
+    "message": "Downloaden voltooid"
+  },
+  "DOWNLOAD_START": {
+    "message": "Downloaden..."
+  },
+  "SC_COPY_IMG": {
+    "message": "kopieer afbeelding of videoframe naar klembord"
   }
 }

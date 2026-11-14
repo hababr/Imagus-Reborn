@@ -417,10 +417,10 @@
     "message": "clic prolongé"
   },
   "HZ_SC_SAVE": {
-    "message": "Enregistrer le contenu de l'aperçu"
+    "message": "enregistrer le contenu de l'aperçu"
   },
   "HZ_SC_COPY": {
-    "message": "Copier l'URL (appuyer deux fois pour copier le texte de la légende)"
+    "message": "copier l'URL (appuyer deux fois pour copier le texte de la légende)"
   },
   "SIV_CACHERES": {
     "message": "Mettre le contenu traité dans le cache"
@@ -588,7 +588,7 @@
     "message": "Ne jamais boucler"
   },
   "HZ_TOOLBAR_BTNS_TIP": {
-    "message": "Boutons possibles :\n<b>X</b> - masquer la barre d'outils\n<b>S</b> - enregistrer (télécharger)\n<b>O</b> - ouvrir dans un nouvel onglet/fenêtre\n<b>C</b> - copier l'URL (ou l'album)\n<b>T</b> - copier le texte de la légende\n<b>G</b> - mode galerie\n<b>I</b> - aller à / rechercher\n<b>R</b> - faire pivoter\n<b>P</b> - ouvrir les préférences\n\nPar défaut : XSOCTGIRP"
+    "message": "Boutons possibles :\n<b>X</b> - masquer la barre d'outils\n<b>S</b> - enregistrer (télécharger)\n<b>O</b> - ouvrir dans un nouvel onglet/fenêtre\n<b>C</b> - copier l'URL (ou l'album)\n<b>T</b> - copier le texte de la légende\n<b>I</b> - copier une image ou une image vidéo\n<b>G</b> - mode galerie\n<b>#</b> - aller à / rechercher\n<b>R</b> - faire pivoter\n<b>P</b> - ouvrir les préférences\n\nPar défaut : XSOCTIG#RP"
   },
   "IGNORE_ELEMENT": {
     "message": "Ignorer l'élément..."
@@ -681,9 +681,39 @@
     "message": "Copier le texte de la légende"
   },
   "SEARCH_TIP": {
-    "message": "Les expressions régulières peuvent être utilisées.\nTerminez par un espace pour rechercher également dans les notes.\nTerminez par deux espaces pour rechercher dans tous les champs.\nEntrez un numéro pour trouver une règle par son index."
+    "message": "Les expressions régulières peuvent être utilisées.\nTerminez par un espace pour rechercher également dans les notes.\nTerminez par deux espaces pour rechercher dans tous les champs.\nEntrez un numéro pour trouver une règle par son index.\nCommencez par <b>!</b> pour inverser la recherche."
   },
   "ALLRULES": {
     "message": "Toutes les règles"
+  },
+  "COPY_CAPTION_DONE": {
+    "message": "Texte de légende copié"
+  },
+  "COPY_IMG": {
+    "message": "Copier l'image"
+  },
+  "COPY_IMG_DONE": {
+    "message": "Image copiée"
+  },
+  "COPY_IMG_FAIL": {
+    "message": "Échec de la copie de l'image"
+  },
+  "COPY_IMG_START": {
+    "message": "Copie d'images..."
+  },
+  "COPY_URLS_DONE": {
+    "message": "Toutes les URL copiées"
+  },
+  "COPY_URL_DONE": {
+    "message": "URL copiée"
+  },
+  "DOWNLOAD_DONE": {
+    "message": "Téléchargement terminé"
+  },
+  "DOWNLOAD_START": {
+    "message": "Téléchargement..."
+  },
+  "SC_COPY_IMG": {
+    "message": "copier une image ou une image vidéo dans le presse-papiers"
   }
 }

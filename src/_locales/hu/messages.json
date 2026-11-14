@@ -417,7 +417,7 @@
     "message": "hosszan-tartással"
   },
   "HZ_SC_SAVE": {
-    "message": "Felugró tartalmának mentése"
+    "message": "felugró tartalmának mentése"
   },
   "HZ_SC_COPY": {
     "message": "URL másolása (nyomja meg kétszer a felirat szövegének másolásához)"
@@ -588,7 +588,7 @@
     "message": "Soha ne hurkoljon"
   },
   "HZ_TOOLBAR_BTNS_TIP": {
-    "message": "Lehetséges gombok:\n<b>X</b> - eszköztár elrejtése\n<b>S</b> - mentés (letöltés)\n<b>O</b> - megnyitás új lapon/ablakban\n<b>C</b> - URL (vagy album) másolása\n<b>T</b> - felirat szövegének másolása\n<b>G</b> - galéria mód\n<b>I</b> - ugrás / keresés\n<b>R</b> - forgatás\n<b>P</b> - beállítások megnyitása\n\nAlapértelmezett: XSOCTGIRP"
+    "message": "Lehetséges gombok:\n<b>X</b> - eszköztár elrejtése\n<b>S</b> - mentés (letöltés)\n<b>O</b> - megnyitás új lapon/ablakban\n<b>C</b> - URL (vagy album) másolása\n<b>T</b> - felirat szövegének másolása\n<b>I</b> - kép vagy videóképkocka másolása\n<b>G</b> - galéria mód\n<b>#</b> - ugrás / keresés\n<b>R</b> - forgatás\n<b>P</b> - beállítások megnyitása\n\nAlapértelmezett: XSOCTIG#RP"
   },
   "IGNORE_ELEMENT": {
     "message": "Elem figyelmen kívül hagyása..."
@@ -681,9 +681,39 @@
     "message": "Felirat szövegének másolása"
   },
   "SEARCH_TIP": {
-    "message": "Reguláris kifejezések használhatók.\nFejezze be egy szóközzel a jegyzetekben való kereséshez is.\nFejezze be két szóközzel az összes mezőben való kereséshez.\nAdjon meg egy számot a szabály index szerinti megkereséséhez."
+    "message": "Reguláris kifejezések használhatók.\nFejezze be egy szóközzel a jegyzetekben való kereséshez is.\nFejezze be két szóközzel az összes mezőben való kereséshez.\nAdjon meg egy számot a szabály index szerinti megkereséséhez.\nKezdje <b>!</b> jellel a keresés megfordításához."
   },
   "ALLRULES": {
     "message": "Minden szabály"
+  },
+  "COPY_CAPTION_DONE": {
+    "message": "A felirat szövege másolva"
+  },
+  "COPY_IMG": {
+    "message": "Kép másolása"
+  },
+  "COPY_IMG_DONE": {
+    "message": "Kép másolva"
+  },
+  "COPY_IMG_FAIL": {
+    "message": "A képmásolás nem sikerült"
+  },
+  "COPY_IMG_START": {
+    "message": "Képmásolás..."
+  },
+  "COPY_URLS_DONE": {
+    "message": "Minden URL másolva"
+  },
+  "COPY_URL_DONE": {
+    "message": "URL másolva"
+  },
+  "DOWNLOAD_DONE": {
+    "message": "Letöltés kész"
+  },
+  "DOWNLOAD_START": {
+    "message": "Letöltés..."
+  },
+  "SC_COPY_IMG": {
+    "message": "másolja a képet vagy a videókockát a vágólapra"
   }
 }

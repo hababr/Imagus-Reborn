@@ -417,10 +417,10 @@
     "message": "una pulsación larga"
   },
   "HZ_SC_SAVE": {
-    "message": "Guardar el contenido del visor"
+    "message": "guardar el contenido del visor"
   },
   "HZ_SC_COPY": {
-    "message": "Copiar URL (pulsar dos veces para copiar el texto del pie de foto)"
+    "message": "copiar URL (pulsar dos veces para copiar el texto del pie de foto)"
   },
   "SIV_CACHERES": {
     "message": "Almacenar en caché las direcciones resueltas (res)"
@@ -588,7 +588,7 @@
     "message": "Nunca bucle"
   },
   "HZ_TOOLBAR_BTNS_TIP": {
-    "message": "Botones posibles:\n<b>X</b> - ocultar barra de herramientas\n<b>S</b> - guardar (descargar)\n<b>O</b> - abrir en nueva pestaña/ventana\n<b>C</b> - copiar URL (o álbum)\n<b>T</b> - copiar texto del pie de foto\n<b>G</b> - modo galería\n<b>I</b> - ir a / buscar\n<b>R</b> - rotar\n<b>P</b> - abrir preferencias\n\nPredeterminado: XSOCTGIRP"
+    "message": "Botones posibles:\n<b>X</b> - ocultar barra de herramientas\n<b>S</b> - guardar (descargar)\n<b>O</b> - abrir en nueva pestaña/ventana\n<b>C</b> - copiar URL (o álbum)\n<b>T</b> - copiar texto del pie de foto\n<b>I</b> - copiar imagen o fotograma de vídeo\n<b>G</b> - modo galería\n<b>#</b> - ir a / buscar\n<b>R</b> - rotar\n<b>P</b> - abrir preferencias\n\nPredeterminado: XSOCTIG#RP"
   },
   "IGNORE_ELEMENT": {
     "message": "Ignorar elemento..."
@@ -681,9 +681,39 @@
     "message": "Copiar texto del pie de foto"
   },
   "SEARCH_TIP": {
-    "message": "Se pueden usar expresiones regulares.\nTermine con un espacio para buscar también en las notas.\nTermine con dos espacios para buscar en todos los campos.\nIntroduzca un número para buscar la regla por índice."
+    "message": "Se pueden usar expresiones regulares.\nTermine con un espacio para buscar también en las notas.\nTermine con dos espacios para buscar en todos los campos.\nIntroduzca un número para buscar la regla por índice.\nComience con <b>!</b> para invertir la búsqueda."
   },
   "ALLRULES": {
     "message": "Todas las reglas"
+  },
+  "COPY_CAPTION_DONE": {
+    "message": "Texto del título copiado"
+  },
+  "COPY_IMG": {
+    "message": "Copiar imagen"
+  },
+  "COPY_IMG_DONE": {
+    "message": "Imagen copiada"
+  },
+  "COPY_IMG_FAIL": {
+    "message": "Error al copiar la imagen"
+  },
+  "COPY_IMG_START": {
+    "message": "Copiando imagen..."
+  },
+  "COPY_URLS_DONE": {
+    "message": "Todas las URL copiadas"
+  },
+  "COPY_URL_DONE": {
+    "message": "URL copiada"
+  },
+  "DOWNLOAD_DONE": {
+    "message": "Descarga completa"
+  },
+  "DOWNLOAD_START": {
+    "message": "Descargando..."
+  },
+  "SC_COPY_IMG": {
+    "message": "copiar fotograma de imagen o vídeo al portapapeles"
   }
 }

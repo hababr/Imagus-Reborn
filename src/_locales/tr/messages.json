@@ -354,7 +354,7 @@
     "message": "Araç çubuğunu göster"
   },
   "HZ_TOOLBAR_BTNS_TIP": {
-    "message": "Kullanılabilir düğmeler:\n<b>X</b> - araç çubuğunu gizle\n<b>S</b> - kaydet (indir)\n<b>O</b> - yeni sekmede/pencerede aç\n<b>C</b> - URL'yi (veya albümü) kopyala\n<b>T</b> - başlık metnini kopyala\n<b>G</b> - galeri modu\n<b>I</b> - git / ara\n<b>R</b> - döndür\n<b>P</b> - tercihleri aç\n\nVarsayılan: XSOCTGIRP"
+    "message": "Kullanılabilir düğmeler:\n<b>X</b> - araç çubuğunu gizle\n<b>S</b> - kaydet (indir)\n<b>O</b> - yeni sekmede/pencerede aç\n<b>C</b> - URL'yi (veya albümü) kopyala\n<b>T</b> - başlık metnini kopyala\n<b>I</b> - resmi veya video karesini kopyala\n<b>G</b> - galeri modu\n<b>#</b> - git / ara\n<b>R</b> - döndür\n<b>P</b> - tercihleri aç\n\nVarsayılan: XSOCTIG#RP"
   },
   "HZ_FZTOOLBAR_BTNS": {
     "message": "Araç çubuğu düğmeleri"
@@ -525,7 +525,7 @@
     "message": "uzun basma"
   },
   "HZ_SC_SAVE": {
-    "message": "Açılır pencere içeriğini kaydet"
+    "message": "açılır pencere içeriğini kaydet"
   },
   "HZ_SC_COPY": {
     "message": "URL'yi kopyala (başlık metnini kopyalamak için iki kez basın)"
@@ -681,9 +681,39 @@
     "message": "Başlık metnini kopyala"
   },
   "SEARCH_TIP": {
-    "message": "Düzenli ifadeler kullanılabilir.\nNotlarda da arama yapmak için bir boşlukla bitirin.\nTüm alanlarda arama yapmak için iki boşlukla bitirin.\nKuralı dizine göre eşleştirmek için bir sayı girin."
+    "message": "Düzenli ifadeler kullanılabilir.\nNotlarda da arama yapmak için bir boşlukla bitirin.\nTüm alanlarda arama yapmak için iki boşlukla bitirin.\nKuralı dizine göre eşleştirmek için bir sayı girin.\nAramayı tersine çevirmek için <b>!</b> ile başlayın."
   },
   "ALLRULES": {
     "message": "Tüm kurallar"
+  },
+  "COPY_CAPTION_DONE": {
+    "message": "Altyazı metni kopyalandı"
+  },
+  "COPY_IMG": {
+    "message": "Resmi kopyala"
+  },
+  "COPY_IMG_DONE": {
+    "message": "Resim kopyalandı"
+  },
+  "COPY_IMG_FAIL": {
+    "message": "Resim kopyalama başarısız oldu"
+  },
+  "COPY_IMG_START": {
+    "message": "Resim kopyalanıyor..."
+  },
+  "COPY_URLS_DONE": {
+    "message": "Tüm URL'ler kopyalandı"
+  },
+  "COPY_URL_DONE": {
+    "message": "URL kopyalandı"
+  },
+  "DOWNLOAD_DONE": {
+    "message": "İndirme tamamlandı"
+  },
+  "DOWNLOAD_START": {
+    "message": "İndiriliyor..."
+  },
+  "SC_COPY_IMG": {
+    "message": "görüntüyü veya video çerçevesini panoya kopyala"
   }
 }

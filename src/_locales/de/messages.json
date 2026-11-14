@@ -588,7 +588,7 @@
     "message": "Niemals eine Schleife machen"
   },
   "HZ_TOOLBAR_BTNS_TIP": {
-    "message": "Mögliche Schaltflächen:\n<b>X</b> - Symbolleiste ausblenden\n<b>S</b> - Speichern (herunterladen)\n<b>O</b> - In neuem Tab/Fenster öffnen\n<b>C</b> - URL (oder Album) kopieren\n<b>T</b> - Beschriftungstext kopieren\n<b>G</b> - Galerie-Modus\n<b>I</b> - Gehe zu / Suchen\n<b>R</b> - Drehen\n<b>P</b> - Einstellungen öffnen\n\nStandard: XSOCTGIRP"
+    "message": "Mögliche Schaltflächen:\n<b>X</b> - Symbolleiste ausblenden\n<b>S</b> - Speichern (herunterladen)\n<b>O</b> - In neuem Tab/Fenster öffnen\n<b>C</b> - URL (oder Album) kopieren\n<b>T</b> - Beschriftungstext kopieren\n<b>I</b> - Bild oder Videobild kopieren\n<b>G</b> - Galerie-Modus\n<b>#</b> - Gehe zu / Suchen\n<b>R</b> - Drehen\n<b>P</b> - Einstellungen öffnen\n\nStandard: XSOCTIG#RP"
   },
   "IGNORE_ELEMENT": {
     "message": "Element ignorieren..."
@@ -681,9 +681,39 @@
     "message": "Beschriftungstext kopieren"
   },
   "SEARCH_TIP": {
-    "message": "Reguläre Ausdrücke können verwendet werden.\nMit einem Leerzeichen enden, um auch in Notizen zu suchen.\nMit zwei Leerzeichen enden, um in allen Feldern zu suchen.\nGeben Sie eine Zahl ein, um eine Regel nach Index zu finden."
+    "message": "Reguläre Ausdrücke können verwendet werden.\nMit einem Leerzeichen enden, um auch in Notizen zu suchen.\nMit zwei Leerzeichen enden, um in allen Feldern zu suchen.\nGeben Sie eine Zahl ein, um eine Regel nach Index zu finden.\nMit <b>!</b> beginnen, um die Suche zu invertieren."
   },
   "ALLRULES": {
     "message": "Alle Regeln"
+  },
+  "COPY_CAPTION_DONE": {
+    "message": "Untertiteltext kopiert"
+  },
+  "COPY_IMG": {
+    "message": "Bild kopieren"
+  },
+  "COPY_IMG_DONE": {
+    "message": "Bild kopiert"
+  },
+  "COPY_IMG_FAIL": {
+    "message": "Das Kopieren des Bildes ist fehlgeschlagen"
+  },
+  "COPY_IMG_START": {
+    "message": "Bild wird kopiert..."
+  },
+  "COPY_URLS_DONE": {
+    "message": "Alle URLs kopiert"
+  },
+  "COPY_URL_DONE": {
+    "message": "URL kopiert"
+  },
+  "DOWNLOAD_DONE": {
+    "message": "Download abgeschlossen"
+  },
+  "DOWNLOAD_START": {
+    "message": "Herunterladen..."
+  },
+  "SC_COPY_IMG": {
+    "message": "Bild oder Videobild in die Zwischenablage kopieren"
   }
 }

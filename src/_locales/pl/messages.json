@@ -399,10 +399,10 @@
     "message": "przy przytrzymaniu przycisku myszy"
   },
   "HZ_SC_SAVE": {
-    "message": "Zapisz zawartość okienka z podglądem"
+    "message": "zapisz zawartość okienka z podglądem"
   },
   "HZ_SC_COPY": {
-    "message": "Kopiuj URL (naciśnij dwukrotnie, aby skopiować tekst podpisu)"
+    "message": "kopiuj URL (naciśnij dwukrotnie, aby skopiować tekst podpisu)"
   },
   "SIV_CACHERES": {
     "message": "Zawartość pamięci podręcznej"
@@ -588,7 +588,7 @@
     "message": "Nigdy nie pętluj"
   },
   "HZ_TOOLBAR_BTNS_TIP": {
-    "message": "Możliwe przyciski:\n<b>X</b> - ukryj pasek narzędzi\n<b>S</b> - zapisz (pobierz)\n<b>O</b> - otwórz w nowej karcie/oknie\n<b>C</b> - kopiuj URL (lub album)\n<b>T</b> - kopiuj tekst podpisu\n<b>G</b> - tryb galerii\n<b>I</b> - przejdź do / szukaj\n<b>R</b> - obróć\n<b>P</b> - otwórz preferencje\n\nDomyślnie: XSOCTGIRP"
+    "message": "Możliwe przyciski:\n<b>X</b> - ukryj pasek narzędzi\n<b>S</b> - zapisz (pobierz)\n<b>O</b> - otwórz w nowej karcie/oknie\n<b>C</b> - kopiuj URL (lub album)\n<b>T</b> - kopiuj tekst podpisu\n<b>I</b> - kopiuj obraz lub klatkę wideo\n<b>G</b> - tryb galerii\n<b>#</b> - przejdź do / szukaj\n<b>R</b> - obróć\n<b>P</b> - otwórz preferencje\n\nDomyślnie: XSOCTIG#RP"
   },
   "IGNORE_ELEMENT": {
     "message": "Ignoruj ​​element..."
@@ -681,9 +681,39 @@
     "message": "Kopiuj tekst podpisu"
   },
   "SEARCH_TIP": {
-    "message": "Można używać wyrażeń regularnych.\nZakończ jedną spacją, aby szukać również w notatkach.\nZakończ dwoma spacjami, aby szukać we wszystkich polach.\nWprowadź liczbę, aby dopasować regułę według indeksu."
+    "message": "Można używać wyrażeń regularnych.\nZakończ jedną spacją, aby szukać również w notatkach.\nZakończ dwoma spacjami, aby szukać we wszystkich polach.\nWprowadź liczbę, aby dopasować regułę według indeksu.\nZacznij od <b>!</b>, aby odwrócić wyszukiwanie."
   },
   "ALLRULES": {
     "message": "Wszystkie zasady"
+  },
+  "COPY_CAPTION_DONE": {
+    "message": "Tekst podpisu skopiowany"
+  },
+  "COPY_IMG": {
+    "message": "Skopiuj obraz"
+  },
+  "COPY_IMG_DONE": {
+    "message": "Obraz skopiowany"
+  },
+  "COPY_IMG_FAIL": {
+    "message": "Kopiowanie obrazu nie powiodło się"
+  },
+  "COPY_IMG_START": {
+    "message": "Kopiowanie obrazu..."
+  },
+  "COPY_URLS_DONE": {
+    "message": "Wszystkie adresy URL zostały skopiowane"
+  },
+  "COPY_URL_DONE": {
+    "message": "Adres URL skopiowany"
+  },
+  "DOWNLOAD_DONE": {
+    "message": "Pobieranie zakończone"
+  },
+  "DOWNLOAD_START": {
+    "message": "Ściąganie..."
+  },
+  "SC_COPY_IMG": {
+    "message": "skopiuj obraz lub klatkę wideo do schowka"
   }
 }

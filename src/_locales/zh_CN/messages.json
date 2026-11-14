@@ -588,7 +588,7 @@
     "message": "永不循环"
   },
   "HZ_TOOLBAR_BTNS_TIP": {
-    "message": "可用按钮：\n<b>X</b> - 隐藏工具栏\n<b>S</b> - 保存（下载）\n<b>O</b> - 在新标签页/窗口中打开\n<b>C</b> - 复制链接（或相册）\n<b>T</b> - 复制标题文字\n<b>G</b> - 图库模式\n<b>I</b> - 转到/搜索\n<b>R</b> - 旋转\n<b>P</b> - 打开设置\n\n默认：XSOCTGIRP"
+    "message": "可用按钮：\n<b>X</b> - 隐藏工具栏\n<b>S</b> - 保存（下载）\n<b>O</b> - 在新标签页/窗口中打开\n<b>C</b> - 复制链接（或相册）\n<b>T</b> - 复制标题文字\n<b>I</b> - 复制图像或视频帧\n<b>G</b> - 图库模式\n<b>#</b> - 转到/搜索\n<b>R</b> - 旋转\n<b>P</b> - 打开设置\n\n默认：XSOCTIG#RP"
   },
   "IGNORE_ELEMENT": {
     "message": "忽略元素..."
@@ -681,9 +681,39 @@
     "message": "复制标题文字"
   },
   "SEARCH_TIP": {
-    "message": "可以使用正则表达式。\n以一个空格结尾可同时在备注中搜索。\n以两个空格结尾可在所有字段中搜索。\n输入数字可按索引匹配规则。"
+    "message": "可以使用正则表达式。\n以一个空格结尾可同时在备注中搜索。\n以两个空格结尾可在所有字段中搜索。\n输入数字可按索引匹配规则。\n以 <b>!</b> 开头以反转搜索。"
   },
   "ALLRULES": {
     "message": "所有规则"
+  },
+  "COPY_CAPTION_DONE": {
+    "message": "已复制标题文字"
+  },
+  "COPY_IMG": {
+    "message": "复制图像"
+  },
+  "COPY_IMG_DONE": {
+    "message": "图像已复制"
+  },
+  "COPY_IMG_FAIL": {
+    "message": "图像复制失败"
+  },
+  "COPY_IMG_START": {
+    "message": "图像复制..."
+  },
+  "COPY_URLS_DONE": {
+    "message": "复制所有网址"
+  },
+  "COPY_URL_DONE": {
+    "message": "已复制网址"
+  },
+  "DOWNLOAD_DONE": {
+    "message": "下载完成"
+  },
+  "DOWNLOAD_START": {
+    "message": "正在下载..."
+  },
+  "SC_COPY_IMG": {
+    "message": "将图像或视频帧复制到剪贴板"
   }
 }

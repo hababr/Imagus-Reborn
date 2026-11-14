@@ -393,10 +393,10 @@
     "message": "pressionamento longo"
   },
   "HZ_SC_SAVE": {
-    "message": "Salvar conteúdo do pop-up"
+    "message": "salvar conteúdo do pop-up"
   },
   "HZ_SC_COPY": {
-    "message": "Copiar URL (prima duas vezes para copiar o álbum inteiro)"
+    "message": "copiar URL (prima duas vezes para copiar o álbum inteiro)"
   },
   "SIV_CACHERES": {
     "message": "Conteúdo de cache"
@@ -588,7 +588,7 @@
     "message": "Nunca faça loop"
   },
   "HZ_TOOLBAR_BTNS_TIP": {
-    "message": "Botões possíveis:\n<b>X</b> - ocultar barra de ferramentas\n<b>S</b> - salvar (baixar)\n<b>O</b> - abrir em nova aba/janela\n<b>C</b> - copiar URL (ou álbum)\n<b>T</b> - copiar texto da legenda\n<b>G</b> - modo galeria\n<b>I</b> - ir para / pesquisar\n<b>R</b> - girar\n<b>P</b> - abrir preferências\n\nPadrão: XSOCTGIRP"
+    "message": "Botões possíveis:\n<b>X</b> - ocultar barra de ferramentas\n<b>S</b> - salvar (baixar)\n<b>O</b> - abrir em nova aba/janela\n<b>C</b> - copiar URL (ou álbum)\n<b>T</b> - copiar texto da legenda\n<b>I</b> - copiar imagem ou fotograma de vídeo\n<b>G</b> - modo galeria\n<b>#</b> - ir para / pesquisar\n<b>R</b> - girar\n<b>P</b> - abrir preferências\n\nPadrão: XSOCTIG#RP"
   },
   "IGNORE_ELEMENT": {
     "message": "Ignorar elemento..."
@@ -681,9 +681,39 @@
     "message": "Copiar texto da legenda"
   },
   "SEARCH_TIP": {
-    "message": "Expressões regulares podem ser usadas.\nTermine com um espaço para pesquisar também nas notas.\nTermine com dois espaços para pesquisar em todos os campos.\nDigite um número para encontrar a regra por índice."
+    "message": "Expressões regulares podem ser usadas.\nTermine com um espaço para pesquisar também nas notas.\nTermine com dois espaços para pesquisar em todos os campos.\nDigite um número para encontrar a regra por índice.\nComece com <b>!</b> para inverter a pesquisa."
   },
   "ALLRULES": {
     "message": "Todas as regras"
+  },
+  "COPY_CAPTION_DONE": {
+    "message": "Texto da legenda copiado"
+  },
+  "COPY_IMG": {
+    "message": "Copiar imagem"
+  },
+  "COPY_IMG_DONE": {
+    "message": "Imagem copiada"
+  },
+  "COPY_IMG_FAIL": {
+    "message": "Falha na cópia da imagem"
+  },
+  "COPY_IMG_START": {
+    "message": "Cópia de imagem..."
+  },
+  "COPY_URLS_DONE": {
+    "message": "Todos os URLs copiados"
+  },
+  "COPY_URL_DONE": {
+    "message": "URL copiado"
+  },
+  "DOWNLOAD_DONE": {
+    "message": "Download concluído"
+  },
+  "DOWNLOAD_START": {
+    "message": "Baixando..."
+  },
+  "SC_COPY_IMG": {
+    "message": "copiar imagem ou quadro de vídeo para a área de transferência"
   }
 }

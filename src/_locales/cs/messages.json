@@ -417,10 +417,10 @@
     "message": "dlouhé kliknutí"
   },
   "HZ_SC_SAVE": {
-    "message": "Uložit obsah náhledu"
+    "message": "uložit obsah náhledu"
   },
   "HZ_SC_COPY": {
-    "message": "Kopírovat URL (stisknutím dvakrát zkopírujete text titulku)"
+    "message": "kopírovat URL (stisknutím dvakrát zkopírujete text titulku)"
   },
   "SIV_CACHERES": {
     "message": "Cachovat vypočítaný obsah"
@@ -588,7 +588,7 @@
     "message": "Nikdy smyčka"
   },
   "HZ_TOOLBAR_BTNS_TIP": {
-    "message": "Možná tlačítka:\n<b>X</b> - skrýt panel nástrojů\n<b>S</b> - uložit (stáhnout)\n<b>O</b> - otevřít v novém panelu/okně\n<b>C</b> - zkopírovat URL (nebo album)\n<b>T</b> - zkopírovat text titulku\n<b>G</b> - režim galerie\n<b>I</b> - přejít na / hledat\n<b>R</b> - otočit\n<b>P</b> - otevřít nastavení\n\nVýchozí: XSOCTGIRP"
+    "message": "Možná tlačítka:\n<b>X</b> - skrýt panel nástrojů\n<b>S</b> - uložit (stáhnout)\n<b>O</b> - otevřít v novém panelu/okně\n<b>C</b> - zkopírovat URL (nebo album)\n<b>T</b> - zkopírovat text titulku\n<b>I</b> - kopírovat obrázek nebo snímek videa\n<b>G</b> - režim galerie\n<b>#</b> - přejít na / hledat\n<b>R</b> - otočit\n<b>P</b> - otevřít nastavení\n\nVýchozí: XSOCTIG#RP"
   },
   "IGNORE_ELEMENT": {
     "message": "Ignorovat prvek..."
@@ -681,9 +681,39 @@
     "message": "Zkopírovat text titulku"
   },
   "SEARCH_TIP": {
-    "message": "Lze použít regulární výrazy.\nZakončete jednou mezerou pro vyhledávání také v poznámkách.\nZakončete dvěma mezerami pro vyhledávání ve všech polích.\nZadejte číslo pro vyhledání pravidla podle indexu."
+    "message": "Lze použít regulární výrazy.\nZakončete jednou mezerou pro vyhledávání také v poznámkách.\nZakončete dvěma mezerami pro vyhledávání ve všech polích.\nZadejte číslo pro vyhledání pravidla podle indexu.\nZačněte s <b>!</b> pro invertování vyhledávání."
   },
   "ALLRULES": {
     "message": "Všechna pravidla"
+  },
+  "COPY_CAPTION_DONE": {
+    "message": "Text titulku zkopírován"
+  },
+  "COPY_IMG": {
+    "message": "Kopírovat obrázek"
+  },
+  "COPY_IMG_DONE": {
+    "message": "Obrázek zkopírován"
+  },
+  "COPY_IMG_FAIL": {
+    "message": "Kopírování obrázku se nezdařilo"
+  },
+  "COPY_IMG_START": {
+    "message": "Kopírování obrázku..."
+  },
+  "COPY_URLS_DONE": {
+    "message": "Všechny adresy URL byly zkopírovány"
+  },
+  "COPY_URL_DONE": {
+    "message": "Adresa URL byla zkopírována"
+  },
+  "DOWNLOAD_DONE": {
+    "message": "Stahování dokončeno"
+  },
+  "DOWNLOAD_START": {
+    "message": "Stahování..."
+  },
+  "SC_COPY_IMG": {
+    "message": "zkopírujte snímek nebo snímek videa do schránky"
   }
 }
