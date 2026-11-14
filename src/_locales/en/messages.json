@@ -599,6 +599,12 @@
   "DOWNLOAD_FAILED": {
     "message": "Download failed"
   },
+  "DOWNLOAD_START": {
+    "message": "Downloading..."
+  },
+  "DOWNLOAD_DONE": {
+    "message": "Download complete"
+  },
   "INVALID_URL": {
     "message": "Invalid URL"
   },

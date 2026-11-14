@@ -605,6 +605,9 @@ chrome.downloads.onChanged.addListener(function (delta) {
     } else if (delta.state?.current === "complete" || delta.state?.current === "interrupted") {
         delete downloadItems[delta.id];
         disableRenaming();
+        msg.sendResponse({
+            cmd: delta.state?.current === "complete" ? "download_done" : "download_failed"
+        });
     }
 });
 

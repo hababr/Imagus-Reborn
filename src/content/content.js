@@ -72,11 +72,6 @@
         el.style.transform = ori;
     };
 
-    var animate = function (el, type = "squeeze") {
-        if (!el) return;
-        el.classList.add(type);
-        setTimeout(() => el.classList.remove(type), 300);
-    };
 
     var rotate = function (deg) {
         if (!PVI.DIV) return;
@@ -530,6 +525,7 @@
     }
 
     async function download(msg, ev) {
+        if (!msg) PVI.showMsg(_("DOWNLOAD_START"));
         let src = msg?.url || getSrc();
 
         if (PVI.galleryState === 2) {
@@ -541,10 +537,6 @@
         }
 
         if (!src) return;
-
-        if (ev?.type === "keydown") {
-            animate(PVI.DIV, "down");
-        }
 
         if (msg?.alterDownload) {
             try {
@@ -564,7 +556,7 @@
 
                 Port.send(msg);
             } catch(e) {
-                alert(_("DOWNLOAD_FAILED") + ": " + (e.message || e));
+                PVI.showMsg(_("DOWNLOAD_FAILED") + ": " + (e.message || e));
             }
 
         } else {
@@ -3931,6 +3923,12 @@
 
             } else if (d.cmd === "download") {
                 download(d);
+
+            } else if (d.cmd === "download_done") {
+                PVI.showMsg(_("DOWNLOAD_DONE"));
+
+            } else if (d.cmd === "download_failed") {
+                PVI.showMsg(_("DOWNLOAD_FAILED"));
             }
         },
 
