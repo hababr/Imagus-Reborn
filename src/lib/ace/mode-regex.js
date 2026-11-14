@@ -51,16 +51,18 @@ ace.define("ace/mode/regex_highlight_rules", ["require", "exports", "module", "a
         this.normalizeRules();
     };
     oop.inherits(RegexHighlightRules, TextHighlightRules);
-    exports.JavaScriptHighlightRules = RegexHighlightRules;
+    exports.RegexHighlightRules = RegexHighlightRules;
 });
 
-ace.define("ace/mode/regex", ["require", "exports", "module", "ace/lib/oop", "ace/mode/text", "ace/mode/regex_highlight_rules"], function (require, exports, module) {
+ace.define("ace/mode/regex", ["require", "exports", "module", "ace/lib/oop", "ace/mode/text", "ace/mode/regex_highlight_rules", "ace/mode/behaviour/cstyle"], function (require, exports, module) {
     "use strict";
     var oop = require("../lib/oop");
     var TextMode = require("./text").Mode;
-    var JavaScriptHighlightRules = require("./regex_highlight_rules").JavaScriptHighlightRules;
+    var RegexHighlightRules = require("./regex_highlight_rules").RegexHighlightRules;
+    var CstyleBehaviour = require("./behaviour/cstyle").CstyleBehaviour;
     var Mode = function () {
-        this.HighlightRules = JavaScriptHighlightRules;
+        this.HighlightRules = RegexHighlightRules;
+        this.$behaviour = new CstyleBehaviour();
     };
     oop.inherits(Mode, TextMode);
     (function () {
