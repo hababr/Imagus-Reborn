@@ -978,11 +978,13 @@
                         PVI.PLAYER.loop(PVI.PLAYER.duration() < 60);
                     }
 
-                    if (PVI.TRG?.IMGS_MEDIA?.nodeName === "VIDEO") {
-                        const vid = PVI.TRG.IMGS_MEDIA;
+                    const vid =
+                        PVI.TRG?.IMGS_MEDIA?.nodeName === "VIDEO" ? PVI.TRG.IMGS_MEDIA :
+                        PVI.TRG?.nodeName === "VIDEO" ? PVI.TRG : null;
+                    if (vid) {
                         // pause the hovered video if it is not muted
                         if (!(vid.attributes?.muted || vid.muted || vid.volume === 0)) {
-                            PVI.TRG.IMGS_MEDIA.pause();
+                            vid.pause();
                         }
                         const totalTime = vid.duration || 0;
                         let curTime = vid.currentTime || 0;
