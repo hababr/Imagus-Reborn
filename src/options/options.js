@@ -608,8 +608,12 @@ window.addEventListener(
         };
 
         function keyHandler(e) {
-            var key = shortcut.key(e, true);
-            if (e.repeat || !e.target.name?.startsWith("keys_") || e.ctrlKey || e.altKey || e.metaKey || !key) return;
+            var key = shortcut.key(e, true)[0];
+            if (e.repeat || !e.target.name?.startsWith("keys_") || e.ctrlKey || e.altKey || e.metaKey || !key ||
+                (key[0] === "F" && key[1]) // F1-12 key
+            ) {
+                return;
+            }
             e.stopPropagation();
             e.preventDefault();
             color_trans(e.target, null);

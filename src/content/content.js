@@ -2404,7 +2404,7 @@
             } else releaseFreeze(e);
         },
         keyup_freeze: function (e) {
-            if (!e || shortcut.key(e) === cfg.hz.actTrigger) {
+            if (!e || shortcut.key(e)[0] === cfg.hz.actTrigger) {
                 PVI.freeze = !cfg.hz.deactivate;
                 PVI.keyup_freeze_on = false;
                 win.removeEventListener("keyup", PVI.keyup_freeze, true);
@@ -2456,7 +2456,7 @@
 
         keyup_pause: function (e) {
             if (!PVI.pauseIsDown) return;
-            const k = shortcut.key(e);
+            const k = shortcut.key(e)[0];
             if (k !== cfg.keys.pause && !(k === "Space" && e.ctrlKey)) return;
 
             PVI.PLAYER.options({ inactivityTimeout: PVI.PLAYER._isAudio ? 0 : cfg.hz.hideControlsDelay });
@@ -2477,13 +2477,13 @@
         },
 
         key_action: function (e) {
-            var pv, key;
+            var pv;
             if (!cfg) return;
 
             if (shortcut.isModifier(e)) {
                 if (PVI.keyup_freeze_on || typeof PVI.freeze === "number") return;
                 if (!e.repeat && PVI.fullZm && (e.shiftKey || e.altKey || e.ctrlKey)) PVI.m_move(e);
-                if (e.repeat || shortcut.key(e) !== cfg.hz.actTrigger) return;
+                if (e.repeat || shortcut.key(e)[0] !== cfg.hz.actTrigger) return;
                 if (PVI.fireHide && PVI.state < 3)
                     if (cfg.hz.deactivate) PVI.m_over({ relatedTarget: PVI.TRG });
                     else PVI.load(PVI.SRC === null ? PVI.TRG.IMGS_c_resolved : PVI.SRC);
@@ -2499,7 +2499,7 @@
                 PVI.mover({ target: PVI.lastScrollTRG });
             }
 
-            key = shortcut.key(e);
+            let [key, sc] = shortcut.key(e);
             if (PVI.state < 3 && PVI.fireHide && key === "Esc") {
                 PVI.m_over({ relatedTarget: PVI.TRG });
             }

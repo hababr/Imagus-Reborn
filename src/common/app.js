@@ -180,12 +180,21 @@ const shortcut = {
         return e.which > 15 && e.which < 19;
     },
     key: function (e, simple) {
+        const mod =
+            (e.ctrlKey && e.keyCode !== 17 ? "ctrl+" : "") +
+            (e.shiftKey && e.keyCode !== 16 ? "shift+" : "") +
+            (e.altKey && e.keyCode !== 18 ? "alt+" : "");
+
         if (e.button !== undefined && [1, 3, 4].includes(e.button)) {
-            return "M" + e.button;
+            const b = "M" + e.button;
+            return [b, mod + b];
         }
 
-        if (simple && e.which < 47 && !this.keys1[e.which]) return;
+        if (simple && e.which < 47 && !this.keys1[e.which]) {
+            return [];
+        }
 
-        return this.keys1[e.which] || (!simple && this.keys2[e.which]) || String.fromCharCode(e.which).toUpperCase();
+        const k = this.keys1[e.which] || (!simple && this.keys2[e.which]) || String.fromCharCode(e.which).toUpperCase();
+        return [k, mod + k];
     },
 };
