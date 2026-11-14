@@ -2793,6 +2793,8 @@
                         PVI.show();
                     } else {
                         if (PVI.CAP) PVI.CAP.style.whiteSpace = PVI.CAP.style.whiteSpace === "nowrap" ? "normal" : "nowrap";
+                        cfg.hz.capWrapByDef = !cfg.hz.capWrapByDef;
+                        Port.send({ cmd: "savePrefs", prefs: { hz: { capWrapByDef: cfg.hz.capWrapByDef } } });
                     }
                 else if (key === cfg.keys.hz_history) PVI.history(e.shiftKey);
                 else if (key === cfg.keys.send) {
