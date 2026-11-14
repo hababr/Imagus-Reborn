@@ -581,6 +581,10 @@
             }
 
         } else {
+            const album = PVI.stack[PVI.TRG.IMGS_album] || [];
+            const filename = album[album[0]]?.[3] || PVI.TRG.IMGS_filename ||
+                PVI.CNT.filename || PVI.VID.filename || PVI.IMG.filename;
+
             const topDomain = /^.*?((?:[^./]*\.)?(?:[^./]{2,3}\.)?[^./?#]+)($|\?|\/|#).*/;
             const urlPrefix = /^(https?:\/\/)?(www\.)?/;
             const link = PVI.TRG?.href || PVI.TRG?.IMGS_c || PVI.TRG?.IMGS_c_resolved?.URL || "";
@@ -595,7 +599,7 @@
                 url: src,
                 priorityExt: src.match(/#([\da-z]{3,4})$/)?.[1],
                 ext: { img: "jpg", video: "mp4", audio: "mp3" }[type],
-                filename: PVI.CNT.filename || PVI.VID.filename || PVI.IMG.filename,
+                filename,
                 pageDomain,
                 linkDomain,
                 fileDomain,
@@ -3854,6 +3858,9 @@
                             else if (/* cfg.hz.capLinkText && */ trg.IMGS_caption) d.m[1] = trg.IMGS_caption;
                         } else if (d.m[0] && d.m[1]) {
                             PVI.prepareCaption(trg, d.m[1]);
+                        }
+                        if (d.m[3]) {
+                            trg.IMGS_filename = d.m[3];
                         }
                         d.m = d.m[0];
                     } else d.m = null;
