@@ -3953,7 +3953,7 @@
         init: function (e, deinit) {
             if (deinit) {
                 PVI.reset();
-                PVI.setState(0);
+                PVI.setState(0, true);
                 if (PVI.ROOT) {
                     doc.documentElement.removeChild(PVI.ROOT);
                     PVI.ROOT = PVI.BOX = PVI.DIV = PVI.HVR = PVI.CNT = PVI.VID = PVI.VIDEOJS = PVI.IMG = PVI.CAP = PVI.TRG = PVI.interlacer = null;
