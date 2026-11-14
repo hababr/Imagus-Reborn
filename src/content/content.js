@@ -57,6 +57,13 @@
         Function(code)();
     }
 
+    function transitionOnce() {
+        if (!PVI.DIV) return;
+        clearTimeout(PVI.timers.transitionOnce);
+        PVI.DIV.classList.add("transition-all");
+        PVI.timers.transitionOnce = setTimeout(() => PVI.DIV.classList.remove("transition-all"), 100);
+    }
+
     var flip = function (el, ori) {
         if (!el.scale) el.scale = { h: 1, v: 1 };
         el.scale[ori ? "h" : "v"] *= -1;
@@ -2349,6 +2356,7 @@
 
             PVI.DIV.style.display = PVI.LDR.style.display = "none";
             PVI.DIV.style.width = PVI.DIV.style.height = "0";
+            PVI.DIV.style.transition = "";
             PVI.DIV.classList.remove("video1", "video2", "album");
             if (PVI.CNT === PVI.IMG) PVI.CNT.removeAttribute("src");
             PVI.TBAR.style.display = "";
@@ -2380,7 +2388,6 @@
             if (PVI.fullZm) {
                 PVI.fullZm = false;
                 PVI.hideTime = null;
-                if (PVI.anim.maxDelay) PVI.DIV.style.transition = PVI.anim.css;
                 win.removeEventListener("click", PVI.fzClickAct, true);
                 PVI.DIV.removeEventListener("click", PVI.fzClickAct, true);
                 win.addEventListener("mouseover", PVI.m_over, true);
@@ -2676,6 +2683,7 @@
                     }
 
                     if (PVI.fullZm) {
+                        transitionOnce();
                         PVI.resize(key);
                     } else {
                         PVI.fzEnable(e);
@@ -2844,6 +2852,7 @@
                 setTimeout(function () {
                     if (PVI.fullZm) PVI.DIV.style.transition = "all 0s";
                 }, PVI.anim.maxDelay);
+            if (e) transitionOnce();
             if (PVI.state > 2) {
                 PVI.DIV.style.visibility = "hidden";
 
@@ -3160,6 +3169,7 @@
                         xy_img[0] *= k[rot ? 1 : 0] - s[0];
                         xy_img[1] *= k[rot ? 0 : 1] - s[1];
                     }
+                    transitionOnce();
                     break;
                 }
             }

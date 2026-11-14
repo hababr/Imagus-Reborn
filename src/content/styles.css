@@ -411,6 +411,10 @@ div:hover > #imagus-toolbar:hover {
     cursor: unset;
 }
 
+.transition-all {
+    transition: all .1s !important;
+}
+
 /* this is for Videojs to select the best suitable video resolution */
 #imagus-popup[style*="display: none"] video {
     width: 100vw;
