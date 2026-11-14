@@ -560,13 +560,13 @@
             }
 
         } else {
-            const topDomain = /^(?:.*\.)?([^./]+\.[^./?#]+)($|\?|\/|#).*/;
+            const topDomain = /^.*?((?:[^./]*\.)?(?:[^./]{2,3}\.)?[^./?#]+)($|\?|\/|#).*/;
             const urlPrefix = /^(https?:\/\/)?(www\.)?/;
             const link = PVI.TRG?.href || PVI.TRG?.IMGS_c || PVI.TRG?.IMGS_c_resolved?.URL || "";
 
-            const pageDomain = win.location.hostname.replace(topDomain, "$1").toLowerCase();
-            const linkDomain = link.replace(urlPrefix, "").replace(topDomain, "$1").toLowerCase();
-            const fileDomain = src.replace(urlPrefix, "").replace(topDomain, "$1").toLowerCase();
+            const pageDomain = win.location.hostname.replace(urlPrefix, "").replace(topDomain, "$1").toLowerCase();
+            const linkDomain = new URL(link).hostname.replace(urlPrefix, "").replace(topDomain, "$1").toLowerCase();
+            const fileDomain = new URL(src).hostname.replace(urlPrefix, "").replace(topDomain, "$1").toLowerCase();
 
             const type = PVI.isVideo() ? "video" : PVI.CNT.audio ? "audio" : "img";
             Port.send({
