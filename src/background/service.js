@@ -805,25 +805,26 @@ async function grantUrlAdd(str) {
 // disable Imagus on the given URL
 async function grantsAdd(url) {
     if (!url) return;
-    const host = new URL(url).host;
-    if (!host) return;
+    const origin = new URL(url).origin;
+    if (!origin) return;
     let { grants } = await cfg.get("grants");
     grants ||= [];
 
-    grants.push({ op: "!", url: host + "/" });
+    grants.push({ op: "!", url: origin + "/" });
     await updatePrefs({ grants: grants });
 }
 
 // enable Imagus on the given URL
 async function grantsRemove(url) {
     if (!url) return;
-    const host = new URL(url).host;
-    if (!host) return;
+    url = new URL(url);
+    if (!url.host) return;
     let { grants } = await cfg.get("grants");
     grants ||= [];
 
     grants = grants.filter(grant =>
-        grant.url !== host + "/" ||
+        grant.url !== url.host + "/" &&
+        grant.url !== url.origin + "/" ||
         grant.op.length > 1 ||
         grant.op[0] !== "!"
     );
