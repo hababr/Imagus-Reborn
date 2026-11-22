@@ -344,6 +344,43 @@ h4 ~ .prow {
 .sub_opt {
     padding-left: 20px;
 }
+form input[type="radio"],
+form input[type="radio"]:hover {
+    background: none;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+    margin: 0 2px;
+    width: auto;
+    height: auto;
+}
+.scope_opts {
+    display: inline-flex;
+    flex-direction: column;
+}
+.scope_opts > label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 1px 0;
+}
+input:disabled {
+    color: #999;
+    background-color: #eee;
+}
+.prow input[type="radio"]:disabled {
+    opacity: 0.5;
+}
+.prow.hires_off label,
+.sub_shortcuts li.hires_off {
+    color: #aaa;
+}
+.sub_shortcuts li.hires_off input {
+    opacity: 0.55;
+    border-style: dashed;
+}
 .checkbox,
 code,
 pre,
