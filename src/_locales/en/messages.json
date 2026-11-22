@@ -95,6 +95,33 @@
   "HZ_HIRESONFZ_TIP": {
     "message": "Tries to load the higher resolution of the image when entering full-zoom, if the ratio of the image dimensions (always the longer side divided by the shorter) is greater than or equal to the specified value."
   },
+  "HZ_RESOLUTION": {
+    "message": "Resolution"
+  },
+  "HZ_HIRES_GEN": {
+    "message": "Generally prefer images with higher resolution"
+  },
+  "HZ_HIRESREMEMBER": {
+    "message": "Remember toggled resolution preferences"
+  },
+  "HZ_HIRESREMEMBER_TIP": {
+    "message": "Whether the preferred resolution toggled via shortcuts is remembered and propagated.\nThese preferences are kept in memory only and do not last between page loads.\nMore specific preferences override more general ones: per image overrides per gallery, and per gallery overrides per page."
+  },
+  "HZ_HIRESSCOPE": {
+    "message": "Toggle Scope"
+  },
+  "HZ_HIRESSCOPE_IMAGE": {
+    "message": "Per Image"
+  },
+  "HZ_HIRESSCOPE_GALLERY": {
+    "message": "Per Gallery"
+  },
+  "HZ_HIRESSCOPE_PAGE": {
+    "message": "Per Page"
+  },
+  "HZ_HIRESSCOPE_HOTKEYS": {
+    "message": "Individual Hotkeys"
+  },
   "HZ_PLACEMENT": {
     "message": "Pop-up placement"
   },

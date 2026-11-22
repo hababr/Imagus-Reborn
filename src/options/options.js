@@ -321,6 +321,8 @@ var load = function () {
         } else if (pref[0] === "keys") {
             m = pref[1].replace("-", "_");
             if (prefs.keys[m] !== void 0) fld.value = fld.defValue = prefs.keys[m];
+        } else if (pref[0] === "hz" && pref[1] === "hiResScope") {
+            fld.checked = fld.defChecked = fld.value === prefs.hz.hiResScope;
         } else if (prefs[pref[0]] && prefs[pref[0]][pref[1]] !== void 0) {
             fld_type = fld.getAttribute("type") || "text";
             if (fld.type !== fld_type) fld_type = fld.type;
@@ -390,6 +392,8 @@ var save = async function () {
         } else if (pref[0] === "keys") {
             m = pref[1].replace("-", "_");
             prefs.keys[m] = fld.value;
+        } else if (pref[0] === "hz" && pref[1] === "hiResScope") {
+            if (fld.checked) prefs.hz.hiResScope = fld.value;
         } else if (prefs[pref[0]]) {
             fldType = fld.getAttribute("type");
             if (fldType === "checkbox") prefs[pref[0]][pref[1]] = fld.checked;
@@ -444,6 +448,20 @@ function onValueChange (e) {
     var t = e.target;
     if (t.id === 'sieve_search') return;
 
+    if (t.type === "radio") {
+        const group = document.querySelectorAll('input[name="' + t.name + '"]');
+        let changed = false;
+        for (const r of group) {
+            if (r.defChecked !== undefined && r.defChecked !== r.checked) changed = true;
+            delete input_changes[r.id];
+        }
+        if (changed) input_changes[t.name] = true;
+        else delete input_changes[t.name];
+        $("save_button").classList.toggle("alert", !!Object.keys(input_changes).length);
+        updateHiResUi();
+        return;
+    }
+
     const id = t.id || t.name || t.dataset.id;
     if (!id) return;
 
@@ -462,6 +480,7 @@ function onValueChange (e) {
         delete input_changes[id];
     }
     $("save_button").classList.toggle("alert", !!Object.keys(input_changes).length);
+    if (t.name === "hz_hiResRemember" || t.name === "keys_hiResToggle") updateHiResUi();
 }
 
 function applyCustomCssOptions() {
@@ -474,11 +493,13 @@ function applyCustomCssOptions() {
     styleEl.textContent = cfg?.hz?.customCssOptions || "";
 }
 
+function updateHiResUi() {}
+
 function updateSavedValues() {
     input_changes = {};
     const elements = document.querySelectorAll("input, textarea, select");
     for (const el of elements) {
-        if(el.matches('input[type="checkbox"]')) {
+        if(el.matches('input[type="checkbox"], input[type="radio"]')) {
             el.defChecked = !!el.checked;
         } else {
             let value;
@@ -744,6 +765,7 @@ window.addEventListener(
 
         await readCfg();
         load();
+        updateHiResUi();
         applyCustomCssOptions();
         window.onhashchange();
         /* var advanced_prefs = $("tls_advanced");

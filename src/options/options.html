@@ -121,25 +121,6 @@
 			</div>
 
 			<div class="prow tiptop">
-				<div class="tip" data-lng="HZ_HIRES_TIP"></div>
-
-				<label for="hz_hiRes" data-lng="HZ_HIRES"></label>
-				<span>
-					<input id="hz_hiRes" name="hz_hiRes" type="checkbox" checked>
-					<label for="hz_hiRes" class="checkbox"></label>
-				</span>
-			</div>
-
-			<div class="prow tiptop advanced">
-				<div class="tip" data-lng="HZ_HIRESONFZ_TIP"></div>
-
-				<label class="sub_opt" for="hz_hiResOnFZ" data-lng="HZ_HIRESONFZ"></label>
-				<span>
-					<input id="hz_hiResOnFZ" name="hz_hiResOnFZ" type="number" step="0.2" min="0" max="100" value="3">
-				</span>
-			</div>
-
-			<div class="prow tiptop">
 				<div class="tip" data-lng="HZ_HISTORY_TIP"></div>
 
 				<label for="hz_history" data-lng="HZ_HISTORY"></label>
@@ -190,6 +171,47 @@
 				<label for="hz_saveDir" data-lng="HZ_SAVEDIR"></label>
 				<span>
 					<input id="hz_saveDir" name="hz_saveDir" type="text">
+				</span>
+			</div>
+
+			<h4 data-lng="HZ_RESOLUTION"></h4>
+
+			<div class="prow tiptop">
+				<div class="tip" data-lng="HZ_HIRES_TIP"></div>
+
+				<label for="hz_hiRes" data-lng="HZ_HIRES_GEN"></label>
+				<span>
+					<input id="hz_hiRes" name="hz_hiRes" type="checkbox" checked>
+					<label for="hz_hiRes" class="checkbox"></label>
+				</span>
+			</div>
+
+			<div class="prow tiptop advanced">
+				<div class="tip" data-lng="HZ_HIRESONFZ_TIP"></div>
+
+				<label class="sub_opt" for="hz_hiResOnFZ" data-lng="HZ_HIRESONFZ"></label>
+				<span>
+					<input id="hz_hiResOnFZ" name="hz_hiResOnFZ" type="number" step="0.2" min="0" max="100" value="3">
+				</span>
+			</div>
+
+			<div class="prow tiptop">
+				<div class="tip" data-lng="HZ_HIRESREMEMBER_TIP"></div>
+
+				<label for="hz_hiResRemember" data-lng="HZ_HIRESREMEMBER"></label>
+				<span>
+					<input id="hz_hiResRemember" name="hz_hiResRemember" type="checkbox" checked>
+					<label for="hz_hiResRemember" class="checkbox"></label>
+				</span>
+			</div>
+
+			<div class="prow">
+				<label class="sub_opt" data-lng="HZ_HIRESSCOPE"></label>
+				<span class="scope_opts">
+					<label for="hz_hiResScopeImage"><span data-lng="HZ_HIRESSCOPE_IMAGE"></span><input id="hz_hiResScopeImage" type="radio" name="hz_hiResScope" value="image" checked></label>
+					<label for="hz_hiResScopeGallery"><span data-lng="HZ_HIRESSCOPE_GALLERY"></span><input id="hz_hiResScopeGallery" type="radio" name="hz_hiResScope" value="gallery"></label>
+					<label for="hz_hiResScopePage"><span data-lng="HZ_HIRESSCOPE_PAGE"></span><input id="hz_hiResScopePage" type="radio" name="hz_hiResScope" value="page"></label>
+					<label for="hz_hiResScopeHotkeys"><span data-lng="HZ_HIRESSCOPE_HOTKEYS"></span><input id="hz_hiResScopeHotkeys" type="radio" name="hz_hiResScope" value="hotkeys"></label>
 				</span>
 			</div>
 
