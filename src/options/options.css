@@ -377,6 +377,10 @@ input:disabled {
 .sub_shortcuts li.hires_off {
     color: #aaa;
 }
+.sub_shortcuts li.hires_off input {
+    opacity: 0.55;
+    border-style: dashed;
+}
 .checkbox,
 code,
 pre,

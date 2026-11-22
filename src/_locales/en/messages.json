@@ -84,7 +84,31 @@
     "message": "Prefer images with higher resolution"
   },
   "SC_HIRES": {
-    "message": "toggle high resolution image"
+    "message": "toggle preferred resolution"
+  },
+  "SC_HIRES_IMAGE": {
+    "message": "toggle preferred resolution for current image"
+  },
+  "SC_HIRES_GALLERY": {
+    "message": "toggle preferred resolution for current gallery"
+  },
+  "SC_HIRES_PAGE": {
+    "message": "toggle preferred resolution for current page"
+  },
+  "SC_HIRES_STATE_IMAGE": {
+    "message": "per image"
+  },
+  "SC_HIRES_STATE_GALLERY": {
+    "message": "per gallery"
+  },
+  "SC_HIRES_STATE_PAGE": {
+    "message": "per page"
+  },
+  "SC_HIRES_STATE_DISABLED": {
+    "message": "disabled"
+  },
+  "SC_HIRES_STATE_OFF": {
+    "message": "not remembered"
   },
   "HZ_HIRES_TIP": {
     "message": "Many hosts provide different sizes for the same image. The filters are able to create URLs for these images, and mark them as high (usually the original image) and low (mid-sized images, around 800-1024px) resolution.\nIf this option is un-checked, then by default the low resolution will be shown, but switching between resolutions is possible at any time with the Tab key (or only in full-zoom by clicking on the dimensions in the caption).\nIf showing image dimensions on caption is enabled, then the color of the dimensions (depending on the style of the caption) will be cyan or red for low resolution, indicating that (maybe) there is a larger image."
