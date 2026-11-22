@@ -559,6 +559,8 @@
         resolving: [],
         lastTRGStyle: { cursor: null, outline: null },
         iFrame: false,
+        hiResPageVal: undefined,
+        hiResImages: {},
 
         /* state
             -1 - turned off
@@ -1154,6 +1156,7 @@
             delete node.IMGS_SVG;
             delete node.IMGS_HD;
             delete node.IMGS_HD_stack;
+            delete node.IMGS_hdKey;
             delete node.IMGS_fallback_zoom;
             delete node.IMGS_ext;
             if (!keepAlbum) delete node.IMGS_album;
@@ -2011,10 +2014,12 @@
                 }
                 if (!src_left.length) src_left = src_HD;
                 else if (src_HD.length) {
-                    PVI.TRG.IMGS_HD = cfg.hz.hiRes;
-                    i = cfg.hz.hiRes ? src_left : src_HD;
+                    PVI.TRG.IMGS_hdKey = src_left[0];
+                    var eff = PVI.hdEffective();
+                    PVI.TRG.IMGS_HD = eff;
+                    i = eff ? src_left : src_HD;
                     PVI.TRG.IMGS_HD_stack = i.length > 1 ? i : i[0];
-                    src_left = cfg.hz.hiRes ? src_HD : src_left;
+                    src_left = eff ? src_HD : src_left;
                 }
                 PVI.TRG.IMGS_c_resolved = src_left;
                 src = src_left[0];
@@ -2568,6 +2573,9 @@
                 } else if (key === cfg.keys.hiResToggle) {
                     PVI.hiResToggle(e);
 
+                } else if (key === cfg.keys.hiResToggleImage || key === cfg.keys.hiResToggleGallery || key === cfg.keys.hiResTogglePage) {
+                    PVI.hiResKey(e);
+
                 } else if (key === "Esc" || key === cfg.keys.hz_reset) {
                     if (PVI.isVideo() && (win.fullScreen || doc.fullscreenElement || (topWinW === win.screen.width && topWinH === win.screen.height))) {
                         pv = false;
@@ -2794,7 +2802,33 @@
             PVI.album("" + idx);
         },
 
-        hiResToggle: function(e) {
+        hdEffective: function () {
+            if (!cfg.hz.hiResRemember) return cfg.hz.hiRes;
+            if (PVI.TRG) {
+                if (PVI.TRG.IMGS_hdKey !== undefined && PVI.hiResImages[PVI.TRG.IMGS_hdKey] !== undefined) return PVI.hiResImages[PVI.TRG.IMGS_hdKey];
+                if (PVI.TRG.IMGS_album) {
+                    var album = PVI.stack[PVI.TRG.IMGS_album];
+                    if (album && album.IMGS_HD !== undefined) return album.IMGS_HD;
+                }
+            }
+            if (PVI.hiResPageVal !== undefined) return PVI.hiResPageVal;
+            return cfg.hz.hiRes;
+        },
+
+        hdPreloadEff: function (url) {
+            if (!cfg.hz.hiResRemember) return cfg.hz.hiRes;
+            var key = url[0] === "#" ? url.slice(1) : url;
+            if (key && key[1] === "/") key = PVI.pageProtocol + key;
+            if (PVI.hiResImages[key] !== undefined) return PVI.hiResImages[key];
+            if (PVI.TRG?.IMGS_album) {
+                var album = PVI.stack[PVI.TRG.IMGS_album];
+                if (album && album.IMGS_HD !== undefined) return album.IMGS_HD;
+            }
+            if (PVI.hiResPageVal !== undefined) return PVI.hiResPageVal;
+            return cfg.hz.hiRes;
+        },
+
+        hiResSwap: function () {
             if (PVI.TRG.IMGS_HD_stack) {
                 if (PVI.CAP) PVI.CAP.style.display = "none";
                 PVI.TRG.IMGS_HD = !PVI.TRG.IMGS_HD;
@@ -2803,9 +2837,62 @@
                 PVI.set(PVI.TRG.IMGS_HD_stack);
                 PVI.TRG.IMGS_HD_stack = stack;
             }
-            if (e?.shiftKey) {
-                cfg.hz.hiRes = !cfg.hz.hiRes;
+        },
+
+        hiResWrite: function (scope) {
+            if (!scope) return;
+            var val = !PVI.hdEffective();
+            if (scope === "image") {
+                if (PVI.TRG?.IMGS_hdKey !== undefined) PVI.hiResImages[PVI.TRG.IMGS_hdKey] = val;
+            } else if (scope === "gallery") {
+                var album = PVI.TRG?.IMGS_album && PVI.stack[PVI.TRG.IMGS_album];
+                if (album) album.IMGS_HD = val;
+                else if (PVI.TRG?.IMGS_hdKey !== undefined) PVI.hiResImages[PVI.TRG.IMGS_hdKey] = val;
+            } else if (scope === "page") {
+                PVI.hiResPageVal = val;
+                PVI.hiResRelay(val);
             }
+            if (PVI.TRG?.IMGS_HD !== undefined && PVI.TRG.IMGS_HD !== PVI.hdEffective()) PVI.hiResSwap();
+        },
+
+        hiResRelay: function (val) {
+            if (PVI.iFrame) {
+                win.parent.postMessage({ vdfDpshPtdhhd: "from_frame", hiResPage: val }, "*");
+                return;
+            }
+            var frms = win.frames;
+            if (!frms) return;
+            var i = frms.length;
+            while (i--) {
+                if (!frms[i] || !frms[i].postMessage) continue;
+                try {
+                    if (frms[i].location.href.lastIndexOf("about:", 0) === 0) continue;
+                } catch (ex) { /* ignore */ }
+                frms[i].postMessage({ vdfDpshPtdhhd: "hiResPageSet", hiResPage: val, parent: doc.body.nodeName.toUpperCase() }, "*");
+            }
+        },
+
+        hiResPageSet: function (d) {
+            if (d.hiResPage !== undefined) PVI.hiResPageVal = d.hiResPage;
+        },
+
+        hiResKey: function (e) {
+            if (!cfg.hz.hiResRemember) return;
+            var key = shortcut.key(e);
+            PVI.hiResWrite(key === cfg.keys.hiResToggleImage ? "image" : key === cfg.keys.hiResToggleGallery ? "gallery" : key === cfg.keys.hiResTogglePage ? "page" : null);
+        },
+
+        hiResToggle: function (e) {
+            if (e?.shiftKey && cfg.hz.hiResRemember) {
+                PVI.hiResWrite("page");
+                return;
+            }
+            if (!e || !cfg.hz.hiResRemember) {
+                PVI.hiResSwap();
+                return;
+            }
+            if (cfg.hz.hiResScope === "hotkeys") return;
+            PVI.hiResWrite(cfg.hz.hiResScope);
         },
 
         switchToHiResInFZ: function () {
@@ -3489,7 +3576,8 @@
             for (var i = 0, lastIdx = srcs.length - 1; i <= lastIdx; ++i) {
                 var url = srcs[i];
                 var isHDUrl = url[0] === "#";
-                if (!((cfg.hz.hiRes && isHDUrl) || (!cfg.hz.hiRes && !isHDUrl))) {
+                var eff = PVI.hdPreloadEff(url);
+                if (!((eff && isHDUrl) || (!eff && !isHDUrl))) {
                     if (i !== lastIdx) continue;
                     if (i !== 0) {
                         url = srcs[0];
@@ -3552,10 +3640,11 @@
                         node.IMGS_c_resolved = src;
                         if (Array.isArray(src)) {
                             var i,
-                                img = new Image();
+                                img = new Image(),
+                                eff = PVI.hdPreloadEff(src[0]);
                             img.IMGS_src_arr = [];
                             for (i = 0; i < src.length; ++i)
-                                if (cfg.hz.hiRes && src[i][0] === "#") img.IMGS_src_arr.push(src[i].slice(1));
+                                if (eff && src[i][0] === "#") img.IMGS_src_arr.push(src[i].slice(1));
                                 else if (src[i][0] !== "#") img.IMGS_src_arr.push(src[i]);
                             if (!img.IMGS_src_arr.length) return;
                             img.onerror = onImgError;
@@ -3592,7 +3681,7 @@
         winOnMessage: function (e) {
             var d = e.data;
             var cmd = d && d.vdfDpshPtdhhd;
-            if (cmd === "toggle" || cmd === "preload" || cmd === "isFrame") {
+            if (cmd === "toggle" || cmd === "preload" || cmd === "isFrame" || cmd === "hiResPageSet") {
                 var frms = win.frames;
                 if (!frms) return;
                 var i = frms.length;
@@ -3601,15 +3690,21 @@
                     try {
                         if (frms[i].location.href.lastIndexOf("about:", 0) === 0) continue;
                     } catch (ex) { /* ignore */ }
-                    frms[i].postMessage({ vdfDpshPtdhhd: cmd, parent: doc.body.nodeName.toUpperCase() }, "*");
+                    frms[i].postMessage({ vdfDpshPtdhhd: cmd, parent: doc.body.nodeName.toUpperCase(), hiResPage: d.hiResPage !== undefined ? d.hiResPage : PVI.hiResPageVal }, "*");
                 }
                 if (cmd === "isFrame") {
                     PVI.iFrame = d.parent === "BODY";
+                    if (d.hiResPage !== undefined) PVI.hiResPageVal = d.hiResPage;
                     if (!PVI.iFrame) win.addEventListener("resize", PVI.onWinResize);
                 } else PVI[cmd](d);
             } else if (cmd === "from_frame") {
                 if (PVI.iFrame) {
                     win.parent.postMessage(d, "*");
+                    return;
+                }
+                if (d.hiResPage !== undefined) {
+                    PVI.hiResPageVal = d.hiResPage;
+                    PVI.hiResRelay(d.hiResPage);
                     return;
                 }
                 if (PVI.fullZm) return;
